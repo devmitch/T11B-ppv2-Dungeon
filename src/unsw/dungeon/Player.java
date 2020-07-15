@@ -15,8 +15,8 @@ public class Player extends Entity {
      * @param x
      * @param y
      */
-    public Player(Dungeon dungeon, int x, int y, boolean isObstruction) {
-        super(x, y, isObstruction);
+    public Player(Dungeon dungeon, int x, int y) {
+        super(x, y, true);
         this.dungeon = dungeon;
         this.movement = new Movement(dungeon, this);
     }
