@@ -58,17 +58,24 @@ public class Dungeon {
         }
     }
 
+    public void removeEntity(Entity entity) {
+        tiles[entity.getX()][entity.getY()].removeEntity(entity);
+    }
+
+    public void moveEntity(Entity entity, int newX, int newY) {
+
+        // Remove the entity from the tile
+        removeEntity(entity);
+
+        // Update the position of this tile
+        entity.setX(newX);
+        entity.setY(newY);
+        
+        // Add the entity to its new tile
+        addEntity(entity);
+    }
+
     public List<Entity> getEntitiesOnTile(int x, int y) {
-        /*List<Entity> entitiesOnTiles = new ArrayList<>();
-
-        for (Entity entity : entities) {
-            // this is very ugly 
-            if (entity != null && entity.getX() == x && entity.getY() == y) {
-                entitiesOnTiles.add(entity);
-            }
-        }
-
-        return entitiesOnTiles;*/
 
         return tiles[x][y].getEntities();
     }

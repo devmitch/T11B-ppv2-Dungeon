@@ -22,4 +22,8 @@ public class Tile {
     public void addEntity(Entity e) {
         this.entities.add(e);
     }
+
+    public void removeEntity(Entity e) {
+        this.entities.remove(e);
+    }
 }
