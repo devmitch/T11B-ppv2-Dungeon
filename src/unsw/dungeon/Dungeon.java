@@ -67,7 +67,7 @@ public class Dungeon {
         // Remove the entity from the tile
         removeEntity(entity);
 
-        // Update the position of this tile
+        // Update the position of the entity
         entity.setX(newX);
         entity.setY(newY);
         

@@ -18,7 +18,7 @@ public class Player extends Entity {
     public Player(Dungeon dungeon, int x, int y, boolean isObstruction) {
         super(x, y, isObstruction);
         this.dungeon = dungeon;
-        this.movement = new Movement(dungeon, this.x(), this.y());
+        this.movement = new Movement(dungeon, this);
     }
 
     public void moveUp() {
