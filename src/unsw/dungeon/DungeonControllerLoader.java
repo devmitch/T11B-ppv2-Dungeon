@@ -49,7 +49,6 @@ public class DungeonControllerLoader extends DungeonLoader {
         floorSwitchImage = new Image((new File("images/pressure_plate.png")).toURI().toString());
         portalImage = new Image((new File("images/portal.png")).toURI().toString());
         double enemyImageChoice = Math.random();
-        System.out.println(enemyImageChoice);
         if (enemyImageChoice < 0.33) {
             enemyImage = new Image((new File("images/deep_elf_master_archer.png")).toURI().toString());
         } else if (enemyImageChoice < 0.67) {
