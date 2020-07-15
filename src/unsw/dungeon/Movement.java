@@ -18,6 +18,12 @@ public class Movement {
     }
 
     private boolean canMove(int x, int y) {
+        if (x > dungeon.getWidth() - 1 || x < 0) {
+            return false;
+        } else if (y > dungeon.getHeight() - 1 || y < 0) {
+            return false;
+        }
+        
         for (Entity entity : dungeon.getEntitiesOnTile(x, y)) {
             if (entity.isObstruction()) {
                 return false;
@@ -27,22 +33,22 @@ public class Movement {
     }
 
     public void moveUp() {
-        if (entity.getY() > 0 && canMove(entity.getX(), entity.getY() - 1))
+        if (canMove(entity.getX(), entity.getY() - 1))
             dungeon.moveEntity(entity, entity.getX(), entity.getY() - 1);
     }
 
     public void moveDown() {
-        if (entity.getY() < dungeon.getHeight() - 1 && canMove(entity.getX(), entity.getY() + 1))
+        if (canMove(entity.getX(), entity.getY() + 1))
             dungeon.moveEntity(entity, entity.getX(), entity.getY() + 1);
     }
 
     public void moveLeft() {
-        if (entity.getX() > 0 && canMove(entity.getX() - 1, entity.getY()))
+        if (canMove(entity.getX() - 1, entity.getY()))
             dungeon.moveEntity(entity, entity.getX() - 1, entity.getY());
     }
 
     public void moveRight() {
-        if (entity.getX() < dungeon.getWidth() - 1 && canMove(entity.getX() + 1, entity.getY()))
+        if (canMove(entity.getX() + 1, entity.getY()))
         dungeon.moveEntity(entity, entity.getX() + 1, entity.getY());
     }
 
