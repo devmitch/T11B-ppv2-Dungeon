@@ -18,12 +18,12 @@ public class Movement {
     }
 
     private boolean canMove(int x, int y) {
-        if (x > dungeon.getWidth() - 1 || x < 0) {
+        if (0 < x || x > dungeon.getWidth() - 1) {
             return false;
-        } else if (y > dungeon.getHeight() - 1 || y < 0) {
+        } else if (0 < y || y > dungeon.getHeight() - 1) {
             return false;
         }
-        
+
         for (Entity entity : dungeon.getEntitiesOnTile(x, y)) {
             if (entity.isObstruction()) {
                 return false;
@@ -49,7 +49,7 @@ public class Movement {
 
     public void moveRight() {
         if (canMove(entity.getX() + 1, entity.getY()))
-        dungeon.moveEntity(entity, entity.getX() + 1, entity.getY());
+            dungeon.moveEntity(entity, entity.getX() + 1, entity.getY());
     }
 
 }
