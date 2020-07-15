@@ -18,9 +18,9 @@ public class Movement {
     }
 
     private boolean canMove(int x, int y) {
-        if (0 < x || x > dungeon.getWidth() - 1) {
+        if (x < 0 || dungeon.getWidth() - 1 < x) {
             return false;
-        } else if (0 < y || y > dungeon.getHeight() - 1) {
+        } else if (y < 0 || dungeon.getHeight() - 1 < y) {
             return false;
         }
 
