@@ -20,9 +20,8 @@ public class Movement {
     }
 
     private boolean canMove(int x, int y) {
-        List<Entity> entities = dungeon.getEntitiesOnTile(x, y);
-        for (Entity entity : entities) {
-            if (entity.getX() == x && entity.getY() == y) {
+        for (Entity entity : dungeon.getEntitiesOnTile(x, y)) {
+            if (entity.isObstruction()) {
                 return false;
             }
         }
