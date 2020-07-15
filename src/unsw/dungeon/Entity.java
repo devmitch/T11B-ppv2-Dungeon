@@ -59,16 +59,18 @@ public class Entity {
             return getX() - 1;
         } else if (D == Direction.RIGHT) {
             return getX() + 1;
+        } else {
+            return getX();
         }
-        return getX();
     }
 
     public int getAdjacentY(Direction D) {
         if (D == Direction.UP) {
-            return getY() -1;
+            return getY() - 1;
         } else if (D == Direction.DOWN) {
             return getY() + 1;
+        } else {
+            return getY();
         }
-        return getY();
     }
 }

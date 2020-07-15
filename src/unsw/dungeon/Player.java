@@ -51,7 +51,8 @@ public class Player extends Entity {
                 // only attempts to move it - if there is another obstruction in that direction,
                 // it will not move and then the player will not be able to move in that
                 // direction either
-                b.move(D);
+                b.moveInDirection(D);
+                break;
             }
         }
     }

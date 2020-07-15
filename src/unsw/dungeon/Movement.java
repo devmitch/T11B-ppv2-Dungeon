@@ -52,18 +52,18 @@ public class Movement {
             dungeon.moveEntity(entity, entity.getX() + 1, entity.getY());
     }
 
-    // generic movement
-    public void move(Direction D) {
-        switch (D) {
-            case LEFT:
-                moveLeft();
-            case RIGHT:
-                moveRight();
-            case UP:
-                moveUp();
-            case DOWN:
-                moveDown();
-            }
+    // generic movement in some direction
+    public void moveInDirection(Direction D) {
+        // use switch-case?
+        if (D == Direction.LEFT) {
+            moveLeft();
+        } else if (D == Direction.RIGHT) {
+            moveRight();
+        } else if (D == Direction.UP) {
+            moveUp();
+        } else {
+            moveDown();
+        }
     }
 
 }

@@ -28,8 +28,8 @@ public class Boulder extends Entity {
         movement.moveRight();
     }
 
-    public void move(Direction D) {
-        movement.move(D);
+    public void moveInDirection(Direction D) {
+        movement.moveInDirection(D);
     }
 
 }
