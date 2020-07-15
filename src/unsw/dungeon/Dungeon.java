@@ -19,12 +19,19 @@ public class Dungeon {
 
     private int width, height;
     private List<Entity> entities;
+    private Tile[][] tiles;
     private Player player;
 
     public Dungeon(int width, int height) {
         this.width = width;
         this.height = height;
         this.entities = new ArrayList<>();
+        this.tiles = new Tile[width][height];
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
+                this.tiles[x][y] = new Tile(x, y);
+            }
+        }
         this.player = null;
     }
 
@@ -45,11 +52,14 @@ public class Dungeon {
     }
 
     public void addEntity(Entity entity) {
-        entities.add(entity);
+        if (entity != null) {
+            entities.add(entity);
+            tiles[entity.getX()][entity.getY()].addEntity(entity);
+        }
     }
 
     public List<Entity> getEntitiesOnTile(int x, int y) {
-        List<Entity> entitiesOnTiles = new ArrayList<>();
+        /*List<Entity> entitiesOnTiles = new ArrayList<>();
 
         for (Entity entity : entities) {
             // this is very ugly 
@@ -58,6 +68,8 @@ public class Dungeon {
             }
         }
 
-        return entitiesOnTiles;
+        return entitiesOnTiles;*/
+
+        return tiles[x][y].getEntities();
     }
 }
