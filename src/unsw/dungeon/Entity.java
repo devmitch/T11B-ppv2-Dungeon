@@ -54,4 +54,21 @@ public class Entity {
         this.x.set(x);
     }
 
+    public int getAdjacentX(Direction D) {
+        if (D == Direction.LEFT) {
+            return getX() - 1;
+        } else if (D == Direction.RIGHT) {
+            return getX() + 1;
+        }
+        return getX();
+    }
+
+    public int getAdjacentY(Direction D) {
+        if (D == Direction.UP) {
+            return getY() -1;
+        } else if (D == Direction.DOWN) {
+            return getY() + 1;
+        }
+        return getY();
+    }
 }
