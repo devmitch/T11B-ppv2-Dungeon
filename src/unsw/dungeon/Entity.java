@@ -54,4 +54,35 @@ public class Entity {
         this.x.set(x);
     }
 
+    /**
+     * 
+     * @param D
+     * @return
+     */
+    public int getAdjacentX(Direction D) {
+        switch(D) {
+            case LEFT:
+                return getX() - 1;
+            case RIGHT:
+                return getX() + 1;
+            default:
+                return getX();
+        }
+    }
+
+    /**
+     * 
+     * @param D
+     * @return
+     */
+    public int getAdjacentY(Direction D) {
+        switch(D) {
+            case UP:
+                return getY() - 1;
+            case DOWN:
+                return getY() + 1;
+            default:
+                return getY();
+        }
+    }
 }

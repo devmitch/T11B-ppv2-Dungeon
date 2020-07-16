@@ -1,9 +1,5 @@
 package unsw.dungeon;
 
-import java.util.List;
-
-import javafx.beans.property.IntegerProperty;
-
 /**
  * Contains the functionality for moving an entity to a new tile.
  */
@@ -32,24 +28,35 @@ public class Movement {
         return true;
     }
 
-    public void moveUp() {
-        if (canMove(entity.getX(), entity.getY() - 1))
-            dungeon.moveEntity(entity, entity.getX(), entity.getY() - 1);
+    /**
+     * 
+     * @param x
+     * @param y
+     */
+    private void move(int x, int y) {
+        if (canMove(entity.getX() + x, entity.getY() + y))
+            dungeon.moveEntity(entity, entity.getX() + x, entity.getY() + y);
     }
 
-    public void moveDown() {
-        if (canMove(entity.getX(), entity.getY() + 1))
-            dungeon.moveEntity(entity, entity.getX(), entity.getY() + 1);
-    }
-
-    public void moveLeft() {
-        if (canMove(entity.getX() - 1, entity.getY()))
-            dungeon.moveEntity(entity, entity.getX() - 1, entity.getY());
-    }
-
-    public void moveRight() {
-        if (canMove(entity.getX() + 1, entity.getY()))
-            dungeon.moveEntity(entity, entity.getX() + 1, entity.getY());
+    /**
+     * 
+     * @param D
+     */
+    public void moveInDirection(Direction D) {
+        switch(D) {
+            case LEFT:
+                move(-1, 0);
+                break;
+            case RIGHT:
+                move(1, 0);
+                break;
+            case UP:
+                move(0, -1);
+                break;
+            case DOWN:
+                move(0, 1);
+                break;
+        }
     }
 
 }

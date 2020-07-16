@@ -53,16 +53,16 @@ public class DungeonController {
     public void handleKeyPress(KeyEvent event) {
         switch (event.getCode()) {
         case UP:
-            player.moveUp();
+            player.move(Direction.UP);
             break;
         case DOWN:
-            player.moveDown();
+            player.move(Direction.DOWN);
             break;
         case LEFT:
-            player.moveLeft();
+            player.move(Direction.LEFT);
             break;
         case RIGHT:
-            player.moveRight();
+            player.move(Direction.RIGHT);
             break;
         default:
             break;
