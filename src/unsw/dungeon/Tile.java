@@ -19,11 +19,11 @@ public class Tile {
         return this.entities;
     }
 
-    public void addEntity(Entity e) {
+    public void addEntityOnTile(Entity e) {
         this.entities.add(e);
     }
 
-    public void removeEntity(Entity e) {
+    public void removeEntityOnTile(Entity e) {
         this.entities.remove(e);
     }
 }

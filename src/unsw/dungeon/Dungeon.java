@@ -54,26 +54,26 @@ public class Dungeon {
     public void addEntity(Entity entity) {
         if (entity != null) {
             entities.add(entity);
-            tiles[entity.getX()][entity.getY()].addEntity(entity);
+            tiles[entity.getX()][entity.getY()].addEntityOnTile(entity);
         }
     }
 
     public void removeEntity(Entity entity) {
         entities.remove(entity);
-        tiles[entity.getX()][entity.getY()].removeEntity(entity);
+        tiles[entity.getX()][entity.getY()].removeEntityOnTile(entity);
     }
 
     public void moveEntity(Entity entity, int newX, int newY) {
 
         // Remove the entity from the tile
-        tiles[entity.getX()][entity.getY()].removeEntity(entity);
+        tiles[entity.getX()][entity.getY()].removeEntityOnTile(entity);
 
         // Update the position of the entity
         entity.setX(newX);
         entity.setY(newY);
         
         // Add the entity to its new tile
-        tiles[entity.getX()][entity.getY()].addEntity(entity);
+        tiles[entity.getX()][entity.getY()].addEntityOnTile(entity);
     }
 
     public List<Entity> getEntitiesOnTile(int x, int y) {
