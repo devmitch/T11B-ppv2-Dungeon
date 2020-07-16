@@ -59,6 +59,7 @@ public class Dungeon {
     }
 
     public void removeEntity(Entity entity) {
+        entities.remove(entity);
         tiles[entity.getX()][entity.getY()].removeEntity(entity);
     }
 
