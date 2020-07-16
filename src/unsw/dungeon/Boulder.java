@@ -1,8 +1,7 @@
 package unsw.dungeon;
 
-import javax.print.attribute.standard.DialogOwner;
-
 public class Boulder extends Entity {
+
     private Dungeon dungeon;
     private Movement movement;
 
@@ -12,22 +11,10 @@ public class Boulder extends Entity {
         this.movement = new Movement(dungeon, this);
     }
 
-    public void moveUp() {
-        movement.moveDown();
-    }
-
-    public void moveDown() {
-        movement.moveDown();
-    }
-
-    public void moveLeft() {
-        movement.moveLeft();
-    }
-
-    public void moveRight() {
-        movement.moveRight();
-    }
-
+    /**
+     * 
+     * @param D
+     */
     public void moveInDirection(Direction D) {
         movement.moveInDirection(D);
     }

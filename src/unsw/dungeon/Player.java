@@ -23,24 +23,9 @@ public class Player extends Entity {
         this.movement = new Movement(dungeon, this);
     }
 
-    public void moveUp() {
-        moveBoulder(Direction.UP);
-        movement.moveUp();
-    }
-
-    public void moveDown() {
-        moveBoulder(Direction.DOWN);
-        movement.moveDown();
-    }
-
-    public void moveLeft() {
-        moveBoulder(Direction.LEFT);
-        movement.moveLeft();
-    }
-
-    public void moveRight() {
-        moveBoulder(Direction.RIGHT);
-        movement.moveRight();
+    public void move(Direction d) {
+        moveBoulder(d);
+        movement.moveInDirection(d);    
     }
 
     public void moveBoulder(Direction D) {
