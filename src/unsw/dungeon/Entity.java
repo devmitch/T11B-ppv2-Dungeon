@@ -48,6 +48,7 @@ public class Entity {
     }
 
     // this entity interacting with the entities on some tile
+    // problem: is it ok for an entity to interact with any tile on the map?
     protected void interactWithEntities(int x, int y, Direction D) {
         try {
             List<Entity> entities = dungeon.getEntitiesOnTile(x, y);
