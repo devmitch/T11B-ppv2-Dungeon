@@ -61,6 +61,7 @@ public class Dungeon {
     public void removeEntity(Entity entity) {
         entities.remove(entity);
         tiles[entity.getX()][entity.getY()].removeEntityOnTile(entity);
+        entity.delete();
     }
 
     public void moveEntity(Entity entity, int newX, int newY) {
@@ -77,7 +78,16 @@ public class Dungeon {
     }
 
     public List<Entity> getEntitiesOnTile(int x, int y) {
-
         return tiles[x][y].getEntities();
+    }
+
+    public Entity requestEntity(Player requestor, Entity request) {
+         if (requestor.getX() == request.getX() && requestor.getY() == request.getY()) {
+             if (entities.contains(request)) {
+                 removeEntity(request);
+                 return request;
+             }
+         }
+         return null;
     }
 }

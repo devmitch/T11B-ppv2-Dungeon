@@ -131,6 +131,7 @@ public class DungeonControllerLoader extends DungeonLoader {
         entities.add(view);
     }
 
+
     /**
      * Set a node in a GridPane to have its position track the position of an
      * entity in the dungeon.
@@ -156,6 +157,15 @@ public class DungeonControllerLoader extends DungeonLoader {
             public void changed(ObservableValue<? extends Number> observable,
                     Number oldValue, Number newValue) {
                 GridPane.setRowIndex(node, newValue.intValue());
+            }
+        });
+        entity.status().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldStatus, Boolean newStatus) {
+                if (!newStatus) {
+                    System.out.println("xd");
+                    node.setVisible(false);
+                }
             }
         });
     }
