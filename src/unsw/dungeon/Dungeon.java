@@ -17,6 +17,7 @@ import java.util.List;
  */
 public class Dungeon {
 
+    private DungeonController controller;
     private int width, height;
     private List<Entity> entities;
     private Tile[][] tiles;
@@ -33,6 +34,11 @@ public class Dungeon {
             }
         }
         this.player = null;
+        this.controller = null;
+    }
+
+    public void setController(DungeonController controller) {
+        this.controller = controller;
     }
 
     public int getWidth() {
@@ -51,6 +57,21 @@ public class Dungeon {
         this.player = player;
     }
 
+    public void newEntityImage(Entity entity) {
+        if (controller != null) {
+            controller.newEntity(entity);
+        }
+    }
+
+    public void dropEntity(Entity entity, int x, int y) {
+        entity.enable();
+        entity.setX(x);
+        entity.setY(y);
+        addEntity(entity);
+        newEntityImage(entity);
+    }
+
+    // for an entity that already has an ImageView
     public void addEntity(Entity entity) {
         if (entity != null) {
             entities.add(entity);
@@ -61,7 +82,7 @@ public class Dungeon {
     public void removeEntity(Entity entity) {
         entities.remove(entity);
         tiles[entity.getX()][entity.getY()].removeEntityOnTile(entity);
-        entity.delete();
+        entity.disable(); //triggers the event handler in the view
     }
 
     public void moveEntity(Entity entity, int newX, int newY) {

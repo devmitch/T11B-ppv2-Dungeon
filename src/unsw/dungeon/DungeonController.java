@@ -3,7 +3,10 @@ package unsw.dungeon;
 import java.util.ArrayList;
 import java.util.List;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
@@ -29,6 +32,7 @@ public class DungeonController {
 
     public DungeonController(Dungeon dungeon, List<ImageView> initialEntities) {
         this.dungeon = dungeon;
+        dungeon.setController(this);
         this.player = dungeon.getPlayer();
         this.initialEntities = new ArrayList<>(initialEntities);
     }
@@ -67,6 +71,48 @@ public class DungeonController {
         default:
             break;
         }
+    }
+
+    public void newEntity(Entity entity) {
+        if (entity instanceof Key) {
+            Image keyImage = new Image((new File("images/key.png")).toURI().toString());
+            ImageView view = new ImageView(keyImage);
+            squares.getChildren().add(view);
+            GridPane.setColumnIndex(view, entity.getX());
+            GridPane.setRowIndex(view, entity.getY());
+            trackPosition(entity, view);
+        }
+    }
+
+    private void trackPosition(Entity entity, Node node) {
+        GridPane.setColumnIndex(node, entity.getX());
+        GridPane.setRowIndex(node, entity.getY());
+        entity.x().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable,
+                    Number oldValue, Number newValue) {
+                GridPane.setColumnIndex(node, newValue.intValue());
+            }
+        });
+        entity.y().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable,
+                    Number oldValue, Number newValue) {
+                GridPane.setRowIndex(node, newValue.intValue());
+            }
+        });
+        entity.status().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldStatus, Boolean newStatus) {
+                if (!newStatus) {
+                    System.out.println("Deleted entity (but not really, still working on it)");
+                    node.setVisible(false);
+                } else {
+                    System.out.println("Deleted entity is now back!");
+                    node.setVisible(true);
+                }
+            }
+        });
     }
 
 }

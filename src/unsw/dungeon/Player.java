@@ -39,6 +39,7 @@ public class Player extends Entity {
         for (Entity entity : entitiesOnPlayer) {
             if (entity.canPickup()) {
                 pickup(entity);
+                break;
             }
             // other cases here, like killing an enemy
         }
@@ -47,7 +48,28 @@ public class Player extends Entity {
     private void pickup(Entity entity) {
         Entity result = dungeon.requestEntity(this, entity);
         if (result != null) {
-            inventory.add(result);
+            if (result instanceof Key) {
+                Key key = (Key) result;
+                pickupKey(key);
+            }
+        }
+    }
+
+    private void pickupKey(Key key) {
+        for (Entity entity : inventory) {
+            if (entity instanceof Key) {
+                Key ownedKey = (Key) entity;
+                drop(ownedKey); // dont actually need to cast here but w/e
+                break;
+            }
+        }
+        inventory.add(key);
+    }
+
+    private void drop(Entity entity) {
+        if (inventory.contains(entity)) {
+            dungeon.dropEntity(entity, getX(), getY());
+            inventory.remove(entity);
         }
     }
 
