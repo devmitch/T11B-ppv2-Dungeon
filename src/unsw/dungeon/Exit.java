@@ -2,8 +2,8 @@ package unsw.dungeon;
 
 public class Exit extends Entity {
 
-    public Exit(int x, int y) {
-        super(x, y, false);
+    public Exit(Dungeon dungeon, int x, int y) {
+        super(dungeon, x, y, false, true, false);
     }
     
     

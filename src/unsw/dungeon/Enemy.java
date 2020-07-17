@@ -2,8 +2,8 @@ package unsw.dungeon;
 
 public class Enemy extends Entity {
 
-    public Enemy(int x, int y) {
-        super(x, y, false);
+    public Enemy(Dungeon dungeon, int x, int y) {
+        super(dungeon, x, y, false, true, false);
     }
     
 }

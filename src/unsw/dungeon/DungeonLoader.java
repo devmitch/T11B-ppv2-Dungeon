@@ -56,7 +56,7 @@ public abstract class DungeonLoader {
             entity = player;
             break;
         case "wall":
-            Wall wall = new Wall(x, y);
+            Wall wall = new Wall(dungeon, x, y);
             onLoad(wall);
             entity = wall;
             break;
@@ -66,42 +66,47 @@ public abstract class DungeonLoader {
             entity = boulder;
             break;
         case "exit":
-            Exit exit = new Exit(x, y);
+            Exit exit = new Exit(dungeon, x, y);
             onLoad(exit);
             entity = exit;
             break;
         case "treasure":
-            Treasure treasure = new Treasure(x, y);
+            Treasure treasure = new Treasure(dungeon, x, y);
             onLoad(treasure);
             entity = treasure;
             break;
         case "key":
-            Key key = new Key(x, y);
+            Key key = new Key(dungeon, x, y, json.getInt("id"));
             onLoad(key);
             entity = key;
             break;
+        case "door":
+            Door door = new Door(dungeon, x, y, json.getInt("id"));
+            onLoad(door);
+            entity = door;
+            break;
         case "switch":
-            FloorSwitch floorSwitch = new FloorSwitch(x, y);
+            FloorSwitch floorSwitch = new FloorSwitch(dungeon, x, y);
             onLoad(floorSwitch);
             entity = floorSwitch;
             break;
         case "portal":
-            Portal portal = new Portal(x, y);
+            Portal portal = new Portal(dungeon, x, y);
             onLoad(portal);
             entity = portal;
             break;
         case "enemy":
-            Enemy enemy = new Enemy(x, y);
+            Enemy enemy = new Enemy(dungeon, x, y);
             onLoad(enemy);
             entity = enemy;
             break;
         case "sword":
-            Sword sword = new Sword(x, y);
+            Sword sword = new Sword(dungeon, x, y);
             onLoad(sword);
             entity = sword;
             break;
         case "invincibility":
-            InvincibilityPotion potion = new InvincibilityPotion(x, y);
+            InvincibilityPotion potion = new InvincibilityPotion(dungeon, x, y);
             onLoad(potion);
             entity = potion;
             break;
@@ -131,6 +136,6 @@ public abstract class DungeonLoader {
 
     public abstract void onLoad(InvincibilityPotion potion);
 
-    // TODO add onLoad for door
+    public abstract void onLoad(Door door);
 
 }

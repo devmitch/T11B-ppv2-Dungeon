@@ -30,6 +30,7 @@ public class DungeonControllerLoader extends DungeonLoader {
     private Image exitImage;
     private Image treasureImage;
     private Image keyImage;
+    private Image closedDoorImage;
     private Image floorSwitchImage;
     private Image portalImage;
     private Image enemyImage;
@@ -46,6 +47,7 @@ public class DungeonControllerLoader extends DungeonLoader {
         exitImage = new Image((new File("images/exit.png")).toURI().toString());
         treasureImage = new Image((new File("images/gold_pile.png")).toURI().toString());
         keyImage = new Image((new File("images/key.png")).toURI().toString());
+        closedDoorImage = new Image((new File("images/closed_door.png")).toURI().toString());
         floorSwitchImage = new Image((new File("images/pressure_plate.png")).toURI().toString());
         portalImage = new Image((new File("images/portal.png")).toURI().toString());
         double enemyImageChoice = Math.random();
@@ -97,6 +99,12 @@ public class DungeonControllerLoader extends DungeonLoader {
     }
 
     @Override
+    public void onLoad(Door door) {
+        ImageView view = new ImageView(closedDoorImage);
+        addEntity(door, view);
+    }
+
+    @Override
     public void onLoad(FloorSwitch floorSwitch) {
         ImageView view = new ImageView(floorSwitchImage);
         addEntity(floorSwitch, view);
@@ -131,6 +139,7 @@ public class DungeonControllerLoader extends DungeonLoader {
         entities.add(view);
     }
 
+
     /**
      * Set a node in a GridPane to have its position track the position of an
      * entity in the dungeon.
@@ -156,6 +165,15 @@ public class DungeonControllerLoader extends DungeonLoader {
             public void changed(ObservableValue<? extends Number> observable,
                     Number oldValue, Number newValue) {
                 GridPane.setRowIndex(node, newValue.intValue());
+            }
+        });
+        entity.status().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldStatus, Boolean newStatus) {
+                if (!newStatus) {
+                    System.out.println("Deleted entity (but not really, still working on it)");
+                    node.setVisible(false);
+                }
             }
         });
     }

@@ -2,8 +2,8 @@ package unsw.dungeon;
 
 public class Sword extends Entity {
 
-    public Sword(int x, int y) {
-        super(x, y, false);
+    public Sword(Dungeon dungeon, int x, int y) {
+        super(dungeon, x, y, false, false, true);
     }
     
 }
