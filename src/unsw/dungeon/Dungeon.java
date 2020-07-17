@@ -90,4 +90,16 @@ public class Dungeon {
          }
          return null;
     }
+
+    public Portal getPortalWithId(int id) {
+        for (Entity entity : entities) {
+            if (entity instanceof Portal) {
+                Portal p = (Portal) entity;
+                if (p.getId() == id) {
+                    return p;
+                }
+            }
+        }
+        return null;
+    }
 }
