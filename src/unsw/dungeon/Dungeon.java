@@ -60,13 +60,10 @@ public class Dungeon {
     public void newEntityImage(Entity entity) {
         if (controller != null) {
             controller.newEntity(entity);
-        } else {
-            System.out.println("WHAT?");
         }
     }
 
     public void dropEntity(Entity entity, int x, int y) {
-        System.out.println("ok here at least");
         entity.enable();
         entity.setX(x);
         entity.setY(y);
