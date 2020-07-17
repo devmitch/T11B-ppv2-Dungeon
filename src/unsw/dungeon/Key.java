@@ -2,8 +2,11 @@ package unsw.dungeon;
 
 public class Key extends Entity {
 
-    public Key(int x, int y) {
+    private int id;
+    
+    public Key(int x, int y, int id) {
         super(x, y, false, false, true);
+        this.id = id;
     }
 
 }

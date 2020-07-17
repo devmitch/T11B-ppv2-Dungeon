@@ -49,6 +49,7 @@ public class Player extends Entity {
         }
     }
 
+    @Deprecated
     private void moveBoulder(Direction D) {
         try {
             List<Entity> entities = dungeon.getEntitiesOnTile(getAdjacentX(D), getAdjacentY(D));
