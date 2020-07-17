@@ -70,8 +70,12 @@ public class Entity {
         return this.canPickup;
     }
 
-    public void delete() {
+    public void disable() {
         this.status.setValue(false);
+    }
+
+    public void enable() {
+        this.status.setValue(true);
     }
 
     public boolean isObstruction() {

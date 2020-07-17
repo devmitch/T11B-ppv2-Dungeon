@@ -173,6 +173,9 @@ public class DungeonControllerLoader extends DungeonLoader {
                 if (!newStatus) {
                     System.out.println("Deleted entity (but not really, still working on it)");
                     node.setVisible(false);
+                } else {
+                    System.out.println("Deleted entity is now back!");
+                    node.setVisible(true);
                 }
             }
         });
