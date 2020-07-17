@@ -30,14 +30,21 @@ public class Player extends Entity {
     }
 
     public void duel(Enemy enemy) {
-        boolean hasSword = false;
+        boolean swordSwung = false;
+        Sword sword = null;
         for (Entity e : inventory) {
             if (e instanceof Sword) {
-                hasSword = true;
+                sword = (Sword) e;
+                swordSwung = sword.attemptSwing();
             }
         }
-        if (hasSword) {
+        if (swordSwung) {
             dungeon.removeEntity(enemy);
+            System.out.print("Hits left: ");
+            System.out.println(sword.getDurability());
+            if (sword.getDurability() == 0) {
+                inventory.remove(sword);
+            }
             System.out.println("You won!");
         } else {
             System.out.println("You lost!");
