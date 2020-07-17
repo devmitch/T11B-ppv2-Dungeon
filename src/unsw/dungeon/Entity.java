@@ -16,7 +16,7 @@ public class Entity {
     // externally observed.
     private BooleanProperty status;
     private IntegerProperty x, y;
-    private boolean isObstruction;
+    protected boolean isObstruction;
     private boolean interactable;
     private boolean canPickup;
 
