@@ -2,12 +2,10 @@ package unsw.dungeon;
 
 public class Boulder extends Entity {
 
-    private Dungeon dungeon;
     private Movement movement;
 
     public Boulder(Dungeon dungeon, int x, int y) {
         super(dungeon, x, y, true, true, false);
-        this.dungeon = dungeon;
         this.movement = new Movement(dungeon, this);
     }
 
