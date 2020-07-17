@@ -17,7 +17,7 @@ public class Entity {
     private BooleanProperty status;
     private IntegerProperty x, y;
     protected boolean isObstruction;
-    private boolean interactable;
+    protected boolean interactable;
     private boolean canPickup;
 
     /**

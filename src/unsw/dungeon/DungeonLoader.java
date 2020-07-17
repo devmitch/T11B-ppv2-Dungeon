@@ -80,6 +80,11 @@ public abstract class DungeonLoader {
             onLoad(key);
             entity = key;
             break;
+        case "door":
+            Door door = new Door(x, y, json.getInt("id"));
+            onLoad(door);
+            entity = door;
+            break;
         case "switch":
             FloorSwitch floorSwitch = new FloorSwitch(x, y);
             onLoad(floorSwitch);
@@ -131,6 +136,6 @@ public abstract class DungeonLoader {
 
     public abstract void onLoad(InvincibilityPotion potion);
 
-    // TODO add onLoad for door
+    public abstract void onLoad(Door door);
 
 }

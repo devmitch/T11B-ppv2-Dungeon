@@ -5,7 +5,7 @@ public class Door extends Entity {
     private int id;
 
     public Door(int x, int y, int id) {
-        super(x, y, true, false, false);
+        super(x, y, true, true, false);
         this.id = id;
     }
 
@@ -16,6 +16,7 @@ public class Door extends Entity {
             Key key = p.requestKey(this.id);
             if (key != null) {
                 this.isObstruction = false;
+                this.interactable = false;
             }
         }
     }

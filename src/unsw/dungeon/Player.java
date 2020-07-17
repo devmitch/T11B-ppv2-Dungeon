@@ -49,6 +49,19 @@ public class Player extends Entity {
         }
     }
 
+    public Key requestKey(int id) {
+        for (Entity e : inventory) {
+            if (e instanceof Key) {
+                Key key = (Key) e;
+                if (key.getId() == id) {
+                    inventory.remove(e);
+                    return key;
+                }
+            }
+        }
+        return null;
+    }
+
     @Deprecated
     private void moveBoulder(Direction D) {
         try {
