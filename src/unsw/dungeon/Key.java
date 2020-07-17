@@ -4,8 +4,8 @@ public class Key extends Entity {
 
     private int id;
     
-    public Key(int x, int y, int id) {
-        super(x, y, false, false, true);
+    public Key(Dungeon dungeon, int x, int y, int id) {
+        super(dungeon, x, y, false, false, true);
         this.id = id;
     }
 

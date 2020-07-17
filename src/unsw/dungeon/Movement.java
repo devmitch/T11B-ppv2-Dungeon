@@ -29,26 +29,13 @@ public class Movement {
         return true;
     }
 
-    private void interactWithEntities(int x, int y, Direction D) {
-        try {
-            List<Entity> entities = dungeon.getEntitiesOnTile(entity.getX() + x, entity.getY() + y);
-            for (Entity entity : entities) {
-                if (entity.isInteractable()) {
-                    entity.interactWith(this.entity, D);
-                }
-            }
-        } catch (Exception e) {
-            // maybe coordinates are out of bounds?
-        }
-    }
-
     /**
      * 
      * @param x
      * @param y
      */
     private void move(int x, int y, Direction D) {
-        interactWithEntities(x, y, D);
+        this.entity.interactWithEntities(entity.getX() + x, entity.getY() + y, D);
         if (canMove(entity.getX() + x, entity.getY() + y))
             dungeon.moveEntity(entity, entity.getX() + x, entity.getY() + y);
         this.entity.updateState();

@@ -10,7 +10,6 @@ import java.util.ArrayList;
  */
 public class Player extends Entity {
 
-    private Dungeon dungeon;
     private Movement movement;
     private List<Entity> inventory;
 
@@ -20,8 +19,7 @@ public class Player extends Entity {
      * @param y
      */
     public Player(Dungeon dungeon, int x, int y) {
-        super(x, y, true, true, false);
-        this.dungeon = dungeon;
+        super(dungeon, x, y, true, true, false);
         this.movement = new Movement(dungeon, this);
         this.inventory = new ArrayList<>();
     }

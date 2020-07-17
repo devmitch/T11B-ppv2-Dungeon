@@ -6,7 +6,7 @@ public class Boulder extends Entity {
     private Movement movement;
 
     public Boulder(Dungeon dungeon, int x, int y) {
-        super(x, y, true, true, false);
+        super(dungeon, x, y, true, true, false);
         this.dungeon = dungeon;
         this.movement = new Movement(dungeon, this);
     }

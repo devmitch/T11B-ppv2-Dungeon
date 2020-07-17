@@ -4,8 +4,8 @@ public class Door extends Entity {
     
     private int id;
 
-    public Door(int x, int y, int id) {
-        super(x, y, true, true, false);
+    public Door(Dungeon dungeon, int x, int y, int id) {
+        super(dungeon, x, y, true, true, false);
         this.id = id;
     }
 

@@ -2,8 +2,8 @@ package unsw.dungeon;
 
 public class Portal extends Entity {
 
-    public Portal(int x, int y) {
-        super(x, y, true, true, false);
+    public Portal(Dungeon dungeon, int x, int y) {
+        super(dungeon, x, y, true, true, false);
     }
     
 }
