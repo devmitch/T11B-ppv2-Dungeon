@@ -1,5 +1,6 @@
 package unsw.dungeon;
 
+import java.util.List;
 /**
  * Contains the functionality for moving an entity to a new tile.
  */
@@ -28,14 +29,29 @@ public class Movement {
         return true;
     }
 
+    private void interactWithEntities(int x, int y, Direction D) {
+        try {
+            List<Entity> entities = dungeon.getEntitiesOnTile(entity.getX() + x, entity.getY() + y);
+            for (Entity entity : entities) {
+                if (entity.isInteractable()) {
+                    entity.interactWith(this.entity, D);
+                }
+            }
+        } catch (Exception e) {
+            // maybe coordinates are out of bounds?
+        }
+    }
+
     /**
      * 
      * @param x
      * @param y
      */
-    private void move(int x, int y) {
+    private void move(int x, int y, Direction D) {
+        interactWithEntities(x, y, D);
         if (canMove(entity.getX() + x, entity.getY() + y))
             dungeon.moveEntity(entity, entity.getX() + x, entity.getY() + y);
+        this.entity.updateState();
     }
 
     /**
@@ -45,16 +61,16 @@ public class Movement {
     public void moveInDirection(Direction D) {
         switch(D) {
             case LEFT:
-                move(-1, 0);
+                move(-1, 0, D);
                 break;
             case RIGHT:
-                move(1, 0);
+                move(1, 0, D);
                 break;
             case UP:
-                move(0, -1);
+                move(0, -1, D);
                 break;
             case DOWN:
-                move(0, 1);
+                move(0, 1, D);
                 break;
         }
     }

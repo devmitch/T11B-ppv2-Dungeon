@@ -2,6 +2,8 @@ package unsw.dungeon;
 
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 
 /**
  * An entity in the dungeon.
@@ -12,22 +14,53 @@ public class Entity {
 
     // IntegerProperty is used so that changes to the entities position can be
     // externally observed.
+    private BooleanProperty status;
     private IntegerProperty x, y;
     private boolean isObstruction;
+    private boolean interactable;
+    private boolean canPickup;
 
     /**
      * Create an entity positioned in square (x,y)
      * @param x
      * @param y
      */
-    public Entity(int x, int y, boolean isObstruction) {
+    public Entity(int x, int y, boolean isObstruction, boolean interactable, boolean canPickup) {
         this.x = new SimpleIntegerProperty(x);
         this.y = new SimpleIntegerProperty(y);
         this.isObstruction = isObstruction;
+        this.status = new SimpleBooleanProperty();
+        this.status.setValue(true);
+        this.interactable = interactable;
+        this.canPickup = canPickup;
+    }
+
+    public void updateState() {
+        
+    }
+
+    public void interactWith(Entity e, Direction D) {
+
+    }
+
+    public boolean isInteractable() {
+        return this.interactable;
+    }
+
+    public boolean canPickup() {
+        return this.canPickup;
+    }
+
+    public void delete() {
+        this.status.setValue(false);
     }
 
     public boolean isObstruction() {
         return isObstruction;
+    }
+
+    public BooleanProperty status() {
+        return status;
     }
 
     public IntegerProperty x() {
