@@ -6,4 +6,10 @@ public class Enemy extends Entity {
         super(dungeon, x, y, false, true, false);
     }
     
+    @Override
+    public void interactWith(Entity e, Direction D) {
+        if (e instanceof Player) {
+            ((Player)e).duel(this);
+        }
+    }
 }

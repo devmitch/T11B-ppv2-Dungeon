@@ -29,6 +29,21 @@ public class Player extends Entity {
         movement.moveInDirection(d);
     }
 
+    public void duel(Enemy enemy) {
+        boolean hasSword = false;
+        for (Entity e : inventory) {
+            if (e instanceof Sword) {
+                hasSword = true;
+            }
+        }
+        if (hasSword) {
+            dungeon.removeEntity(enemy);
+            System.out.println("You won!");
+        } else {
+            System.out.println("You lost!");
+        }
+    }
+
     @Override
     public void updateState() {
         List<Entity> entitiesOnPlayer = dungeon.getEntitiesOnTile(getX(), getY());
@@ -37,7 +52,6 @@ public class Player extends Entity {
                 pickup(entity);
                 break;
             }
-            // other cases here, like killing an enemy
         }
     }
 
@@ -47,8 +61,20 @@ public class Player extends Entity {
             if (result instanceof Key) {
                 Key key = (Key) result;
                 pickupKey(key);
+            } else if (result instanceof Sword) {
+                Sword sword = (Sword) result;
+                pickupSword(sword);
             }
         }
+    }
+
+    private void pickupSword(Sword sword) {
+        for (Entity entity : inventory) {
+            if (entity instanceof Sword) {
+                inventory.remove(entity);
+            }
+        }
+        inventory.add(sword);
     }
 
     private void pickupKey(Key key) {

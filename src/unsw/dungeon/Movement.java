@@ -1,6 +1,5 @@
 package unsw.dungeon;
 
-import java.util.List;
 /**
  * Contains the functionality for moving an entity to a new tile.
  */
@@ -58,6 +57,8 @@ public class Movement {
                 break;
             case DOWN:
                 move(0, 1, D);
+                break;
+            case NONE:
                 break;
         }
     }
