@@ -72,47 +72,56 @@
     {
       "x": 0,
       "y": 0,
-      "type": "portal"
+      "type": "portal",
+      "id": 0
     },
     {
       "x": 0,
       "y": 1,
-      "type": "portal"
+      "type": "portal",
+      "id": 0
     },
     {
       "x": 0,
       "y": 2,
-      "type": "portal"
+      "type": "portal",
+      "id": 0
     },
     {
       "x": 0,
       "y": 3,
-      "type": "portal"
+      "type": "portal",
+      "id": 0
     },
     {
       "x": 0,
       "y": 4,
-      "type": "portal"
+      "type": "portal",
+      "id": 0
     },
     {
       "x": 0,
       "y": 5,
-      "type": "portal"
+      "type": "portal",
+      "id": 0
     },
     {
       "x": 0,
       "y": 6,
-      "type": "portal"
+      "type": "portal",
+      "id": 0
     },
     {
       "x": 0,
       "y": 7,
-      "type": "portal"
+      "type": "portal",
+      "id": 0
     },
     {
       "x": 0,
       "y": 8,
-      "type": "portal"
+      "type": "portal",
+      "id": 0
     },
     {
       "x": 6,
