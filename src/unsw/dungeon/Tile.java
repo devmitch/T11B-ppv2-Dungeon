@@ -15,6 +15,14 @@ public class Tile {
         this.entities = new ArrayList<Entity>();
     }
 
+    public int getX() {
+        return this.x;
+    }
+
+    public int getY() {
+        return this.y;
+    }
+
     public List<Entity> getEntities() {
         return this.entities;
     }
@@ -25,5 +33,14 @@ public class Tile {
 
     public void removeEntityOnTile(Entity e) {
         this.entities.remove(e);
+    }
+
+    public boolean hasObstructable() {
+        for (Entity e : this.entities) {
+            if (e.isObstruction()) {
+                return true;
+            }
+        }
+        return false;
     }
 }
