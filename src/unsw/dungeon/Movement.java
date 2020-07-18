@@ -58,6 +58,8 @@ public class Movement {
             case DOWN:
                 move(0, 1, D);
                 break;
+            case NONE:
+                break;
         }
     }
 
