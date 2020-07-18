@@ -43,6 +43,38 @@ public class Enemy extends Entity {
     }
 
     public void makeMove() {
+        if (dungeon.getPlayer().isInvincible()) {
+            //run the fuck away
+        } else {
+            Direction onPath = pathFindBFS();
+            if (onPath != Direction.NONE) {
+                // move on path found
+                movement.moveInDirection(onPath);
+            } else {
+                // no path found - try to move closer to player
+                movement.moveInDirection(moveCloser());
+            }
+        }
+    }
+
+    private Direction moveCloser() {
+        Tile[][] tiles = dungeon.getTiles();
+        Tile enemy = tiles[getX()][getY()];
+        Tile player = tiles[dungeon.getPlayer().getX()][dungeon.getPlayer().getY()];
+        for (Tile adj : getAdjacentTiles(enemy)) {
+            if (distanceBetween(player, adj) < distanceBetween(player, enemy)) {
+                return directionToTile(adj);
+            }
+        }
+        return Direction.NONE;
+    }
+
+    private double distanceBetween(Tile a, Tile b) {
+        return Math.sqrt((a.getX() - b.getX())*(a.getX() - b.getX()) + (a.getY() - b.getY())*(a.getY() - b.getY()));
+    }
+
+    private Direction pathFindBFS() {
+        // attempts to find path to player
         Tile[][] discovered = new Tile[dungeon.getWidth()][dungeon.getHeight()];
         for (int y = 0; y < dungeon.getHeight(); y++) {
             for (int x = 0; x < dungeon.getWidth(); x++) {
@@ -71,7 +103,8 @@ public class Enemy extends Entity {
         }
 
         if (discovered[dungeon.getPlayer().getX()][dungeon.getPlayer().getY()] == null) {
-            return; // if no path to player
+            // if no path to player
+            return Direction.NONE;
         }
 
         Tile curr = tiles[dungeon.getPlayer().getX()][dungeon.getPlayer().getY()];
@@ -80,7 +113,7 @@ public class Enemy extends Entity {
             prev = curr;
             curr = discovered[curr.getX()][curr.getY()];
         }
-        movement.moveInDirection(directionToTile(prev));
+        return directionToTile(prev);
     }
 
     // assumes tiles are adjacent

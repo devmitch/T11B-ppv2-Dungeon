@@ -24,6 +24,10 @@ public class Player extends Entity {
         this.inventory = new ArrayList<>();
     }
 
+    public boolean isInvincible() {
+        return false;
+    }
+
     public void move(Direction d) {
         movement.moveInDirection(d);
         dungeon.updateEnemies();
