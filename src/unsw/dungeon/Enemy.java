@@ -45,6 +45,7 @@ public class Enemy extends Entity {
     public void makeMove() {
         if (dungeon.getPlayer().isInvincible()) {
             //run the fuck away
+            movement.moveInDirection(moveEuclidian(false));
         } else {
             Direction onPath = pathFindBFS();
             if (onPath != Direction.NONE) {
@@ -52,17 +53,20 @@ public class Enemy extends Entity {
                 movement.moveInDirection(onPath);
             } else {
                 // no path found - try to move closer to player
-                movement.moveInDirection(moveCloser());
+                movement.moveInDirection(moveEuclidian(true));
             }
         }
     }
 
-    private Direction moveCloser() {
+    // either move to a tile that is closer (euclidian distance) or further
+    private Direction moveEuclidian(boolean closer) {
         Tile[][] tiles = dungeon.getTiles();
         Tile enemy = tiles[getX()][getY()];
         Tile player = tiles[dungeon.getPlayer().getX()][dungeon.getPlayer().getY()];
         for (Tile adj : getAdjacentTiles(enemy)) {
-            if (distanceBetween(player, adj) < distanceBetween(player, enemy)) {
+            if (closer && distanceBetween(player, adj) < distanceBetween(player, enemy)) {
+                return directionToTile(adj);
+            } else if (!closer && distanceBetween(player, adj) > distanceBetween(player, enemy)) {
                 return directionToTile(adj);
             }
         }
