@@ -44,25 +44,31 @@ public class Dungeon {
         this.isComplete = false;
     }
 
-    public void updateTree() {
+    private void updateTree() {
         if (this.rootGoal.isSatisfied()) {
             this.isComplete = true;
-            // game over
+            System.out.println("Game over!");
         }
     }
 
-    public void updateEnemies() {
+    // "obervers" are just specific entities
+    public void updateObservers() {
         for (Entity e : this.entities) {
             if (e instanceof Enemy) {
                 ((Enemy)e).makeMove();
                 // if enemy is deleted from entities list, recurse
                 // stops concurrent modification to list error
-                if (!this.entities.contains(e)) {
-                    updateEnemies();
+                if (!this.entities.contains(player)) {
+                    break;
+                } else if (!this.entities.contains(e)) {
+                    updateObservers();
                     break;
                 }
+            } else if (e instanceof Exit) {
+                ((Exit)e).updateAtExitState();
             }
         }
+        updateTree();
     }
 
     public Tile[][] getTiles() {

@@ -30,7 +30,7 @@ public class Player extends Entity {
 
     public void move(Direction d) {
         movement.moveInDirection(d);
-        dungeon.updateEnemies();
+        dungeon.updateObservers();
         stepTaken();
     }
 
@@ -74,6 +74,7 @@ public class Player extends Entity {
             System.out.println("You won!");
         } else {
             System.out.println("You lost!");
+            this.dungeon.removeEntity(this);
         }
     }
 
