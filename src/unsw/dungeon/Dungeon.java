@@ -58,7 +58,9 @@ public class Dungeon {
                 ((Enemy)e).makeMove();
                 // if enemy is deleted from entities list, recurse
                 // stops concurrent modification to list error
-                if (!this.entities.contains(e)) {
+                if (!this.entities.contains(player)) {
+                    break;
+                } else if (!this.entities.contains(e)) {
                     updateObservers();
                     break;
                 }

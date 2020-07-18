@@ -55,6 +55,7 @@ public class DungeonController {
 
     @FXML
     public void handleKeyPress(KeyEvent event) {
+        if (!player.getStatus()) return;
         switch (event.getCode()) {
         case UP:
             player.move(Direction.UP);
