@@ -11,7 +11,9 @@ import java.util.ArrayList;
 public class Player extends Entity {
 
     private Movement movement;
-    private List<Entity> inventory;
+    private Key key;
+    private Sword sword;
+    private InvincibilityPotion potion;
 
     /**
      * Create a player positioned in square (x,y)
@@ -21,7 +23,9 @@ public class Player extends Entity {
     public Player(Dungeon dungeon, int x, int y) {
         super(dungeon, x, y, true, true, false);
         this.movement = new Movement(dungeon, this);
-        this.inventory = new ArrayList<>();
+        this.key = null;
+        this.sword = null;
+        this.potion = null;
     }
 
     public boolean isInvincible() {
@@ -42,19 +46,15 @@ public class Player extends Entity {
 
     public void duel(Enemy enemy) {
         boolean swordSwung = false;
-        Sword sword = null;
-        for (Entity e : inventory) {
-            if (e instanceof Sword) {
-                sword = (Sword) e;
-                swordSwung = sword.attemptSwing();
-            }
+        if (this.sword != null) {
+            swordSwung = sword.attemptSwing();
         }
         if (swordSwung) {
             dungeon.removeEntity(enemy);
             System.out.print("Hits left: ");
             System.out.println(sword.getDurability());
             if (sword.getDurability() == 0) {
-                inventory.remove(sword);
+                this.sword = null;
             }
             System.out.println("You won!");
         } else {
@@ -78,7 +78,7 @@ public class Player extends Entity {
     }
 
     private void pickup(Entity entity) {
-        Entity result = dungeon.requestEntity(this, entity);
+        Entity result = dungeon.requestEntity(this, entity); //this deletes the entity from the dungeon entity list
         if (result != null) {
             if (result instanceof Key) {
                 Key key = (Key) result;
@@ -91,61 +91,23 @@ public class Player extends Entity {
     }
 
     private void pickupSword(Sword sword) {
-        for (Entity entity : inventory) {
-            if (entity instanceof Sword) {
-                inventory.remove(entity);
-            }
-        }
-        inventory.add(sword);
+        this.sword = sword;
     }
 
     private void pickupKey(Key key) {
-        for (Entity entity : inventory) {
-            if (entity instanceof Key) {
-                Key ownedKey = (Key) entity;
-                drop(ownedKey); // dont actually need to cast here but w/e
-                break;
-            }
+        if (this.key != null) {
+            dungeon.dropEntity(key, getX(), getY());
         }
-        inventory.add(key);
-    }
-
-    private void drop(Entity entity) {
-        if (inventory.contains(entity)) {
-            dungeon.dropEntity(entity, getX(), getY());
-            inventory.remove(entity);
-        }
+        this.key = key;
     }
 
     public Key requestKey(int id) {
-        for (Entity e : inventory) {
-            if (e instanceof Key) {
-                Key key = (Key) e;
-                if (key.getId() == id) {
-                    inventory.remove(e);
-                    return key;
-                }
-            }
-        }
-        return null;
-    }
-
-    @Deprecated
-    private void moveBoulder(Direction D) {
-        try {
-            List<Entity> entities = dungeon.getEntitiesOnTile(getAdjacentX(D), getAdjacentY(D));
-            for (Entity e : entities) {
-                if (e instanceof Boulder) {
-                    Boulder b = (Boulder) e;
-                    // only attempts to move it - if there is another obstruction in that direction,
-                    // it will not move and then the player will not be able to move in that
-                    // direction either
-                    b.moveInDirection(D);
-                    break;
-                }
-            }
-        } catch (Exception e) {
-            System.out.println("cant push edge of map");
+        if (this.key != null && this.key.getId() == id) {
+            Key ret = this.key;
+            this.key = null;
+            return ret;
+        } else {
+            return null;
         }
     }
 }
