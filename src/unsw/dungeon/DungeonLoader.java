@@ -22,6 +22,8 @@ public abstract class DungeonLoader {
 
     private JSONObject json;
 
+    private TreasureGoalType treasureGoalType;
+
     public DungeonLoader(String filename) throws FileNotFoundException {
         json = new JSONObject(new JSONTokener(new FileReader("dungeons/" + filename)));
     }
@@ -35,10 +37,10 @@ public abstract class DungeonLoader {
         int height = json.getInt("height");
 
         // create 4 general goals and package into list
-        List<GoalType> goals = createGoals();
+        createGoals();
 
         // parse goals to create tree
-        Goal rootGoal = parseGoals(goals, json.getJSONObject("goal-condition"));
+        Goal rootGoal = parseGoals(json.getJSONObject("goal-condition"));
 
         Dungeon dungeon = new Dungeon(width, height, rootGoal);   
 
@@ -46,23 +48,45 @@ public abstract class DungeonLoader {
 
         for (int i = 0; i < jsonEntities.length(); i++) {
             // pass goal list in here
-            loadEntity(dungeon, jsonEntities.getJSONObject(i), goals);
+            loadEntity(dungeon, jsonEntities.getJSONObject(i));
         }
         return dungeon;
     }
 
-    public ArrayList<GoalType> createGoals() {
-        ArrayList<GoalType> ret = new ArrayList<>();
-
-        ret.add(new TreasureGoalType());
-        return ret;
+    public void createGoals() {
+        this.treasureGoalType = new TreasureGoalType();
     }
 
-    public Goal parseGoals(List<GoalType> goals, JSONObject json) {
-        return null;
+    public Goal parseGoals(JSONObject json) {
+        
+        String goalType = json.getString("goal");
+        // composite case
+        if (goalType.equals("AND") || goalType.equals("OR")) {
+
+            boolean isConjunction = goalType.equals("AND") ? true : false;
+            CompositeGoal goal = new CompositeGoal(isConjunction);
+
+            JSONArray subGoals = json.getJSONArray("subgoals");
+            for (int i = 0; i < subGoals.length(); i++) {
+                goal.addGoal(parseGoals(subGoals.getJSONObject(i)));
+            }
+
+            return goal;
+        } else {
+            switch (goalType) {
+                case "exit":
+                    return new LeafGoal(treasureGoalType); // change to exitGoalType
+                case "enemies":
+                    return new LeafGoal(treasureGoalType); // change to enemiesGoalType
+                case "boulders":
+                    return new LeafGoal(treasureGoalType); // change to bouldersGoalType
+                default: // treasure
+                    return new LeafGoal(treasureGoalType);
+            }
+        }
     }
 
-    private void loadEntity(Dungeon dungeon, JSONObject json, List<GoalType> goalTypes) {
+    private void loadEntity(Dungeon dungeon, JSONObject json) {
         String type = json.getString("type");
         int x = json.getInt("x");
         int y = json.getInt("y");
@@ -91,7 +115,7 @@ public abstract class DungeonLoader {
             entity = exit;
             break;
         case "treasure":
-            Treasure treasure = new Treasure(dungeon, x, y);
+            Treasure treasure = new Treasure(dungeon, x, y, treasureGoalType);
             onLoad(treasure);
             entity = treasure;
             break;
