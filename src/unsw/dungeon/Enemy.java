@@ -18,6 +18,8 @@ public class Enemy extends Entity {
     public void interactWith(Entity e, Direction D) {
         if (e instanceof Player) {
             ((Player)e).duel(this);
+        } else if (e instanceof Boulder) {
+            this.dungeon.removeEntity(this);
         }
     }
 
