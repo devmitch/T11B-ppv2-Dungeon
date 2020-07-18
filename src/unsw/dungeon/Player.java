@@ -25,8 +25,8 @@ public class Player extends Entity {
     }
 
     public void move(Direction d) {
-        //moveBoulder(d);
         movement.moveInDirection(d);
+        dungeon.updateEnemies();
     }
 
     public void duel(Enemy enemy) {

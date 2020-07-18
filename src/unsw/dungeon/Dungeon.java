@@ -37,8 +37,29 @@ public class Dungeon {
         this.controller = null;
     }
 
+    public void updateEnemies() {
+        for (Entity e : this.entities) {
+            if (e instanceof Enemy) {
+                ((Enemy)e).makeMove();
+            }
+        }
+    }
+
+    public Tile[][] getTiles() {
+        return this.tiles;
+    }
+
     public void setController(DungeonController controller) {
         this.controller = controller;
+    }
+
+    // after a player moves
+    public void updateMap() {
+        for (Entity entity : entities) {
+            if (entity instanceof Enemy) {
+                ((Enemy)entity).makeMove();
+            }
+        }
     }
 
     public int getWidth() {
