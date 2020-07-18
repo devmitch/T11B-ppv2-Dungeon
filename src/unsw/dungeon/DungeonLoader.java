@@ -23,6 +23,7 @@ public abstract class DungeonLoader {
     private JSONObject json;
 
     private TreasureGoalType treasureGoalType;
+    private EnemyGoalType enemyGoalType;
 
     public DungeonLoader(String filename) throws FileNotFoundException {
         json = new JSONObject(new JSONTokener(new FileReader("dungeons/" + filename)));
@@ -55,6 +56,7 @@ public abstract class DungeonLoader {
 
     public void createGoals() {
         this.treasureGoalType = new TreasureGoalType();
+        this.enemyGoalType = new EnemyGoalType();
     }
 
     public Goal parseGoals(JSONObject json) {
@@ -77,7 +79,7 @@ public abstract class DungeonLoader {
                 case "exit":
                     return new LeafGoal(treasureGoalType); // change to exitGoalType
                 case "enemies":
-                    return new LeafGoal(treasureGoalType); // change to enemiesGoalType
+                    return new LeafGoal(enemyGoalType);
                 case "boulders":
                     return new LeafGoal(treasureGoalType); // change to bouldersGoalType
                 default: // treasure
@@ -140,7 +142,7 @@ public abstract class DungeonLoader {
             entity = portal;
             break;
         case "enemy":
-            Enemy enemy = new Enemy(dungeon, x, y);
+            Enemy enemy = new Enemy(dungeon, x, y, enemyGoalType);
             onLoad(enemy);
             entity = enemy;
             break;
