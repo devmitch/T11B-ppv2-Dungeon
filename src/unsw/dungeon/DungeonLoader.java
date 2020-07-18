@@ -2,6 +2,8 @@ package unsw.dungeon;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -34,12 +36,25 @@ public abstract class DungeonLoader {
 
         Dungeon dungeon = new Dungeon(width, height);
 
+        // create 4 general goals and package into list
+        List<Goal> goals = createGoals();
+
+        // parse goals to create tree
+
         JSONArray jsonEntities = json.getJSONArray("entities");
 
         for (int i = 0; i < jsonEntities.length(); i++) {
+            // pass goal list in here
             loadEntity(dungeon, jsonEntities.getJSONObject(i));
         }
         return dungeon;
+    }
+
+    public ArrayList<Goal> createGoals() {
+        ArrayList<Goal> ret = new ArrayList<>();
+
+        ret.add(new TreasureGoal());
+        return ret;
     }
 
     private void loadEntity(Dungeon dungeon, JSONObject json) {
