@@ -102,6 +102,22 @@ public class Dungeon {
         return tiles[x][y].getEntities();
     }
 
+    /**
+     * Returns true if the entity e is on the same tile as entity target, false otherwise.
+     * 
+     * @param e
+     * @param target
+     * @return
+     */
+    public boolean areEntitiesOnSameTile(Entity e, Entity target) {
+        for (Entity entity : getEntitiesOnTile(e.getX(), e.getY())) {
+            if (target == entity) { //  we want the _exact_ same object. 
+                return true;
+            }
+        }
+        return false;
+    }
+
     public Entity requestEntity(Player requestor, Entity request) {
          if (requestor.getX() == request.getX() && requestor.getY() == request.getY()) {
              if (entities.contains(request)) {
