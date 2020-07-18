@@ -11,6 +11,7 @@ public class Exit extends Entity {
     @Override
     public void interactWith(Entity e, Direction d) {
         if (e instanceof Boulder) {
+            System.out.println("attempting to remove boulder");
             this.dungeon.removeEntity(e);
         }
     }

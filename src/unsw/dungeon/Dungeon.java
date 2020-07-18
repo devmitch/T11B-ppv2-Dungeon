@@ -104,6 +104,7 @@ public class Dungeon {
         this.player = player;
     }
 
+    // idk if this is needed or not lol
     public void newEntityImage(Entity entity) {
         if (controller != null) {
             controller.newEntity(entity);
@@ -115,7 +116,7 @@ public class Dungeon {
         entity.setX(x);
         entity.setY(y);
         addEntity(entity);
-        newEntityImage(entity);
+        //newEntityImage(entity);
     }
 
     // for an entity that already has an ImageView

@@ -32,6 +32,7 @@ public class Player extends Entity {
         movement.moveInDirection(d);
         dungeon.updateObservers();
         stepTaken();
+        //System.out.println(dungeon.getEntitiesOnTile(getX(), getY()));
     }
 
     @Override
@@ -120,7 +121,7 @@ public class Player extends Entity {
 
     private void pickupKey(Key key) {
         if (this.key != null) {
-            dungeon.dropEntity(key, getX(), getY());
+            dungeon.dropEntity(this.key, getX(), getY());
         }
         this.key = key;
     }

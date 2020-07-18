@@ -35,6 +35,9 @@ public class Movement {
      */
     private void move(int x, int y, Direction D) {
         this.entity.interactWithEntities(entity.getX() + x, entity.getY() + y, D);
+        if (!dungeon.getEntitiesOnTile(entity.getX(), entity.getY()).contains(this.entity)) {
+            return; //entity was deleted in interaction
+        }
         if (canMove(entity.getX() + x, entity.getY() + y))
             dungeon.moveEntity(entity, entity.getX() + x, entity.getY() + y);
         this.entity.updateState();
