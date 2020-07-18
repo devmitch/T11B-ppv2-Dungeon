@@ -6,6 +6,11 @@ public class Exit extends Entity {
         super(dungeon, x, y, false, true, false);
     }
     
-    
+    @Override
+    public void interactWith(Entity e, Direction d) {
+        if (e instanceof Boulder) {
+            this.dungeon.removeEntity(e);
+        }
+    }
 
 }
