@@ -71,6 +71,7 @@ public class Player extends Entity {
         List<Entity> entitiesOnPlayer = dungeon.getEntitiesOnTile(getX(), getY());
         for (Entity entity : entitiesOnPlayer) {
             if (entity.canPickup()) {
+                entity.updateState();
                 pickup(entity);
                 break;
             }
