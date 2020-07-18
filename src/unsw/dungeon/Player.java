@@ -63,9 +63,9 @@ public class Player extends Entity {
             swordSwung = sword.attemptSwing();
         }
         if (potion != null && potion.isInvincible()) {
-            dungeon.removeEntity(enemy);
+            enemy.die();
         } else if (swordSwung) {
-            dungeon.removeEntity(enemy);
+            enemy.die();
             System.out.print("Hits left: ");
             System.out.println(sword.getDurability());
             if (sword.getDurability() == 0) {
