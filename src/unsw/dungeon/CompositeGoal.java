@@ -1,10 +1,17 @@
 package unsw.dungeon;
 
 import java.util.List;
+import java.util.ArrayList;
 
 public class CompositeGoal implements Goal {
+
     private List<Goal> children;
     private boolean isConjunction;
+
+    public CompositeGoal(boolean isConjunction) {
+        this.children = new ArrayList<>();
+        this.isConjunction = isConjunction;
+    }
 
     @Override
     public boolean isSatisfied() {
@@ -16,4 +23,9 @@ public class CompositeGoal implements Goal {
         }
         return isConjunction ? conjunction : disjunction;
     }
+
+    public void addGoal(Goal goal) {
+        children.add(goal);
+    }
+
 }
