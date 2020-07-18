@@ -45,7 +45,13 @@ public class Enemy extends Entity {
     }
 
     public void makeMove() {
-        if (dungeon.getPlayer().isInvincible()) {
+        Tile[][] tiles = dungeon.getTiles();
+        Tile enemy = tiles[getX()][getY()];
+        Tile player = tiles[dungeon.getPlayer().getX()][dungeon.getPlayer().getY()];
+        if (distanceBetween(enemy, player) > 10) {
+            // player is too far away
+            return;
+        } else if (dungeon.getPlayer().isInvincible()) {
             //run the fuck away
             movement.moveInDirection(moveEuclidian(false));
         } else {
