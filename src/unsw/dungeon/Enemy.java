@@ -23,9 +23,9 @@ public class Enemy extends Entity {
 
     private void checkTile(Tile t, int x, int y, List<Tile> ret) {
         Tile[][] tiles = dungeon.getTiles();
-        Tile toAdd = tiles[t.getX()+x][t.getY() + y];
-        if (t.getX() + x >= 0 && t.getX() + x <= dungeon.getWidth()) {
-            if (t.getY() + y >= 0 && t.getY() + y <= dungeon.getHeight()) {
+        if (t.getX() + x >= 0 && t.getX() + x < dungeon.getWidth()) {
+            if (t.getY() + y >= 0 && t.getY() + y < dungeon.getHeight()) {
+                Tile toAdd = tiles[t.getX()+x][t.getY() + y];
                 if (!toAdd.hasObstructable() || toAdd.getEntities().contains(dungeon.getPlayer())) {
                     ret.add(toAdd);
                 }
@@ -70,7 +70,11 @@ public class Enemy extends Entity {
             }
         }
 
-        Tile curr = discovered[dungeon.getPlayer().getX()][dungeon.getPlayer().getY()];
+        if (discovered[dungeon.getPlayer().getX()][dungeon.getPlayer().getY()] == null) {
+            return; // if no path to player
+        }
+
+        Tile curr = tiles[dungeon.getPlayer().getX()][dungeon.getPlayer().getY()];
         Tile prev = curr;
         while (curr != root) {
             prev = curr;

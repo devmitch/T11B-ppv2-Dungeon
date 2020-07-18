@@ -29,6 +29,13 @@ public class Player extends Entity {
         dungeon.updateEnemies();
     }
 
+    @Override
+    public void interactWith(Entity e, Direction D) {
+        if (e instanceof Enemy) {
+            duel((Enemy)e);
+        }
+    }
+
     public void duel(Enemy enemy) {
         boolean swordSwung = false;
         Sword sword = null;
