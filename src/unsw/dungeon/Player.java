@@ -62,6 +62,10 @@ public class Player extends Entity {
         }
     }
 
+    public void moveToEntity(Entity e) {
+        movement.moveToEntity(e);
+    }
+
     @Override
     public void updateState() {
         List<Entity> entitiesOnPlayer = dungeon.getEntitiesOnTile(getX(), getY());

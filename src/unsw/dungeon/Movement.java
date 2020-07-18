@@ -63,4 +63,8 @@ public class Movement {
         }
     }
 
+    public void moveToEntity(Entity e) {
+        dungeon.moveEntity(entity, e.getX(), e.getY());
+    }
+
 }

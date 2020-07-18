@@ -91,7 +91,7 @@ public abstract class DungeonLoader {
             entity = floorSwitch;
             break;
         case "portal":
-            Portal portal = new Portal(dungeon, x, y);
+            Portal portal = new Portal(dungeon, x, y, json.getInt("id"));
             onLoad(portal);
             entity = portal;
             break;
