@@ -30,7 +30,7 @@ public class Player extends Entity {
 
     public void move(Direction d) {
         movement.moveInDirection(d);
-        dungeon.updateEnemies();
+        dungeon.updateObservers();
         stepTaken();
     }
 

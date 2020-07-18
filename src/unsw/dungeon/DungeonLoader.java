@@ -24,6 +24,8 @@ public abstract class DungeonLoader {
 
     private TreasureGoalType treasureGoalType;
     private EnemyGoalType enemyGoalType;
+    private ExitGoalType exitGoalType;
+    private SwitchGoalType switchGoalType;
 
     public DungeonLoader(String filename) throws FileNotFoundException {
         json = new JSONObject(new JSONTokener(new FileReader("dungeons/" + filename)));
@@ -57,6 +59,8 @@ public abstract class DungeonLoader {
     public void createGoals() {
         this.treasureGoalType = new TreasureGoalType();
         this.enemyGoalType = new EnemyGoalType();
+        this.exitGoalType = new ExitGoalType();
+        this.switchGoalType = new SwitchGoalType();
     }
 
     public Goal parseGoals(JSONObject json) {
@@ -77,12 +81,12 @@ public abstract class DungeonLoader {
         } else {
             switch (goalType) {
                 case "exit":
-                    return new LeafGoal(treasureGoalType); // change to exitGoalType
+                    return new LeafGoal(exitGoalType);
                 case "enemies":
                     return new LeafGoal(enemyGoalType);
                 case "boulders":
-                    return new LeafGoal(treasureGoalType); // change to bouldersGoalType
-                default: // treasure
+                    return new LeafGoal(switchGoalType);
+                default:
                     return new LeafGoal(treasureGoalType);
             }
         }
@@ -112,7 +116,7 @@ public abstract class DungeonLoader {
             entity = boulder;
             break;
         case "exit":
-            Exit exit = new Exit(dungeon, x, y);
+            Exit exit = new Exit(dungeon, x, y, exitGoalType);
             onLoad(exit);
             entity = exit;
             break;
@@ -132,7 +136,7 @@ public abstract class DungeonLoader {
             entity = door;
             break;
         case "switch":
-            FloorSwitch floorSwitch = new FloorSwitch(dungeon, x, y);
+            FloorSwitch floorSwitch = new FloorSwitch(dungeon, x, y, switchGoalType);
             onLoad(floorSwitch);
             entity = floorSwitch;
             break;
