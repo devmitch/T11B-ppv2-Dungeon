@@ -8,10 +8,13 @@ import java.util.ArrayList;
 public class Enemy extends Entity {
 
     private Movement movement;
+    private EnemyGoalType goal;
 
-    public Enemy(Dungeon dungeon, int x, int y) {
+    public Enemy(Dungeon dungeon, int x, int y, EnemyGoalType goal) {
         super(dungeon, x, y, true, true, false);
         this.movement = new Movement(dungeon, this);
+        this.goal = goal;
+        this.goal.incrementEnemiesNeeded();
     }
     
     @Override
@@ -19,8 +22,13 @@ public class Enemy extends Entity {
         if (e instanceof Player) {
             ((Player)e).duel(this);
         } else if (e instanceof Boulder) {
-            this.dungeon.removeEntity(this);
+            die();
         }
+    }
+
+    public void die() {
+        this.dungeon.removeEntity(this);
+        goal.incrementEnemiesKilled();
     }
 
     private void checkTile(Tile t, int x, int y, List<Tile> ret) {
