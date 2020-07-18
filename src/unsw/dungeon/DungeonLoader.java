@@ -34,30 +34,35 @@ public abstract class DungeonLoader {
         int width = json.getInt("width");
         int height = json.getInt("height");
 
-        Dungeon dungeon = new Dungeon(width, height);
-
         // create 4 general goals and package into list
-        List<Goal> goals = createGoals();
+        List<GoalType> goals = createGoals();
 
         // parse goals to create tree
+        Goal rootGoal = parseGoals(goals, json.getJSONObject("goal-condition"));
+
+        Dungeon dungeon = new Dungeon(width, height, rootGoal);   
 
         JSONArray jsonEntities = json.getJSONArray("entities");
 
         for (int i = 0; i < jsonEntities.length(); i++) {
             // pass goal list in here
-            loadEntity(dungeon, jsonEntities.getJSONObject(i));
+            loadEntity(dungeon, jsonEntities.getJSONObject(i), goals);
         }
         return dungeon;
     }
 
-    public ArrayList<Goal> createGoals() {
-        ArrayList<Goal> ret = new ArrayList<>();
+    public ArrayList<GoalType> createGoals() {
+        ArrayList<GoalType> ret = new ArrayList<>();
 
-        ret.add(new TreasureGoal());
+        ret.add(new TreasureGoalType());
         return ret;
     }
 
-    private void loadEntity(Dungeon dungeon, JSONObject json) {
+    public Goal parseGoals(List<GoalType> goals, JSONObject json) {
+        return null;
+    }
+
+    private void loadEntity(Dungeon dungeon, JSONObject json, List<GoalType> goalTypes) {
         String type = json.getString("type");
         int x = json.getInt("x");
         int y = json.getInt("y");

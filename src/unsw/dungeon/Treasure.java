@@ -2,9 +2,9 @@ package unsw.dungeon;
 
 public class Treasure extends Entity {
 
-    private TreasureGoal goal;
+    private TreasureGoalType goal;
 
-    public Treasure(Dungeon dungeon, int x, int y, TreasureGoal goal) {
+    public Treasure(Dungeon dungeon, int x, int y, TreasureGoalType goal) {
         super(dungeon, x, y, false, false, true);
         this.goal = goal;
         this.goal.incrementTreasureNeeded();

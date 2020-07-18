@@ -19,13 +19,16 @@ public class Dungeon {
 
     private DungeonController controller;
     private int width, height;
+    
     private List<Entity> entities;
     private Tile[][] tiles;
+
     private Player player;
-    private GoalTree goalTree;
+
+    private Goal rootGoal;
     private boolean isComplete;
 
-    public Dungeon(int width, int height, GoalTree goalTree) {
+    public Dungeon(int width, int height, Goal rootGoal) {
         this.width = width;
         this.height = height;
         this.entities = new ArrayList<>();
@@ -37,12 +40,12 @@ public class Dungeon {
         }
         this.player = null;
         this.controller = null;
-        this.goalTree = goalTree;
+        this.rootGoal = rootGoal;
         this.isComplete = false;
     }
 
     public void updateTree() {
-        if (this.goalTree.isComplete()) {
+        if (this.rootGoal.isSatisfied()) {
             this.isComplete = true;
             // game over
         }

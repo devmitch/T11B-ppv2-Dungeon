@@ -1,11 +1,11 @@
 package unsw.dungeon;
 
-public class TreasureGoal extends Goal {
+public class TreasureGoalType extends GoalType {
 
     private int currentTreasure;
     private int treasureNeeded;
 
-    public TreasureGoal() {
+    public TreasureGoalType() {
         this.treasureNeeded = 0;
         this.currentTreasure = 0;
     }

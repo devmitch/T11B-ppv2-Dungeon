@@ -2,15 +2,15 @@ package unsw.dungeon;
 
 import java.util.List;
 
-public class CompositeNode implements TreeComponent {
-    private List<TreeComponent> children;
+public class CompositeGoal implements Goal {
+    private List<Goal> children;
     private boolean isConjunction;
 
     @Override
     public boolean isSatisfied() {
         boolean conjunction = true;
         boolean disjunction = false;
-        for (TreeComponent child : this.children) {
+        for (Goal child : this.children) {
             conjunction = conjunction && child.isSatisfied();
             disjunction = disjunction || child.isSatisfied();
         }

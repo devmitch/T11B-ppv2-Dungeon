@@ -1,7 +1,7 @@
 package unsw.dungeon;
 
-public class LeafNode implements TreeComponent {
-    private Goal goal;
+public class LeafGoal implements Goal {
+    private GoalType goal;
 
     @Override
     public boolean isSatisfied() {
