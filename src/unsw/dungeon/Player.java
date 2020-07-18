@@ -28,13 +28,10 @@ public class Player extends Entity {
         this.potion = null;
     }
 
-    public boolean isInvincible() {
-        return false;
-    }
-
     public void move(Direction d) {
         movement.moveInDirection(d);
         dungeon.updateEnemies();
+        stepTaken();
     }
 
     @Override
@@ -44,12 +41,30 @@ public class Player extends Entity {
         }
     }
 
+    private void stepTaken() {
+        if (potion != null) {
+            if (!potion.isInvincible()) {
+                potion = null;
+            } else {
+                potion.decrementNumberOfSteps();
+            }
+        }
+    }
+
+    public boolean isInvincible() {
+        if (potion != null)
+            return potion.isInvincible();
+        return false;
+    }
+
     public void duel(Enemy enemy) {
         boolean swordSwung = false;
         if (this.sword != null) {
             swordSwung = sword.attemptSwing();
         }
-        if (swordSwung) {
+        if (potion != null && potion.isInvincible()) {
+            dungeon.removeEntity(enemy);
+        } else if (swordSwung) {
             dungeon.removeEntity(enemy);
             System.out.print("Hits left: ");
             System.out.println(sword.getDurability());
@@ -87,8 +102,15 @@ public class Player extends Entity {
             } else if (result instanceof Sword) {
                 Sword sword = (Sword) result;
                 pickupSword(sword);
+            } else if (result instanceof InvincibilityPotion) {
+                InvincibilityPotion potion = (InvincibilityPotion) result;
+                pickupPotion(potion);
             }
         }
+    }
+
+    private void pickupPotion(InvincibilityPotion potion) {
+        this.potion = potion;
     }
 
     private void pickupSword(Sword sword) {
