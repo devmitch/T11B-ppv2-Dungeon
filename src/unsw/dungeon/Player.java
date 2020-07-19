@@ -2,7 +2,6 @@ package unsw.dungeon;
 
 
 import java.util.List;
-import java.util.ArrayList;
 /**
  * The player entity
  * @author Robert Clifton-Everest
@@ -124,6 +123,19 @@ public class Player extends Entity {
             dungeon.dropEntity(this.key, getX(), getY());
         }
         this.key = key;
+    }
+
+    // for testing
+    public Key getKey() {
+        return this.key;
+    }
+
+    public Sword getSword() {
+        return this.sword;
+    }
+
+    public InvincibilityPotion getPotion() {
+        return this.potion;
     }
 
     public Key requestKey(int id) {

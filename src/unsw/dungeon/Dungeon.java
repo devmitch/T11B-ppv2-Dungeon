@@ -45,10 +45,15 @@ public class Dungeon {
     }
 
     private void updateTree() {
-        if (this.rootGoal.isSatisfied()) {
+        if (completedGoal()) {
             this.isComplete = true;
             System.out.println("Game over!");
         }
+    }
+
+    // this is mainly for tests
+    public boolean completedGoal() {
+        return this.rootGoal.isSatisfied();
     }
 
     // "obervers" are just specific entities
@@ -131,6 +136,9 @@ public class Dungeon {
         entities.remove(entity);
         tiles[entity.getX()][entity.getY()].removeEntityOnTile(entity);
         entity.disable(); //triggers the event handler in the view
+        if (entity instanceof Player) {
+            this.player = null;
+        }
     }
 
     public void moveEntity(Entity entity, int newX, int newY) {

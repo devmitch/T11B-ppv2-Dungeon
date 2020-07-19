@@ -1,7 +1,6 @@
 package unsw.dungeon;
 
 public class SwitchGoalType extends GoalType {
-    private boolean atExit;
 
     private int switchesActive;
     private int switchesNeeded;
