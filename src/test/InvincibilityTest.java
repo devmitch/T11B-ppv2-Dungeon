@@ -126,10 +126,15 @@ public class InvincibilityTest {
         controller.movePlayer(Direction.RIGHT);
         // check that player has potion
         assertTrue(dungeon.getPlayer().getPotion() != null);
+        // check that potion ticks left are 15
+        assertEquals(dungeon.getPlayer().getPotion().getStepsLeft(), 15);
+        // check that enemy has moved
         assertEquals(enemy.getX(), 8);
 
         // move towards enemy and kill them with potion
         controller.movePlayer(Direction.RIGHT);
+        // check that steps left with potion decrements
+        assertEquals(dungeon.getPlayer().getPotion().getStepsLeft(), 14);
         controller.movePlayer(Direction.RIGHT);
         controller.movePlayer(Direction.RIGHT);
         controller.movePlayer(Direction.RIGHT);
@@ -140,6 +145,8 @@ public class InvincibilityTest {
         for (Entity entity : dungeon.getEntitiesOnTile(8, 0)) {
             assertTrue(entity instanceof Player);
         }
+        // check that potion still has steps left
+        assertTrue(dungeon.getPlayer().getPotion().getStepsLeft() > 0);
     }
 
     // Tests that enemy stops running when out of range

@@ -18,4 +18,8 @@ public class InvincibilityPotion extends Entity {
         return numberOfStepsLeft > 0;
     }
 
+    public int getStepsLeft() {
+        return this.numberOfStepsLeft;
+    }
+
 }
