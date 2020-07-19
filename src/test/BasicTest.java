@@ -36,6 +36,8 @@ public class BasicTest {
             switch1.put("x", 3);
             switch1.put("y", 3);
             switch1.put("type", "switch");
+            entities.put(switch1);
+
             json.put("entities", entities);
 
             JSONObject goal = new JSONObject();
