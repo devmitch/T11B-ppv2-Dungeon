@@ -7,6 +7,7 @@ public class FloorSwitch extends Entity {
     public FloorSwitch(Dungeon dungeon, int x, int y, SwitchGoalType goal) {
         super(dungeon, x, y, false, true, false);
         this.goal = goal;
+        this.goal.incrementSwitchesNeeded();
     }
     
     @Override
