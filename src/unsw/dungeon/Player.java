@@ -126,6 +126,11 @@ public class Player extends Entity {
         this.key = key;
     }
 
+    // for testing
+    public Key getKey() {
+        return this.key;
+    }
+
     public Key requestKey(int id) {
         if (this.key != null && this.key.getId() == id) {
             Key ret = this.key;
