@@ -8,7 +8,9 @@ import java.io.FileReader;
 import java.io.FileNotFoundException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -45,25 +47,25 @@ public class SwordDuelTest {
             entities.put(enemy1);
 
             JSONObject enemy2 = new JSONObject();
-            enemy2.put("x", 3);
+            enemy2.put("x", 6);
             enemy2.put("y", 0);
             enemy2.put("type", "enemy");
             entities.put(enemy2);
 
             JSONObject enemy3 = new JSONObject();
-            enemy3.put("x", 4);
+            enemy3.put("x", 7);
             enemy3.put("y", 0);
             enemy3.put("type", "enemy");
             entities.put(enemy3);
 
             JSONObject enemy4 = new JSONObject();
-            enemy4.put("x", 5);
+            enemy4.put("x", 8);
             enemy4.put("y", 0);
             enemy4.put("type", "enemy");
             entities.put(enemy4);
 
             JSONObject enemy5 = new JSONObject();
-            enemy5.put("x", 6);
+            enemy5.put("x", 9);
             enemy5.put("y", 0);
             enemy5.put("type", "enemy");
             entities.put(enemy5);
@@ -91,10 +93,21 @@ public class SwordDuelTest {
     }
 
     @Test
-    public void test1() {
+    public void SwordDuelTest1() {
         DungeonMockController controller = setup();
         assertNotEquals(controller, null);
         Dungeon dungeon = controller.dungeon;
 
+        // check all the entities were spawned in correctly
+        assertTrue(dungeon.getEntitiesOnTile(0, 0).get(0) instanceof Sword);
+        assertTrue(dungeon.getEntitiesOnTile(1, 0).get(0) instanceof Player);
+        assertTrue(dungeon.getEntitiesOnTile(2, 0).get(0) instanceof Enemy);
+        assertTrue(dungeon.getEntitiesOnTile(6, 0).get(0) instanceof Enemy);
+        assertTrue(dungeon.getEntitiesOnTile(7, 0).get(0) instanceof Enemy);
+        assertTrue(dungeon.getEntitiesOnTile(8, 0).get(0) instanceof Enemy);
+        assertTrue(dungeon.getEntitiesOnTile(9, 0).get(0) instanceof Enemy);
+
+        // check player doesn't have sword
+        assertTrue(dungeon.getPlayer().getSword() == null);
     }
 }
