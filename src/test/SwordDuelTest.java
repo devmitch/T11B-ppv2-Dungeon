@@ -22,19 +22,55 @@ public class SwordDuelTest {
     public DungeonMockController setup() {
         try {
             JSONObject json = new JSONObject();
-            json.put("width", 5);
-            json.put("height", 5);
+            json.put("width", 10);
+            json.put("height", 1);
             JSONArray entities = new JSONArray();
 
             JSONObject player = new JSONObject();
-            player.put("x", 0);
+            player.put("x", 1);
             player.put("y", 0);
             player.put("type", "player");
             entities.put(player);
 
+            JSONObject sword = new JSONObject();
+            sword.put("x", 0);
+            sword.put("y", 0);
+            sword.put("type", "sword");
+            entities.put(sword);
+
+            JSONObject enemy1 = new JSONObject();
+            enemy1.put("x", 2);
+            enemy1.put("y", 0);
+            enemy1.put("type", "enemy");
+            entities.put(enemy1);
+
+            JSONObject enemy2 = new JSONObject();
+            enemy2.put("x", 3);
+            enemy2.put("y", 0);
+            enemy2.put("type", "enemy");
+            entities.put(enemy2);
+
+            JSONObject enemy3 = new JSONObject();
+            enemy3.put("x", 4);
+            enemy3.put("y", 0);
+            enemy3.put("type", "enemy");
+            entities.put(enemy3);
+
+            JSONObject enemy4 = new JSONObject();
+            enemy4.put("x", 5);
+            enemy4.put("y", 0);
+            enemy4.put("type", "enemy");
+            entities.put(enemy4);
+
+            JSONObject enemy5 = new JSONObject();
+            enemy5.put("x", 6);
+            enemy5.put("y", 0);
+            enemy5.put("type", "enemy");
+            entities.put(enemy5);
+
             JSONObject switch1 = new JSONObject();
-            switch1.put("x", 3);
-            switch1.put("y", 3);
+            switch1.put("x", 9);
+            switch1.put("y", 0);
             switch1.put("type", "switch");
             entities.put(switch1);
 
