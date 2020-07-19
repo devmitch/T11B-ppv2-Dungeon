@@ -137,4 +137,62 @@ public class InvincibilityTest {
         }
     }
 
+    // Tests that enemy stops running when out of range
+    // Tests that enemy can once again kill player when inv ticks run out
+    @Test
+    public void InvincibilityTest2() {
+        DungeonMockController controller = setup();
+        assertNotEquals(controller, null);
+        Dungeon dungeon = controller.dungeon;
+
+        // Get enemy object
+        Entity e = dungeon.getEntitiesOnTile(7, 0).get(0);
+        assert (e instanceof Enemy);
+        Enemy enemy = (Enemy) e;
+
+        // grab potion
+        controller.movePlayer(Direction.RIGHT);
+        // go through portal and unlock door, then come back
+        controller.movePlayer(Direction.LEFT);
+        controller.movePlayer(Direction.DOWN);
+        controller.movePlayer(Direction.DOWN);
+        controller.movePlayer(Direction.UP);
+        controller.movePlayer(Direction.DOWN);
+        controller.movePlayer(Direction.UP);
+        controller.movePlayer(Direction.UP);
+
+        // keep moving (to same spot) to get enemy to move further away
+        controller.movePlayer(Direction.UP);
+        controller.movePlayer(Direction.UP);
+        int enemyX = enemy.getX();
+        int enemyY = enemy.getY();
+        // on this move, the enemy should be out of range and will not change position
+        controller.movePlayer(Direction.UP);
+        assertEquals(enemy.getX(), enemyX);
+        assertEquals(enemy.getY(), enemyY);
+
+        // waste last 5 moves with invincibility potion
+        controller.movePlayer(Direction.UP);
+        controller.movePlayer(Direction.UP);
+        controller.movePlayer(Direction.UP);
+        controller.movePlayer(Direction.UP);
+        controller.movePlayer(Direction.UP); // 15th move
+
+        // move right and check that enemy now walks to player
+        controller.movePlayer(Direction.RIGHT);
+        assertEquals(enemy.getX(), 10);
+
+        // move (to same spot) to get enemy to come kill player
+        controller.movePlayer(Direction.UP);
+        controller.movePlayer(Direction.UP);
+        controller.movePlayer(Direction.UP);
+        controller.movePlayer(Direction.UP);
+        controller.movePlayer(Direction.UP);
+        controller.movePlayer(Direction.UP);
+        controller.movePlayer(Direction.UP);
+        controller.movePlayer(Direction.UP);
+        controller.movePlayer(Direction.UP);
+        // check that player is dead
+        assertTrue(dungeon.getPlayer() == null);
+    }
 }
