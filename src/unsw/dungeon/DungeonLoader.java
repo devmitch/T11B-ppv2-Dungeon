@@ -2,6 +2,8 @@ package unsw.dungeon;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -20,6 +22,11 @@ public abstract class DungeonLoader {
 
     private JSONObject json;
 
+    private TreasureGoalType treasureGoalType;
+    private EnemyGoalType enemyGoalType;
+    private ExitGoalType exitGoalType;
+    private SwitchGoalType switchGoalType;
+
     public DungeonLoader(String filename) throws FileNotFoundException {
         json = new JSONObject(new JSONTokener(new FileReader("dungeons/" + filename)));
     }
@@ -32,14 +39,57 @@ public abstract class DungeonLoader {
         int width = json.getInt("width");
         int height = json.getInt("height");
 
-        Dungeon dungeon = new Dungeon(width, height);
+        // create 4 general goals and package into list
+        createGoals();
+
+        // parse goals to create tree
+        Goal rootGoal = parseGoals(json.getJSONObject("goal-condition"));
+
+        Dungeon dungeon = new Dungeon(width, height, rootGoal);   
 
         JSONArray jsonEntities = json.getJSONArray("entities");
 
         for (int i = 0; i < jsonEntities.length(); i++) {
+            // pass goal list in here
             loadEntity(dungeon, jsonEntities.getJSONObject(i));
         }
         return dungeon;
+    }
+
+    public void createGoals() {
+        this.treasureGoalType = new TreasureGoalType();
+        this.enemyGoalType = new EnemyGoalType();
+        this.exitGoalType = new ExitGoalType();
+        this.switchGoalType = new SwitchGoalType();
+    }
+
+    public Goal parseGoals(JSONObject json) {
+        
+        String goalType = json.getString("goal");
+        // composite case
+        if (goalType.equals("AND") || goalType.equals("OR")) {
+
+            boolean isConjunction = goalType.equals("AND") ? true : false;
+            CompositeGoal goal = new CompositeGoal(isConjunction);
+
+            JSONArray subGoals = json.getJSONArray("subgoals");
+            for (int i = 0; i < subGoals.length(); i++) {
+                goal.addGoal(parseGoals(subGoals.getJSONObject(i)));
+            }
+
+            return goal;
+        } else {
+            switch (goalType) {
+                case "exit":
+                    return new LeafGoal(exitGoalType);
+                case "enemies":
+                    return new LeafGoal(enemyGoalType);
+                case "boulders":
+                    return new LeafGoal(switchGoalType);
+                default:
+                    return new LeafGoal(treasureGoalType);
+            }
+        }
     }
 
     private void loadEntity(Dungeon dungeon, JSONObject json) {
@@ -66,12 +116,12 @@ public abstract class DungeonLoader {
             entity = boulder;
             break;
         case "exit":
-            Exit exit = new Exit(dungeon, x, y);
+            Exit exit = new Exit(dungeon, x, y, exitGoalType);
             onLoad(exit);
             entity = exit;
             break;
         case "treasure":
-            Treasure treasure = new Treasure(dungeon, x, y);
+            Treasure treasure = new Treasure(dungeon, x, y, treasureGoalType);
             onLoad(treasure);
             entity = treasure;
             break;
@@ -86,7 +136,7 @@ public abstract class DungeonLoader {
             entity = door;
             break;
         case "switch":
-            FloorSwitch floorSwitch = new FloorSwitch(dungeon, x, y);
+            FloorSwitch floorSwitch = new FloorSwitch(dungeon, x, y, switchGoalType);
             onLoad(floorSwitch);
             entity = floorSwitch;
             break;
@@ -96,7 +146,7 @@ public abstract class DungeonLoader {
             entity = portal;
             break;
         case "enemy":
-            Enemy enemy = new Enemy(dungeon, x, y);
+            Enemy enemy = new Enemy(dungeon, x, y, enemyGoalType);
             onLoad(enemy);
             entity = enemy;
             break;

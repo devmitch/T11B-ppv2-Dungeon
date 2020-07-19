@@ -30,8 +30,9 @@ public class Player extends Entity {
 
     public void move(Direction d) {
         movement.moveInDirection(d);
-        dungeon.updateEnemies();
+        dungeon.updateObservers();
         stepTaken();
+        //System.out.println(dungeon.getEntitiesOnTile(getX(), getY()));
     }
 
     @Override
@@ -63,9 +64,9 @@ public class Player extends Entity {
             swordSwung = sword.attemptSwing();
         }
         if (potion != null && potion.isInvincible()) {
-            dungeon.removeEntity(enemy);
+            enemy.die();
         } else if (swordSwung) {
-            dungeon.removeEntity(enemy);
+            enemy.die();
             System.out.print("Hits left: ");
             System.out.println(sword.getDurability());
             if (sword.getDurability() == 0) {
@@ -74,6 +75,7 @@ public class Player extends Entity {
             System.out.println("You won!");
         } else {
             System.out.println("You lost!");
+            this.dungeon.removeEntity(this);
         }
     }
 
@@ -119,7 +121,7 @@ public class Player extends Entity {
 
     private void pickupKey(Key key) {
         if (this.key != null) {
-            dungeon.dropEntity(key, getX(), getY());
+            dungeon.dropEntity(this.key, getX(), getY());
         }
         this.key = key;
     }

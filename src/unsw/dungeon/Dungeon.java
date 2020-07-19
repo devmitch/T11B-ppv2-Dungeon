@@ -19,11 +19,16 @@ public class Dungeon {
 
     private DungeonController controller;
     private int width, height;
+    
     private List<Entity> entities;
     private Tile[][] tiles;
+
     private Player player;
 
-    public Dungeon(int width, int height) {
+    private Goal rootGoal;
+    private boolean isComplete;
+
+    public Dungeon(int width, int height, Goal rootGoal) {
         this.width = width;
         this.height = height;
         this.entities = new ArrayList<>();
@@ -35,20 +40,35 @@ public class Dungeon {
         }
         this.player = null;
         this.controller = null;
+        this.rootGoal = rootGoal;
+        this.isComplete = false;
     }
 
-    public void updateEnemies() {
+    private void updateTree() {
+        if (this.rootGoal.isSatisfied()) {
+            this.isComplete = true;
+            System.out.println("Game over!");
+        }
+    }
+
+    // "obervers" are just specific entities
+    public void updateObservers() {
         for (Entity e : this.entities) {
             if (e instanceof Enemy) {
                 ((Enemy)e).makeMove();
                 // if enemy is deleted from entities list, recurse
                 // stops concurrent modification to list error
-                if (!this.entities.contains(e)) {
-                    updateEnemies();
+                if (!this.entities.contains(player)) {
+                    break;
+                } else if (!this.entities.contains(e)) {
+                    updateObservers();
                     break;
                 }
+            } else if (e instanceof Exit) {
+                ((Exit)e).updateAtExitState();
             }
         }
+        updateTree();
     }
 
     public Tile[][] getTiles() {
@@ -84,6 +104,7 @@ public class Dungeon {
         this.player = player;
     }
 
+    // idk if this is needed or not lol
     public void newEntityImage(Entity entity) {
         if (controller != null) {
             controller.newEntity(entity);
@@ -95,7 +116,7 @@ public class Dungeon {
         entity.setX(x);
         entity.setY(y);
         addEntity(entity);
-        newEntityImage(entity);
+        //newEntityImage(entity);
     }
 
     // for an entity that already has an ImageView

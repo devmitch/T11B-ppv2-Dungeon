@@ -2,11 +2,11 @@ package unsw.dungeon;
 
 public class FloorSwitch extends Entity {
 
-    // think of this as a primitive floor switch goal count.
-    private static int activeCount = 0;
+    private SwitchGoalType goal;
 
-    public FloorSwitch(Dungeon dungeon, int x, int y) {
+    public FloorSwitch(Dungeon dungeon, int x, int y, SwitchGoalType goal) {
         super(dungeon, x, y, false, true, false);
+        this.goal = goal;
     }
     
     @Override
@@ -18,13 +18,11 @@ public class FloorSwitch extends Entity {
     }
 
     public void activateSwitch() {
-        FloorSwitch.activeCount += 1;
-        System.out.println("Activated switch. " + FloorSwitch.activeCount);
+        goal.incrementActiveSwitches();
     }
 
     public void deactivateSwitch() {
-        FloorSwitch.activeCount -= 1;
-        System.out.println("Deactivated switch. " + FloorSwitch.activeCount);
+        goal.decrementActiveSwitches();
     }
 
 }

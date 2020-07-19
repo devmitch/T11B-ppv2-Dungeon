@@ -38,6 +38,10 @@ public class Entity {
         this.dungeon = dungeon;
     }
 
+    public boolean getStatus() {
+        return status.get();
+    }
+
     public void updateState() {
         
     }
