@@ -2,6 +2,7 @@ package test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -87,6 +88,9 @@ public class TreasureTest {
 
         // check treasure exists on tile
         assertEquals(1, dungeon.getEntitiesOnTile(2, 1).size());
+
+        // check its actually a treasure
+        assertTrue(dungeon.getEntitiesOnTile(2, 1).get(0) instanceof Treasure);
 
         dungeon.getPlayer().move(Direction.RIGHT);
         dungeon.getPlayer().move(Direction.LEFT);
