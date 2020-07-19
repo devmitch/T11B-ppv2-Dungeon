@@ -1,7 +1,7 @@
 package unsw.dungeon;
 
-public abstract class GoalType {
+public interface GoalType {
 
-    public abstract boolean isSatisfied();
+    public boolean isSatisfied();
     
 }

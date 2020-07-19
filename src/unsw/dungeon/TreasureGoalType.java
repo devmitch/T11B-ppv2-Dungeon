@@ -1,6 +1,6 @@
 package unsw.dungeon;
 
-public class TreasureGoalType extends GoalType {
+public class TreasureGoalType implements GoalType {
 
     private int currentTreasure;
     private int treasureNeeded;
