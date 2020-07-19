@@ -136,6 +136,9 @@ public class Dungeon {
         entities.remove(entity);
         tiles[entity.getX()][entity.getY()].removeEntityOnTile(entity);
         entity.disable(); //triggers the event handler in the view
+        if (entity instanceof Player) {
+            this.player = null;
+        }
     }
 
     public void moveEntity(Entity entity, int newX, int newY) {
