@@ -116,11 +116,16 @@ public class InvincibilityTest {
         assertNotEquals(controller, null);
         Dungeon dungeon = controller.dungeon;
 
+        // check that player doesn't have potion
+        assertTrue(dungeon.getPlayer().getPotion() == null);
+
         // test the enemy moves away when player picks up invisibility potion
         Entity e = dungeon.getEntitiesOnTile(7, 0).get(0);
         assert (e instanceof Enemy);
         Enemy enemy = (Enemy) e;
         controller.movePlayer(Direction.RIGHT);
+        // check that player has potion
+        assertTrue(dungeon.getPlayer().getPotion() != null);
         assertEquals(enemy.getX(), 8);
 
         // move towards enemy and kill them with potion
@@ -181,6 +186,8 @@ public class InvincibilityTest {
         // move right and check that enemy now walks to player
         controller.movePlayer(Direction.RIGHT);
         assertEquals(enemy.getX(), 10);
+        // check that player doesn't have potion anymore
+        assertTrue(dungeon.getPlayer().getPotion() == null);
 
         // move (to same spot) to get enemy to come kill player
         controller.movePlayer(Direction.UP);

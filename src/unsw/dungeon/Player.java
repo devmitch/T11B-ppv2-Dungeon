@@ -135,6 +135,10 @@ public class Player extends Entity {
         return this.sword;
     }
 
+    public InvincibilityPotion getPotion() {
+        return this.potion;
+    }
+
     public Key requestKey(int id) {
         if (this.key != null && this.key.getId() == id) {
             Key ret = this.key;
