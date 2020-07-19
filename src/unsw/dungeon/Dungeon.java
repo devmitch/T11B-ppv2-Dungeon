@@ -45,10 +45,15 @@ public class Dungeon {
     }
 
     private void updateTree() {
-        if (this.rootGoal.isSatisfied()) {
+        if (completedGoal()) {
             this.isComplete = true;
             System.out.println("Game over!");
         }
+    }
+
+    // this is mainly for tests
+    public boolean completedGoal() {
+        return this.rootGoal.isSatisfied();
     }
 
     // "obervers" are just specific entities

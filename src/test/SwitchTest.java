@@ -85,6 +85,7 @@ public class SwitchTest {
         assertEquals(2, dungeon.getEntitiesOnTile(1, 0).size());
         assertTrue(dungeon.getEntitiesOnTile(1, 0).get(0) instanceof FloorSwitch);
         assertTrue(dungeon.getEntitiesOnTile(1, 0).get(1) instanceof Boulder);
+        assertTrue(dungeon.completedGoal()); // basic switch goal test
 
         // move player onto switch
         dungeon.getPlayer().move(Direction.LEFT);
@@ -92,6 +93,12 @@ public class SwitchTest {
         assertEquals(2, dungeon.getEntitiesOnTile(1, 0).size());
         assertTrue(dungeon.getEntitiesOnTile(1, 0).get(0) instanceof FloorSwitch);
         assertTrue(dungeon.getEntitiesOnTile(1, 0).get(1) instanceof Player);
+
+        // move player off of switch
+        dungeon.getPlayer().move(Direction.RIGHT);
+
+        assertEquals(1, dungeon.getEntitiesOnTile(1, 0).size());
+        assertTrue(dungeon.getEntitiesOnTile(1, 0).get(0) instanceof FloorSwitch);
     }
     
 }
