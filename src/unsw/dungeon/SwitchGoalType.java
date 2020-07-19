@@ -1,6 +1,6 @@
 package unsw.dungeon;
 
-public class SwitchGoalType extends GoalType {
+public class SwitchGoalType implements GoalType {
 
     private int switchesActive;
     private int switchesNeeded;
