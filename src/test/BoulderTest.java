@@ -335,6 +335,12 @@ public class BoulderTest {
 
         assertEquals(1, dungeon.getEntitiesOnTile(0, 0).size());
         assertTrue(dungeon.getEntitiesOnTile(0, 0).get(0) instanceof Boulder);
+
+        // check that the boulder cannot move out of the map
+        dungeon.getPlayer().move(Direction.LEFT);
+
+        assertEquals(1, dungeon.getEntitiesOnTile(0, 0).size());
+        assertTrue(dungeon.getEntitiesOnTile(0, 0).get(0) instanceof Boulder);
     }
 
     @Test
