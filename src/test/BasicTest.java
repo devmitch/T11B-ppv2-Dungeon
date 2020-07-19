@@ -21,9 +21,27 @@ public class BasicTest {
 
     public DungeonMockController setup() {
         try {
-            System.out.println("starting try...");
-            JSONObject json = new JSONObject(new JSONTokener(new FileReader("dungeons/itemtest.json")));
-            System.out.println("passed loading json");
+            JSONObject json = new JSONObject();
+            json.put("width", 5);
+            json.put("height", 5);
+            JSONArray entities = new JSONArray();
+
+            JSONObject player = new JSONObject();
+            player.put("x", 0);
+            player.put("y", 0);
+            player.put("type", "player");
+            entities.put(player);
+
+            JSONObject switch1 = new JSONObject();
+            switch1.put("x", 3);
+            switch1.put("y", 3);
+            switch1.put("type", "switch");
+            json.put("entities", entities);
+
+            JSONObject goal = new JSONObject();
+            goal.put("goal", "boulders");
+            json.put("goal-condition", goal);
+
             DungeonMockControllerLoader dungeonLoader = new DungeonMockControllerLoader(json);
 
             DungeonMockController controller = dungeonLoader.loadController();
@@ -38,9 +56,6 @@ public class BasicTest {
     public void test1() {
         System.out.println("starting test1");
         DungeonMockController controller = setup();
-        if (controller == null) {
-            System.out.println("bro its null");
-        }
         assertNotEquals(controller, null);
         Dungeon dungeon = controller.dungeon;
         System.out.println(dungeon.getPlayer().getY());
