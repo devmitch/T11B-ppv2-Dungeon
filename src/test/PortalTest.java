@@ -133,8 +133,8 @@ public class PortalTest {
         assertTrue(dungeon.getEntitiesOnTile(0, 0).get(0) instanceof Portal);
 
         // check that second portal is loaded
-        assertEquals(1, dungeon.getEntitiesOnTile(3, 0).size());
-        assertTrue(dungeon.getEntitiesOnTile(3, 0).get(0) instanceof Portal);
+        assertEquals(1, dungeon.getEntitiesOnTile(4, 0).size());
+        assertTrue(dungeon.getEntitiesOnTile(4, 0).get(0) instanceof Portal);
     }
 
     @Test
