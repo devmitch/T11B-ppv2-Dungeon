@@ -230,6 +230,49 @@ public class BoulderTest {
         }
     }
 
+    public DungeonMockController setup5() {
+        try {
+            JSONObject json = new JSONObject();
+            json.put("height", 1);
+            json.put("width", 4);
+
+            JSONArray entities = new JSONArray();
+
+            JSONObject player = new JSONObject();
+            player.put("x", 2);
+            player.put("y", 0);
+            player.put("type", "player");
+
+            JSONObject boulder1 = new JSONObject();
+            boulder1.put("type", "boulder");
+            boulder1.put("x", 1);
+            boulder1.put("y", 0);
+
+            JSONObject exit = new JSONObject();
+            exit.put("type", "exit");
+            exit.put("x", 0);
+            exit.put("y", 0);
+
+            entities.put(player);
+            entities.put(boulder1);
+            entities.put(exit);
+
+            json.put("entities", entities);
+
+            JSONObject goal = new JSONObject();
+            goal.put("goal", "boulders");
+            
+            json.put("goal-condition", goal);
+
+            DungeonMockControllerLoader dungeonLoader = new DungeonMockControllerLoader(json);
+    
+            DungeonMockController controller = dungeonLoader.loadController();
+            return controller;
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
     @Test
     public void bouldersAreLoaded() {
         DungeonMockController controller = setup1();
@@ -360,6 +403,32 @@ public class BoulderTest {
         assertTrue(dungeon.getEntitiesOnTile(0, 0).get(0) instanceof Boulder);
         assertEquals(1, dungeon.getEntitiesOnTile(1, 0).size());
         assertTrue(dungeon.getEntitiesOnTile(1, 0).get(0) instanceof Player);
+    }
+
+    @Test
+    public void pushingABoulderOntoAnExitRemovesIt() {
+        DungeonMockController controller = setup5();
+
+        Dungeon dungeon = controller.dungeon;
+
+        assertEquals(1, dungeon.getEntitiesOnTile(0, 0).size());
+        assertTrue(dungeon.getEntitiesOnTile(0, 0).get(0) instanceof Exit);
+
+        dungeon.getPlayer().move(Direction.LEFT);
+
+        // check the exit is still on that tile and the boulder is gone
+        assertEquals(1, dungeon.getEntitiesOnTile(0, 0).size());
+        assertTrue(dungeon.getEntitiesOnTile(0, 0).get(0) instanceof Exit);
+        assertEquals(1, dungeon.getEntitiesOnTile(1, 0).size());
+        assertTrue(dungeon.getEntitiesOnTile(1, 0).get(0) instanceof Player);
+
+        // move the player onto the exit
+        // NOTE: This is related to the functionality of exit.
+        dungeon.getPlayer().move(Direction.LEFT);
+
+        assertEquals(2, dungeon.getEntitiesOnTile(0, 0).size());
+        assertTrue(dungeon.getEntitiesOnTile(0, 0).get(0) instanceof Exit);
+        assertTrue(dungeon.getEntitiesOnTile(0, 0).get(1) instanceof Player);
     }
 
 }
