@@ -8,7 +8,7 @@ public class Door extends Entity {
     public Door(Dungeon dungeon, int x, int y, int id) {
         super(dungeon, x, y, true, true, false);
         this.id = id;
-        this.currentState = new OpenDoorState();
+        this.currentState = new ClosedDoorState();
     }
 
     @Override
@@ -17,8 +17,7 @@ public class Door extends Entity {
             Player p = (Player) e;
             Key key = p.requestKey(this.id);
             if (key != null) {
-                this.isObstruction = false;
-                this.interactable = false;
+                this.currentState = new OpenDoorState();
             }
         }
     }
