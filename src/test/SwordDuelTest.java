@@ -129,5 +129,29 @@ public class SwordDuelTest {
         }
         // check the sword durability is now 4
         assertEquals(dungeon.getPlayer().getSword().getDurability(), 4);
+
+        // mow down the 4 remaining enemies by moving to x=9
+        // enemies might not move uniformly if they get blocked, depends which ones 
+        // are updated first, so we go to x=9 to guarantee fights with all of them
+        controller.movePlayer(Direction.RIGHT);
+        controller.movePlayer(Direction.RIGHT);
+        controller.movePlayer(Direction.RIGHT);
+        controller.movePlayer(Direction.RIGHT);
+        controller.movePlayer(Direction.RIGHT);
+        controller.movePlayer(Direction.RIGHT);
+        controller.movePlayer(Direction.RIGHT);
+        controller.movePlayer(Direction.RIGHT);
+        // check the player is still alive
+        for (Entity e : dungeon.getEntitiesOnTile(9, 0)) {
+            assertTrue(e instanceof Player || e instanceof FloorSwitch);
+        }
+        // check all the enemies are deleted from dungeon
+        for (int i = 0; i < 10; i++) {
+            for (Entity e : dungeon.getEntitiesOnTile(i, 0)) {
+                assertFalse(e instanceof Enemy);
+            }
+        }
+        // check the sword was deleted from the player (durability went to 0)
+        assertTrue(dungeon.getPlayer().getSword() == null);
     }
 }
