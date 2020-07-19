@@ -2,17 +2,11 @@ package test;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.json.JSONTokener;
-
-import java.io.FileReader;
-import java.io.FileNotFoundException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ValueSource;
 
 import unsw.dungeon.*;
 
