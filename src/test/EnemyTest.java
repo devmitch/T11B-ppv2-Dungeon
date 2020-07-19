@@ -4,7 +4,6 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -148,7 +147,17 @@ public class EnemyTest {
         assertEquals(enemy.getX(), 2);
         assertEquals(enemy.getY(), 1);
 
-        // move player into portal and check enemy takes short path
+        // move player into portal far from enemy and
+        // check enemy doesn't path towards player (too far away)
+        controller.movePlayer(Direction.DOWN);
+        controller.movePlayer(Direction.LEFT);
+        controller.movePlayer(Direction.RIGHT);
+        assertEquals(enemy.getX(), 2);
+        assertEquals(enemy.getY(), 1);
+        // move back through portal
+        controller.movePlayer(Direction.UP);
+
+        // move player into portal close to enemy and check enemy takes short path
         controller.movePlayer(Direction.UP);
         assertEquals(enemy.getX(), 2);
         assertEquals(enemy.getY(), 2);
