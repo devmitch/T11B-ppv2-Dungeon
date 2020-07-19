@@ -56,12 +56,16 @@ public class BasicTest {
 
     @Test
     public void test1() {
-        System.out.println("starting test1");
         DungeonMockController controller = setup();
+
         assertNotEquals(controller, null);
+
         Dungeon dungeon = controller.dungeon;
-        System.out.println(dungeon.getPlayer().getY());
+
+        assertEquals(0, dungeon.getPlayer().getY());
+
         controller.movePlayer(Direction.DOWN);
-        System.out.println(dungeon.getPlayer().getY());
+        
+        assertEquals(1, dungeon.getPlayer().getY());
     }
 }
