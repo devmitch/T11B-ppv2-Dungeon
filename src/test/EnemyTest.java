@@ -96,8 +96,6 @@ public class EnemyTest {
             goal.put("goal", "boulders");
             json.put("goal-condition", goal);
 
-            System.out.println(json);
-
             DungeonMockControllerLoader dungeonLoader = new DungeonMockControllerLoader(json);
 
             DungeonMockController controller = dungeonLoader.loadController();
@@ -116,5 +114,33 @@ public class EnemyTest {
         DungeonMockController controller = setup();
         assertNotEquals(controller, null);
         Dungeon dungeon = controller.dungeon;
+
+        // check that the enemy paths towards the player even if not reachable
+        Entity e = dungeon.getEntitiesOnTile(3, 0).get(0);
+        assertTrue(e instanceof Enemy);
+        Enemy enemy = (Enemy) e;
+        // cant move left, so these do nothing but allow enemy to move
+        controller.movePlayer(Direction.LEFT);
+        controller.movePlayer(Direction.LEFT);
+        assertEquals(enemy.getX(), 2);
+        assertEquals(enemy.getY(), 1);
+
+        // move player into portal and check enemy takes short path
+        controller.movePlayer(Direction.UP);
+        assertEquals(enemy.getX(), 2);
+        assertEquals(enemy.getY(), 2);
+        controller.movePlayer(Direction.RIGHT);
+        assertEquals(enemy.getX(), 2);
+        assertEquals(enemy.getY(), 3);
+        controller.movePlayer(Direction.RIGHT);
+        assertEquals(enemy.getX(), 3);
+        assertEquals(enemy.getY(), 3);
+
+        // check that player is killed by enemy, and enemy is still alive
+        controller.movePlayer(Direction.RIGHT);
+        for (Entity entity : dungeon.getEntitiesOnTile(4, 3)) {
+            assertTrue(entity instanceof Enemy);
+        }
+        assertTrue(dungeon.getPlayer() == null);
     }
 }
