@@ -242,13 +242,6 @@ public class SwitchGoalTest {
         }
     }
 
-    // cases
-    // no switches (but there are boulders)
-    // pushing a boulder onto a switch and then off it
-    // pushing a boulder off a switch onto another switch (when there are only 2 switches)
-    // a boulder spawning on top of a switch
-    // boulders isn't a goal
-
     @Test
     public void noSwitches() {
         DungeonMockController controller = setup1();
