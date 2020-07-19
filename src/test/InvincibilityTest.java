@@ -51,7 +51,7 @@ public class InvincibilityTest {
             }
 
             JSONObject enemy = new JSONObject();
-            enemy.put("x", 8);
+            enemy.put("x", 7);
             enemy.put("y", 0);
             enemy.put("type", "enemy");
             entities.put(enemy);
@@ -109,12 +109,32 @@ public class InvincibilityTest {
     }
 
     // Tests that enemy runs away from player when invincible
-    // Tests that enemy stops running when out of range
-    // Tests 
+    // Tests that invincible player kills enemy when they collide
     @Test
     public void InvincibilityTest1() {
         DungeonMockController controller = setup();
         assertNotEquals(controller, null);
         Dungeon dungeon = controller.dungeon;
+
+        // test the enemy moves away when player picks up invisibility potion
+        Entity e = dungeon.getEntitiesOnTile(7, 0).get(0);
+        assert (e instanceof Enemy);
+        Enemy enemy = (Enemy) e;
+        controller.movePlayer(Direction.RIGHT);
+        assertEquals(enemy.getX(), 8);
+
+        // move towards enemy and kill them with potion
+        controller.movePlayer(Direction.RIGHT);
+        controller.movePlayer(Direction.RIGHT);
+        controller.movePlayer(Direction.RIGHT);
+        controller.movePlayer(Direction.RIGHT);
+        controller.movePlayer(Direction.RIGHT);
+        controller.movePlayer(Direction.RIGHT);
+        controller.movePlayer(Direction.RIGHT);
+        // check enemy is dead
+        for (Entity entity : dungeon.getEntitiesOnTile(8, 0)) {
+            assertTrue(entity instanceof Player);
+        }
     }
+
 }
