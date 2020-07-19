@@ -18,7 +18,7 @@ public class EnemyTest {
     public DungeonMockController setup() {
         try {
             JSONObject json = new JSONObject();
-            json.put("width", 5);
+            json.put("width", 25);
             json.put("height", 5);
             JSONArray entities = new JSONArray();
 
@@ -70,6 +70,12 @@ public class EnemyTest {
             wall6.put("type", "wall");
             entities.put(wall6);
 
+            JSONObject wall7 = new JSONObject();
+            wall7.put("x", 5);
+            wall7.put("y", 3);
+            wall7.put("type", "wall");
+            entities.put(wall7); 
+
             JSONObject enemy = new JSONObject();
             enemy.put("x", 3);
             enemy.put("y", 0);
@@ -90,11 +96,28 @@ public class EnemyTest {
             portal2.put("id", 0);
             entities.put(portal2);
 
+            JSONObject portal3 = new JSONObject();
+            portal3.put("x", 0);
+            portal3.put("y", 2);
+            portal3.put("type", "portal");
+            portal3.put("id", 1);
+            entities.put(portal3);
+
+            JSONObject portal4 = new JSONObject();
+            portal4.put("x", 20);
+            portal4.put("y", 0);
+            portal4.put("type", "portal");
+            portal4.put("id", 1);
+            entities.put(portal4);
+
+
             json.put("entities", entities);
 
             JSONObject goal = new JSONObject();
             goal.put("goal", "boulders");
             json.put("goal-condition", goal);
+
+            System.out.println(json);
 
             DungeonMockControllerLoader dungeonLoader = new DungeonMockControllerLoader(json);
 

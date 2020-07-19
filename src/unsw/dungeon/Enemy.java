@@ -55,6 +55,10 @@ public class Enemy extends Entity {
     public void makeMove() {
         Tile[][] tiles = dungeon.getTiles();
         Tile enemy = tiles[getX()][getY()];
+        if (dungeon.getPlayer() == null) {
+            //player is dead, do nothing
+            return;
+        }
         Tile player = tiles[dungeon.getPlayer().getX()][dungeon.getPlayer().getY()];
         if (distanceBetween(enemy, player) > 10) {
             // player is too far away
