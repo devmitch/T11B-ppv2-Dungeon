@@ -2,7 +2,6 @@ package unsw.dungeon;
 
 
 import java.util.List;
-import java.util.ArrayList;
 /**
  * The player entity
  * @author Robert Clifton-Everest

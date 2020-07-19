@@ -149,10 +149,6 @@ public class EnemyGoalTest {
         assertNotEquals(null, controller);
         Dungeon dungeon = controller.dungeon;
 
-        Entity e = dungeon.getEntitiesOnTile(2, 0).get(0);
-        assertTrue(e instanceof Enemy);
-        Enemy enemy = (Enemy) e;
-
         // check dungeon isn't completed
         assertFalse(dungeon.completedGoal());
         // move right, pick up sword, and kill enemy
