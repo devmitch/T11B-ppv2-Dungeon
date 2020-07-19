@@ -109,5 +109,25 @@ public class SwordDuelTest {
 
         // check player doesn't have sword
         assertTrue(dungeon.getPlayer().getSword() == null);
+
+        // pick up sword
+        controller.movePlayer(Direction.LEFT);
+        // check sword entity is not on ground
+        for (Entity e : dungeon.getEntitiesOnTile(0, 0)) {
+            assertFalse(e instanceof Sword);
+        }
+        // check player has sword
+        assertTrue(dungeon.getPlayer().getSword() != null);
+        // check sword durability is 5
+        assertEquals(dungeon.getPlayer().getSword().getDurability(), 5);
+
+        // move right to duel enemy
+        controller.movePlayer(Direction.RIGHT);
+        // check the enemy dies and the player is alive
+        for (Entity e : dungeon.getEntitiesOnTile(1, 0)) {
+            assertTrue(e instanceof Player);
+        }
+        // check the sword durability is now 4
+        assertEquals(dungeon.getPlayer().getSword().getDurability(), 4);
     }
 }
