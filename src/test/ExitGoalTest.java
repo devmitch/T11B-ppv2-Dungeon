@@ -3,6 +3,7 @@ package test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -57,7 +58,14 @@ public class ExitGoalTest {
         DungeonMockController controller = setup();
         assertNotEquals(null, controller);
         Dungeon dungeon = controller.dungeon;
+        // check goal isnt complete
         assertFalse(dungeon.completedGoal());
+
+        // move player onto exit
+        controller.movePlayer(Direction.RIGHT);
+
+        // check goal is now complete
+        assertTrue(dungeon.completedGoal());
     }
 
 }
