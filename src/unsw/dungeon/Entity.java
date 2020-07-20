@@ -38,6 +38,7 @@ public class Entity {
         this.dungeon = dungeon;
     }
 
+    // used for UI/Controller to check if entity/player is deleted
     public boolean getStatus() {
         return status.get();
     }
@@ -86,6 +87,7 @@ public class Entity {
         return isObstruction;
     }
 
+    // again used for UI to hook in and listen for deleted
     public BooleanProperty status() {
         return status;
     }
@@ -114,35 +116,4 @@ public class Entity {
         this.x.set(x);
     }
 
-    /**
-     * 
-     * @param D
-     * @return
-     */
-    public int getAdjacentX(Direction D) {
-        switch(D) {
-            case LEFT:
-                return getX() - 1;
-            case RIGHT:
-                return getX() + 1;
-            default:
-                return getX();
-        }
-    }
-
-    /**
-     * 
-     * @param D
-     * @return
-     */
-    public int getAdjacentY(Direction D) {
-        switch(D) {
-            case UP:
-                return getY() - 1;
-            case DOWN:
-                return getY() + 1;
-            default:
-                return getY();
-        }
-    }
 }

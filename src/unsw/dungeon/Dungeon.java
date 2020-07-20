@@ -80,19 +80,6 @@ public class Dungeon {
         return this.tiles;
     }
 
-    public void setController(DungeonController controller) {
-        this.controller = controller;
-    }
-
-    // after a player moves
-    public void updateMap() {
-        for (Entity entity : entities) {
-            if (entity instanceof Enemy) {
-                ((Enemy)entity).makeMove();
-            }
-        }
-    }
-
     public int getWidth() {
         return width;
     }
@@ -109,12 +96,19 @@ public class Dungeon {
         this.player = player;
     }
 
-    // idk if this is needed or not lol
+    
+    /* Might need for iteration 3
     public void newEntityImage(Entity entity) {
         if (controller != null) {
             controller.newEntity(entity);
         }
     }
+    
+    public void setController(DungeonController controller) {
+        this.controller = controller;
+    }
+
+    */
 
     public void dropEntity(Entity entity, int x, int y) {
         entity.enable();

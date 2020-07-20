@@ -44,14 +44,6 @@ public class Boulder extends Entity {
         
     }
 
-    /**
-     * 
-     * @param D
-     */
-    public void moveInDirection(Direction D) {
-        movement.moveInDirection(D);
-    }
-
     public void setFloorSwitch(FloorSwitch fs) {
         if (this.fs != null) {
             this.fs.deactivateSwitch();
