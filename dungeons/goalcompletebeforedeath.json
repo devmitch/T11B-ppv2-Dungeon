@@ -1,0 +1,32 @@
+{
+    "entities": [
+        {
+            "x": 0,
+            "y": 0,
+            "type": "player"
+        },
+        {
+            "x": 2,
+            "y": 0,
+            "type": "treasure"
+        },
+        {
+            "x": 6,
+            "y": 0,
+            "type": "enemy"
+        },
+        {
+            "x": 7,
+            "y": 0,
+            "type": "enemy"
+        },
+        {
+            "x": 9,
+            "y": 0,
+            "type": "switch"
+        }
+    ],
+    "width": 11,
+    "goal-condition": {"goal": "treasure"},
+    "height": 1
+}

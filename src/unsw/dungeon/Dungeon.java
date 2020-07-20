@@ -47,7 +47,7 @@ public class Dungeon {
      */
     private void notifyIfDungeonCompleted() {
         if (completedGoal()) {
-            System.out.println("Game over!");
+            System.out.println("Dungeon Completed!");
         }
     }
 
@@ -64,6 +64,7 @@ public class Dungeon {
      * all game state updates are done after a player moves (Observer Pattern)
      */
     public void updateObservers() {
+        if (completedGoal()) return;
         List<Entity> entityList = new ArrayList<>(this.entities);
         for (Entity e : entityList) {
             if (e instanceof Enemy) {
