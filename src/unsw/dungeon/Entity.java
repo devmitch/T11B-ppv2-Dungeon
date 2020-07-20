@@ -52,18 +52,23 @@ public class Entity {
 
     }
 
-    // this entity interacting with the entities on some tile
-    // problem: is it ok for an entity to interact with any tile on the map?
+    /**
+     * This entity interacting with the entities on some tile
+     * @param x x-coordinate of tile
+     * @param y y-coordinate of tile
+     * @param D Direction the entity is interacting with the tile from
+     */
     protected void interactWithEntities(int x, int y, Direction D) {
-        try {
-            List<Entity> entities = dungeon.getEntitiesOnTile(x, y);
+        List<Entity> entities = dungeon.getEntitiesOnTile(x, y);
+        if (entities != null) {
             for (Entity entity : entities) {
                 if (entity.isInteractable()) {
                     entity.interactWith(this, D);
                 }
             }
-        } catch (Exception e) {
-            // maybe coordinates are out of bounds?
+        } else {
+            // coordinates are out of range
+            return;
         }
     }
 

@@ -31,7 +31,6 @@ public class Movement {
     /**
      * Attempts to move the entity in the given direction, updates the entities that are triggered
      * by any movement. 
-     * 
      * @param x the x offset.
      * @param y the y offset.
      */
