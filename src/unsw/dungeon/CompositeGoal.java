@@ -5,11 +5,15 @@ import java.util.ArrayList;
 
 public class CompositeGoal implements Goal {
 
-    private List<Goal> children;
+    private List<Goal> subGoals;
     private boolean isConjunction;
 
+    public CompositeGoal(String isConjunctionString) {
+        this(isConjunctionString.equals("AND") ? true : false);
+    }
+
     public CompositeGoal(boolean isConjunction) {
-        this.children = new ArrayList<>();
+        this.subGoals = new ArrayList<>();
         this.isConjunction = isConjunction;
     }
 
@@ -17,15 +21,20 @@ public class CompositeGoal implements Goal {
     public boolean isSatisfied() {
         boolean conjunction = true;
         boolean disjunction = false;
-        for (Goal child : this.children) {
+        for (Goal child : this.subGoals) {
             conjunction = conjunction && child.isSatisfied();
             disjunction = disjunction || child.isSatisfied();
         }
         return isConjunction ? conjunction : disjunction;
     }
 
+    /**
+     * Adds the given goal to the list of goals.
+     * 
+     * @param goal the new sub goal.
+     */
     public void addGoal(Goal goal) {
-        children.add(goal);
+        subGoals.add(goal);
     }
 
 }

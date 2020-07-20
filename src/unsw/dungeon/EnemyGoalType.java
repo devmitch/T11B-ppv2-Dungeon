@@ -14,10 +14,16 @@ public class EnemyGoalType implements GoalType {
         return enemiesKilled >= enemiesNeeded;
     }
 
+    /**
+     * Increments the count of how many enemies have been killed.
+     */
     public void incrementEnemiesKilled() {
         enemiesKilled++;
     }
 
+    /**
+     * Increments the count of how many enemies need to be killed.
+     */
     public void incrementEnemiesNeeded() {
         enemiesNeeded++;
     }

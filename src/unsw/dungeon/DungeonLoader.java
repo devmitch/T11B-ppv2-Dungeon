@@ -66,21 +66,20 @@ public abstract class DungeonLoader {
         return dungeon;
     }
 
-    public void createGoals() {
+    private void createGoals() {
         this.treasureGoalType = new TreasureGoalType();
         this.enemyGoalType = new EnemyGoalType();
         this.exitGoalType = new ExitGoalType();
         this.switchGoalType = new SwitchGoalType();
     }
 
-    public Goal parseGoals(JSONObject json) {
+    private Goal parseGoals(JSONObject json) {
         
         String goalType = json.getString("goal");
         // composite case
         if (goalType.equals("AND") || goalType.equals("OR")) {
 
-            boolean isConjunction = goalType.equals("AND") ? true : false;
-            CompositeGoal goal = new CompositeGoal(isConjunction);
+            CompositeGoal goal = new CompositeGoal(goalType);
 
             JSONArray subGoals = json.getJSONArray("subgoals");
             for (int i = 0; i < subGoals.length(); i++) {
