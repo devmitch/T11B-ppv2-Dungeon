@@ -156,6 +156,11 @@ public class SwitchGoalTest {
             player.put("y", 0);
             player.put("type", "player");
 
+            JSONObject treasure = new JSONObject();
+            treasure.put("type", "treasure");
+            treasure.put("x", 2);
+            treasure.put("y", 0);
+
             JSONObject floorSwitch1 = new JSONObject();
             floorSwitch1.put("type", "switch");
             floorSwitch1.put("x", 2);
@@ -167,6 +172,7 @@ public class SwitchGoalTest {
             boulder.put("y", 0);
 
             entities.put(player);
+            entities.put(treasure);
             entities.put(floorSwitch1);
             entities.put(boulder);
             
