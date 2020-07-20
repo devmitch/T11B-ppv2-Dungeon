@@ -148,4 +148,21 @@ public class SwordDuelTest {
         // check the sword urability went to 0
         assertTrue(dungeon.getPlayer().getSword().getDurability() == 0);
     }
+
+    @Test
+    public void SwordDuelTest2() {
+        // Test for a player dying with multiple enemies around
+        DungeonMockController controller = setup();
+        assertNotEquals(controller, null);
+        Dungeon dungeon = controller.dungeon;
+        // move player up so it dies
+        controller.movePlayer(Direction.UP);
+        // check player dies successfully
+        for (int i = 0; i < 10; i++) {
+            for (Entity e : dungeon.getEntitiesOnTile(i, 0)) {
+                assertFalse(e instanceof Player);
+            }
+        }
+        assertTrue(dungeon.getPlayer() == null);
+    }
 }
