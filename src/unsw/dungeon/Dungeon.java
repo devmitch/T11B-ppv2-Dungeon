@@ -60,7 +60,8 @@ public class Dungeon {
     }
 
     /**
-     * Notifies the entities that are observing the player of its movement. 
+     * Notifies the entities that are observing the player of its movement
+     * all game state updates are done after a player moves (Observer Pattern)
      */
     public void updateObservers() {
         for (Entity e : this.entities) {
@@ -112,7 +113,6 @@ public class Dungeon {
     public void setController(DungeonController controller) {
         this.controller = controller;
     }
-
     */
 
     /**
@@ -127,7 +127,6 @@ public class Dungeon {
         entity.setX(x);
         entity.setY(y);
         addEntity(entity);
-        //newEntityImage(entity);
     }
 
     /**
@@ -188,6 +187,9 @@ public class Dungeon {
      * @return a list of entities.
      */
     public List<Entity> getEntitiesOnTile(int x, int y) {
+        if (x < 0 || x >= this.getWidth() || y < 0 || y >= this.getHeight()) {
+            return null; // coordinates out of range
+        }
         return tiles[x][y].getEntities();
     }
 
@@ -201,6 +203,13 @@ public class Dungeon {
      */
     public boolean isTileObstructed(int x, int y) {
         return tiles[x][y].isObstructed();
+    }
+
+    /**
+     * Checks whether the dungeon has this entity or not
+     */
+    public boolean hasEntity(Entity entity) {
+        return this.entities.contains(entity);
     }
 
     /**

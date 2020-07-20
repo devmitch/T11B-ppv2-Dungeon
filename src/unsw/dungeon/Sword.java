@@ -17,7 +17,7 @@ public class Sword extends Entity {
      * @return true if the sword is broken, false otherwise.
      */
     public boolean isBroken() {
-        return this.durability > 0 ? false : true;
+        return this.durability <= 0;
     }
 
     /**
