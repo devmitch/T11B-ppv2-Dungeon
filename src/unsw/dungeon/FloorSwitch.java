@@ -18,10 +18,16 @@ public class FloorSwitch extends Entity {
         }
     }
 
+    /**
+     * Activates the switch.
+     */
     public void activateSwitch() {
         goal.incrementActiveSwitches();
     }
 
+    /**
+     * Deactivates the switch.
+     */
     public void deactivateSwitch() {
         goal.decrementActiveSwitches();
     }
