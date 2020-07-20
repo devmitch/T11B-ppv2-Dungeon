@@ -32,7 +32,7 @@ public class DungeonController {
 
     public DungeonController(Dungeon dungeon, List<ImageView> initialEntities) {
         this.dungeon = dungeon;
-        dungeon.setController(this);
+        //dungeon.setController(this); for iteration 3
         this.player = dungeon.getPlayer();
         this.initialEntities = new ArrayList<>(initialEntities);
     }
