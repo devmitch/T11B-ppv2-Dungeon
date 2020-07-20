@@ -28,12 +28,12 @@ public class Player extends Entity {
     }
 
     public void move(Direction d) {
-        movement.moveInDirection(d);
-        dungeon.updateObservers();
-        stepTaken();
-        //System.out.println(dungeon.getEntitiesOnTile(getX(), getY()));
+        movement.moveInDirection(d); // moves player
+        dungeon.updateObservers(); // updates enemies
+        stepTaken(); // updates potion steps left
     }
 
+    // Duel enemies if the enemy interacts with the player
     @Override
     public void interactWith(Entity e, Direction D) {
         if (e instanceof Enemy) {
@@ -41,6 +41,7 @@ public class Player extends Entity {
         }
     }
 
+    // Decrement potion ticker if movement was attempted
     private void stepTaken() {
         if (potion != null && potion.isActive()) {
             potion.decrementNumberOfSteps();
@@ -53,6 +54,10 @@ public class Player extends Entity {
         return false;
     }
 
+    /**
+     * Duel an enemy and decide the player's fate depending on their items
+     * @param enemy
+     */
     public void duel(Enemy enemy) {
         if (this.potion != null && this.potion.isActive()) {
             // win by potion
@@ -71,6 +76,7 @@ public class Player extends Entity {
         movement.moveToEntity(e);
     }
 
+    // Check if we can pick up items
     @Override
     public void updateState() {
         List<Entity> entitiesOnPlayer = dungeon.getEntitiesOnTile(getX(), getY());
@@ -83,6 +89,10 @@ public class Player extends Entity {
         }
     }
 
+    /**
+     * Pick up certain entities depending on their type
+     * @param entity
+     */
     private void pickup(Entity entity) {
         Entity result = dungeon.requestEntity(this, entity); //this deletes the entity from the dungeon entity list
         if (result != null) {
@@ -109,6 +119,7 @@ public class Player extends Entity {
 
     private void pickupKey(Key key) {
         if (this.key != null) {
+            // swap keys
             dungeon.dropEntity(this.key, getX(), getY());
         }
         this.key = key;
@@ -127,7 +138,12 @@ public class Player extends Entity {
         return this.potion;
     }
 
-    public Key requestKey(int id) {
+    /**
+     * Other entity (specifically door) requesting a key from the player
+     * @param id Key id
+     * @return
+     */
+    public Key useKey(int id) {
         if (this.key != null && this.key.getId() == id) {
             Key ret = this.key;
             this.key = null;

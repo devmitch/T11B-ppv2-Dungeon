@@ -14,7 +14,7 @@ public class Sword extends Entity {
     }
 
     public boolean isBroken() {
-        return this.durability > 0 ? false : true;
+        return this.durability > 0;
     }
 
     public void swing() {

@@ -15,7 +15,7 @@ public class Door extends Entity {
     public void interactWith(Entity e, Direction D) {
         if (e instanceof Player) {
             Player p = (Player) e;
-            Key key = p.requestKey(this.id);
+            Key key = p.useKey(this.id);
             if (key != null) {
                 this.currentState = new OpenDoorState();
             }
