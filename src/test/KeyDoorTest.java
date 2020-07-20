@@ -82,7 +82,6 @@ public class KeyDoorTest {
     // Two keys, two doors
     @Test
     public void KeyDoorTest1() {
-        System.out.println("starting KeyDoorTest1");
         DungeonMockController controller = setup();
         assertNotEquals(controller, null);
         Dungeon dungeon = controller.dungeon;

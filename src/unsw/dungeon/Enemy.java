@@ -17,15 +17,21 @@ public class Enemy extends Entity {
         this.goal.incrementEnemiesNeeded();
     }
     
+    /**
+     * Other entities interacting with this enemy
+     */
     @Override
     public void interactWith(Entity e, Direction D) {
         if (e instanceof Player) {
+            // Player wants to duel this enemy
             ((Player)e).duel(this);
         } else if (e instanceof Boulder) {
+            // Boulder squashes enemy
             die();
         }
     }
 
+    
     public void die() {
         this.dungeon.removeEntity(this);
         goal.incrementEnemiesKilled();
@@ -78,7 +84,7 @@ public class Enemy extends Entity {
         }
     }
 
-    // either move to a tile that is closer (euclidian distance) or further
+    // either move to a tile that is closer (euclidean distance) or further
     private Direction moveEuclidian(boolean closer) {
         Tile[][] tiles = dungeon.getTiles();
         Tile enemy = tiles[getX()][getY()];

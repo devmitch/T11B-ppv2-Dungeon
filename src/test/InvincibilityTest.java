@@ -96,8 +96,6 @@ public class InvincibilityTest {
             goal.put("goal", "boulders");
             json.put("goal-condition", goal);
 
-            System.out.println(json);
-
             DungeonMockControllerLoader dungeonLoader = new DungeonMockControllerLoader(json);
 
             DungeonMockController controller = dungeonLoader.loadController();

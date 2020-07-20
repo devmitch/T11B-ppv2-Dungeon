@@ -15,7 +15,7 @@ import unsw.dungeon.*;
 
 public class SwordDuelTest {
 
-    public DungeonMockController setup() {
+    public DungeonMockController setup1() {
         try {
             JSONObject json = new JSONObject();
             json.put("width", 10);
@@ -86,9 +86,62 @@ public class SwordDuelTest {
         return null;
     }
 
+    public DungeonMockController setup2() {
+        try {
+            JSONObject json = new JSONObject();
+            json.put("width", 4);
+            json.put("height", 1);
+            JSONArray entities = new JSONArray();
+
+            JSONObject player = new JSONObject();
+            player.put("x", 2);
+            player.put("y", 0);
+            player.put("type", "player");
+            entities.put(player);
+
+            JSONObject sword = new JSONObject();
+            sword.put("x", 0);
+            sword.put("y", 0);
+            sword.put("type", "sword");
+            entities.put(sword);
+
+            JSONObject potion = new JSONObject();
+            potion.put("x", 1);
+            potion.put("y", 0);
+            potion.put("type", "invincibility");
+            entities.put(potion);
+
+            JSONObject enemy1 = new JSONObject();
+            enemy1.put("x", 3);
+            enemy1.put("y", 0);
+            enemy1.put("type", "enemy");
+            entities.put(enemy1);
+
+            JSONObject switch1 = new JSONObject();
+            switch1.put("x", 3);
+            switch1.put("y", 0);
+            switch1.put("type", "switch");
+            entities.put(switch1);
+
+            json.put("entities", entities);
+
+            JSONObject goal = new JSONObject();
+            goal.put("goal", "boulders");
+            json.put("goal-condition", goal);
+
+            DungeonMockControllerLoader dungeonLoader = new DungeonMockControllerLoader(json);
+
+            DungeonMockController controller = dungeonLoader.loadController();
+            return controller;
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return null;
+    }
+
     @Test
     public void SwordDuelTest1() {
-        DungeonMockController controller = setup();
+        DungeonMockController controller = setup1();
         assertNotEquals(controller, null);
         Dungeon dungeon = controller.dungeon;
 
@@ -140,7 +193,7 @@ public class SwordDuelTest {
             assertTrue(e instanceof Player || e instanceof FloorSwitch);
         }
         // check all the enemies are deleted from dungeon
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < dungeon.getWidth(); i++) {
             for (Entity e : dungeon.getEntitiesOnTile(i, 0)) {
                 assertFalse(e instanceof Enemy);
             }
@@ -149,20 +202,50 @@ public class SwordDuelTest {
         assertTrue(dungeon.getPlayer().getSword().getDurability() == 0);
     }
 
+    // Test for a player dying with multiple enemies around
     @Test
     public void SwordDuelTest2() {
-        // Test for a player dying with multiple enemies around
-        DungeonMockController controller = setup();
+        DungeonMockController controller = setup1();
         assertNotEquals(controller, null);
         Dungeon dungeon = controller.dungeon;
         // move player up so it dies
         controller.movePlayer(Direction.UP);
         // check player dies successfully
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < dungeon.getWidth(); i++) {
             for (Entity e : dungeon.getEntitiesOnTile(i, 0)) {
                 assertFalse(e instanceof Player);
             }
         }
         assertTrue(dungeon.getPlayer() == null);
+    }
+
+    // Checks that a player doesn't use their sword if they have invisibility potion
+    @Test
+    public void SwordDuelTest3() {
+        DungeonMockController controller = setup2();
+        assertNotEquals(controller, null);
+        Dungeon dungeon = controller.dungeon;
+
+        // move left twice to pick up sword and potion
+        controller.movePlayer(Direction.LEFT);
+        controller.movePlayer(Direction.LEFT);
+
+        // move right to end to kill enemy
+        controller.movePlayer(Direction.RIGHT);
+        controller.movePlayer(Direction.RIGHT);
+        controller.movePlayer(Direction.RIGHT);
+        controller.movePlayer(Direction.RIGHT);
+        // check enemy is dead
+        for (int i = 0; i < dungeon.getWidth(); i++) {
+            for (Entity e : dungeon.getEntitiesOnTile(i, 0)) {
+                if (e instanceof Enemy) {
+                    System.out.println("x coord of enemy is " + e.getX());
+                }
+                assertFalse(e instanceof Enemy);
+            }
+        }
+        
+        // check sword still has 5 durability
+        assertEquals(dungeon.getPlayer().getSword().getDurability(), 5);
     }
 }
