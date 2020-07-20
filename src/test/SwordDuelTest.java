@@ -145,7 +145,7 @@ public class SwordDuelTest {
                 assertFalse(e instanceof Enemy);
             }
         }
-        // check the sword was deleted from the player (durability went to 0)
-        assertTrue(dungeon.getPlayer().getSword() == null);
+        // check the sword urability went to 0
+        assertTrue(dungeon.getPlayer().getSword().getDurability() == 0);
     }
 }

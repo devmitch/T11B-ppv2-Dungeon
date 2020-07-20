@@ -13,13 +13,12 @@ public class Sword extends Entity {
         return this.durability;
     }
 
-    public boolean attemptSwing() {
-        if (this.durability > 0) {
-            this.durability--;
-            return true;
-        } else {
-            return false;
-        }
+    public boolean isBroken() {
+        return this.durability > 0 ? false : true;
+    }
+
+    public void swing() {
+        this.durability--;
     }
     
 }

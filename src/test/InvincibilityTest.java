@@ -194,7 +194,7 @@ public class InvincibilityTest {
         controller.movePlayer(Direction.RIGHT);
         assertEquals(enemy.getX(), 10);
         // check that player doesn't have potion anymore
-        assertTrue(dungeon.getPlayer().getPotion() == null);
+        assertTrue(dungeon.getPlayer().getPotion().getStepsLeft() == 0);
 
         // move (to same spot) to get enemy to come kill player
         controller.movePlayer(Direction.UP);

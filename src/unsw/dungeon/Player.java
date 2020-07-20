@@ -42,38 +42,27 @@ public class Player extends Entity {
     }
 
     private void stepTaken() {
-        if (potion != null) {
-            if (!potion.isInvincible()) {
-                potion = null;
-            } else {
-                potion.decrementNumberOfSteps();
-            }
+        if (potion != null && potion.isActive()) {
+            potion.decrementNumberOfSteps();
         }
     }
 
     public boolean isInvincible() {
         if (potion != null)
-            return potion.isInvincible();
+            return potion.isActive();
         return false;
     }
 
     public void duel(Enemy enemy) {
-        boolean swordSwung = false;
-        if (this.sword != null) {
-            swordSwung = sword.attemptSwing();
-        }
-        if (potion != null && potion.isInvincible()) {
+        if (this.potion != null && this.potion.isActive()) {
+            // win by potion
             enemy.die();
-        } else if (swordSwung) {
+        } else if (this.sword != null && !this.sword.isBroken()) {
+            // win by sword - decrement hits
+            this.sword.swing();
             enemy.die();
-            System.out.print("Hits left: ");
-            System.out.println(sword.getDurability());
-            if (sword.getDurability() == 0) {
-                this.sword = null;
-            }
-            System.out.println("You won!");
         } else {
-            System.out.println("You lost!");
+            // loss
             this.dungeon.removeEntity(this);
         }
     }

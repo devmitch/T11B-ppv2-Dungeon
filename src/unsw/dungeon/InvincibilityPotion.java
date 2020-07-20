@@ -14,7 +14,7 @@ public class InvincibilityPotion extends Entity {
         System.out.println(numberOfStepsLeft + " steps left with invincibility.");
     }
 
-    public boolean isInvincible() {
+    public boolean isActive() {
         return numberOfStepsLeft > 0;
     }
 
