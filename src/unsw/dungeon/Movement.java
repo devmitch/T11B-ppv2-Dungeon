@@ -13,6 +13,11 @@ public class Movement {
         this.entity = entity;
     }
 
+    /**
+     * @param x the x coordinate.
+     * @param y the y coordinate.
+     * @return true if the entity can move to the tile at (x, y), false otherwise.
+     */
     private boolean canMove(int x, int y) {
         if (x < 0 || dungeon.getWidth() - 1 < x) {
             return false;
@@ -24,9 +29,11 @@ public class Movement {
     }
 
     /**
+     * Attempts to move the entity in the given direction, updates the entities that are triggered
+     * by any movement. 
      * 
-     * @param x
-     * @param y
+     * @param x the x offset.
+     * @param y the y offset.
      */
     private void move(int x, int y, Direction D) {
         this.entity.interactWithEntities(entity.getX() + x, entity.getY() + y, D);
@@ -39,8 +46,9 @@ public class Movement {
     }
 
     /**
+     * Attempts to move the entity in the given direction.
      * 
-     * @param D
+     * @param D the direction of movement.
      */
     public void moveInDirection(Direction D) {
         switch(D) {
@@ -61,6 +69,11 @@ public class Movement {
         }
     }
 
+    /**
+     * Moves the entity to the given entity e.
+     * 
+     * @param e the entity to move to.
+     */
     public void moveToEntity(Entity e) {
         dungeon.moveEntity(entity, e.getX(), e.getY());
     }

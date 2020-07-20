@@ -17,7 +17,7 @@ import java.util.List;
  */
 public class Dungeon {
 
-    private DungeonController controller;
+    private DungeonController controller; // for milestone 3
     private int width, height;
     
     private List<Entity> entities;
@@ -26,7 +26,6 @@ public class Dungeon {
     private Player player;
 
     private Goal rootGoal;
-    private boolean isComplete;
 
     public Dungeon(int width, int height, Goal rootGoal) {
         this.width = width;
@@ -41,22 +40,28 @@ public class Dungeon {
         this.player = null;
         this.controller = null;
         this.rootGoal = rootGoal;
-        this.isComplete = false;
     }
 
-    private void updateTree() {
+    /**
+     * Notifies the dungeon if it is completed. (To be used in milestone 3). 
+     */
+    private void notifyIfDungeonCompleted() {
         if (completedGoal()) {
-            this.isComplete = true;
             System.out.println("Game over!");
         }
     }
 
-    // this is mainly for tests
+    /**
+     * @return true if the goal for the dungeon is completed, false otherwise. (mainly used for
+     * testing).
+     */
     public boolean completedGoal() {
         return this.rootGoal.isSatisfied();
     }
 
-    // "obervers" are just specific entities
+    /**
+     * Notifies the entities that are observing the player of its movement. 
+     */
     public void updateObservers() {
         for (Entity e : this.entities) {
             if (e instanceof Enemy) {
@@ -73,7 +78,7 @@ public class Dungeon {
                 ((Exit)e).updateAtExitState();
             }
         }
-        updateTree();
+        notifyIfDungeonCompleted();
     }
 
     public Tile[][] getTiles() {
