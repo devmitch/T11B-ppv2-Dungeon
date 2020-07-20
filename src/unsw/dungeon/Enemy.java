@@ -36,7 +36,7 @@ public class Enemy extends Entity {
         if (t.getX() + x >= 0 && t.getX() + x < dungeon.getWidth()) {
             if (t.getY() + y >= 0 && t.getY() + y < dungeon.getHeight()) {
                 Tile toAdd = tiles[t.getX()+x][t.getY() + y];
-                if (!toAdd.hasObstructable() || toAdd.getEntities().contains(dungeon.getPlayer())) {
+                if (!toAdd.isObstructed() || toAdd.getEntities().contains(dungeon.getPlayer())) {
                     ret.add(toAdd);
                 }
             }

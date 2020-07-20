@@ -20,12 +20,7 @@ public class Movement {
             return false;
         }
 
-        for (Entity entity : dungeon.getEntitiesOnTile(x, y)) {
-            if (entity.isObstruction()) {
-                return false;
-            }
-        }
-        return true;
+        return !dungeon.isTileObstructed(x, y);
     }
 
     /**

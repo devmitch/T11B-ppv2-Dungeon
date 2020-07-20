@@ -23,24 +23,50 @@ public class Tile {
         return this.y;
     }
 
+    /**
+     * @return the list of entities that are on this tile.
+     */
     public List<Entity> getEntities() {
         return this.entities;
     }
 
+    /**
+     * Adds the given entity e to the tile.
+     * 
+     * @param e the entity to add.
+     */
     public void addEntityOnTile(Entity e) {
-        this.entities.add(e);
+        if (!this.entities.contains(e)) {
+            this.entities.add(e);
+        }
     }
 
+    /**
+     * Removes the given entity e from the tile.
+     * 
+     * @param e the entity to remove.
+     */
     public void removeEntityOnTile(Entity e) {
         this.entities.remove(e);
     }
 
-    public boolean hasObstructable() {
+    /**
+     * @return true if the tile is obstructed, false otherwise.
+     */
+    public boolean isObstructed() {
         for (Entity e : this.entities) {
             if (e.isObstruction()) {
                 return true;
             }
         }
         return false;
+    }
+
+    /**
+     * @param e the entity to check.
+     * @return true if the entity e is on the tile, false otherwise. 
+     */
+    public boolean hasEntity(Entity e) {
+        return entities.contains(e);
     }
 }
