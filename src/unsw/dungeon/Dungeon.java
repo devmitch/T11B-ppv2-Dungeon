@@ -64,17 +64,10 @@ public class Dungeon {
      * all game state updates are done after a player moves (Observer Pattern)
      */
     public void updateObservers() {
-        for (Entity e : this.entities) {
+        List<Entity> entityList = new ArrayList<>(this.entities);
+        for (Entity e : entityList) {
             if (e instanceof Enemy) {
                 ((Enemy)e).makeMove();
-                // if enemy is deleted from entities list, recurse
-                // stops concurrent modification to list error
-                if (!this.entities.contains(player)) {
-                    break;
-                } else if (!this.entities.contains(e)) {
-                    updateObservers();
-                    break;
-                }
             } else if (e instanceof Exit) {
                 ((Exit)e).updateAtExitState();
             }
