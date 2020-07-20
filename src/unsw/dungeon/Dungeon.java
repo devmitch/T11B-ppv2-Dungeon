@@ -206,6 +206,13 @@ public class Dungeon {
     }
 
     /**
+     * Checks whether the dungeon has this entity or not
+     */
+    public boolean hasEntity(Entity entity) {
+        return this.entities.contains(entity);
+    }
+
+    /**
      * Returns true if both entities are on the same tile, false otherwise.
      * 
      * @param entity1 the first entity.
