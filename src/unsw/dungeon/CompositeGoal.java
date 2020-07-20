@@ -9,7 +9,7 @@ public class CompositeGoal implements Goal {
     private boolean isConjunction;
 
     public CompositeGoal(String isConjunctionString) {
-        this(isConjunctionString.equals("AND") ? true : false);
+        this(isConjunctionString.equals("AND"));
     }
 
     public CompositeGoal(boolean isConjunction) {

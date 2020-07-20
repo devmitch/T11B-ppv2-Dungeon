@@ -13,6 +13,9 @@ public class Portal extends Entity {
             correspondingPortal.setCorrespondingPortal(this);
     }
     
+    /**
+     * Entity interacts with portal
+     */
     @Override
     public void interactWith(Entity e, Direction d) {
         if (e instanceof Player) {

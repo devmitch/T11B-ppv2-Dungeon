@@ -154,10 +154,8 @@ public class Enemy extends Entity {
             return Direction.LEFT;
         } else if (getY() < t.getY()) {
             return Direction.DOWN;
-        } else if (getY() > t.getY()) {
-            return Direction.UP;
         } else {
-            return Direction.NONE;
+            return Direction.UP;
         }
     }
 }

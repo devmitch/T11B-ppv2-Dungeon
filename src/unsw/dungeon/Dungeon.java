@@ -200,7 +200,7 @@ public class Dungeon {
     }
 
     /**
-     * Checks whether the dungeon has this entity or not
+     * Checks whether the dungeon has this entity or not. Used for tests!
      */
     public boolean hasEntity(Entity entity) {
         return this.entities.contains(entity);
