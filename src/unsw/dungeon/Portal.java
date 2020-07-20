@@ -29,6 +29,11 @@ public class Portal extends Entity {
         return id;
     }
 
+    /**
+     * Sets the corresponding portal (portals have same id).
+     * 
+     * @param portal the corresponding portal.
+     */
     public void setCorrespondingPortal(Portal portal) {
         correspondingPortal = portal;
     }
