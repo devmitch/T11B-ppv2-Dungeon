@@ -28,12 +28,12 @@ public class Player extends Entity {
     }
 
     public void move(Direction d) {
-        movement.moveInDirection(d);
-        dungeon.updateObservers();
-        stepTaken();
-        //System.out.println(dungeon.getEntitiesOnTile(getX(), getY()));
+        movement.moveInDirection(d); // moves player
+        dungeon.updateObservers(); // updates enemies
+        stepTaken(); // updates potion steps left
     }
 
+    // Duel enemies if the enemy interacts with the player
     @Override
     public void interactWith(Entity e, Direction D) {
         if (e instanceof Enemy) {
@@ -41,39 +41,33 @@ public class Player extends Entity {
         }
     }
 
+    // Decrement potion ticker if movement was attempted
     private void stepTaken() {
-        if (potion != null) {
-            if (!potion.isInvincible()) {
-                potion = null;
-            } else {
-                potion.decrementNumberOfSteps();
-            }
+        if (potion != null && potion.isActive()) {
+            potion.decrementNumberOfSteps();
         }
     }
 
     public boolean isInvincible() {
         if (potion != null)
-            return potion.isInvincible();
+            return potion.isActive();
         return false;
     }
 
+    /**
+     * Duel an enemy and decide the player's fate depending on their items
+     * @param enemy
+     */
     public void duel(Enemy enemy) {
-        boolean swordSwung = false;
-        if (this.sword != null) {
-            swordSwung = sword.attemptSwing();
-        }
-        if (potion != null && potion.isInvincible()) {
+        if (this.potion != null && this.potion.isActive()) {
+            // win by potion
             enemy.die();
-        } else if (swordSwung) {
+        } else if (this.sword != null && !this.sword.isBroken()) {
+            // win by sword - decrement hits
+            this.sword.swing();
             enemy.die();
-            System.out.print("Hits left: ");
-            System.out.println(sword.getDurability());
-            if (sword.getDurability() == 0) {
-                this.sword = null;
-            }
-            System.out.println("You won!");
         } else {
-            System.out.println("You lost!");
+            // loss
             this.dungeon.removeEntity(this);
         }
     }
@@ -82,6 +76,7 @@ public class Player extends Entity {
         movement.moveToEntity(e);
     }
 
+    // Check if we can pick up items
     @Override
     public void updateState() {
         List<Entity> entitiesOnPlayer = dungeon.getEntitiesOnTile(getX(), getY());
@@ -94,6 +89,10 @@ public class Player extends Entity {
         }
     }
 
+    /**
+     * Pick up certain entities depending on their type
+     * @param entity
+     */
     private void pickup(Entity entity) {
         Entity result = dungeon.requestEntity(this, entity); //this deletes the entity from the dungeon entity list
         if (result != null) {
@@ -120,6 +119,7 @@ public class Player extends Entity {
 
     private void pickupKey(Key key) {
         if (this.key != null) {
+            // swap keys
             dungeon.dropEntity(this.key, getX(), getY());
         }
         this.key = key;
@@ -138,7 +138,12 @@ public class Player extends Entity {
         return this.potion;
     }
 
-    public Key requestKey(int id) {
+    /**
+     * Other entity (specifically door) requesting a key from the player
+     * @param id Key id
+     * @return
+     */
+    public Key useKey(int id) {
         if (this.key != null && this.key.getId() == id) {
             Key ret = this.key;
             this.key = null;

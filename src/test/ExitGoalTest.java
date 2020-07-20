@@ -67,4 +67,27 @@ public class ExitGoalTest {
         assertTrue(dungeon.completedGoal());
     }
 
+    @Test
+    public void playerMovesOnAndOffExit() {
+        DungeonMockController controller = setup();
+        
+        Dungeon dungeon = controller.dungeon;
+
+        // check goal isn't complete
+        assertFalse(dungeon.completedGoal());
+
+        // move player onto exit
+        controller.movePlayer(Direction.RIGHT);
+
+        // check goal is now complete
+        assertTrue(dungeon.completedGoal());
+
+        // move player off exit
+        controller.movePlayer(Direction.LEFT);
+
+        // NOTE: the goal is still completed because the player can no longer move
+        // since the game is over.
+        assertTrue(dungeon.completedGoal());
+    }
+
 }

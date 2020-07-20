@@ -17,15 +17,21 @@ public class Enemy extends Entity {
         this.goal.incrementEnemiesNeeded();
     }
     
+    /**
+     * Other entities interacting with this enemy
+     */
     @Override
     public void interactWith(Entity e, Direction D) {
         if (e instanceof Player) {
+            // Player wants to duel this enemy
             ((Player)e).duel(this);
         } else if (e instanceof Boulder) {
+            // Boulder squashes enemy
             die();
         }
     }
 
+    
     public void die() {
         this.dungeon.removeEntity(this);
         goal.incrementEnemiesKilled();
@@ -36,7 +42,7 @@ public class Enemy extends Entity {
         if (t.getX() + x >= 0 && t.getX() + x < dungeon.getWidth()) {
             if (t.getY() + y >= 0 && t.getY() + y < dungeon.getHeight()) {
                 Tile toAdd = tiles[t.getX()+x][t.getY() + y];
-                if (!toAdd.hasObstructable() || toAdd.getEntities().contains(dungeon.getPlayer())) {
+                if (!toAdd.isObstructed() || toAdd.getEntities().contains(dungeon.getPlayer())) {
                     ret.add(toAdd);
                 }
             }
@@ -78,7 +84,7 @@ public class Enemy extends Entity {
         }
     }
 
-    // either move to a tile that is closer (euclidian distance) or further
+    // either move to a tile that is closer (euclidean distance) or further
     private Direction moveEuclidian(boolean closer) {
         Tile[][] tiles = dungeon.getTiles();
         Tile enemy = tiles[getX()][getY()];
@@ -148,10 +154,8 @@ public class Enemy extends Entity {
             return Direction.LEFT;
         } else if (getY() < t.getY()) {
             return Direction.DOWN;
-        } else if (getY() > t.getY()) {
-            return Direction.UP;
         } else {
-            return Direction.NONE;
+            return Direction.UP;
         }
     }
 }

@@ -5,6 +5,7 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 
+import java.util.ArrayList;
 import java.util.List;
 /**
  * An entity in the dungeon.
@@ -52,19 +53,23 @@ public class Entity {
 
     }
 
-    // this entity interacting with the entities on some tile
-    // problem: is it ok for an entity to interact with any tile on the map?
+    /**
+     * This entity interacting with the entities on some tile
+     * @param x x-coordinate of tile
+     * @param y y-coordinate of tile
+     * @param D Direction the entity is interacting with the tile from
+     */
     protected void interactWithEntities(int x, int y, Direction D) {
-        try {
-            List<Entity> entities = dungeon.getEntitiesOnTile(x, y);
-            for (Entity entity : entities) {
-                if (entity.isInteractable()) {
-                    entity.interactWith(this, D);
-                }
-            }
-        } catch (Exception e) {
-            // maybe coordinates are out of bounds?
+        if (dungeon.getEntitiesOnTile(x, y) == null) {
+            return;
         }
+        List<Entity> entities = new ArrayList<>(dungeon.getEntitiesOnTile(x, y));
+        for (Entity entity : entities) {
+            if (entity.isInteractable()) {
+                entity.interactWith(this, D);
+            }
+        }
+        
     }
 
     public boolean isInteractable() {

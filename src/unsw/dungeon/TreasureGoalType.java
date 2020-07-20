@@ -15,10 +15,16 @@ public class TreasureGoalType implements GoalType {
         return currentTreasure >= treasureNeeded;
     }
 
+    /**
+     * Increments the count of how much treasure has been collected.
+     */
     public void incrementTreasureCount() {
         currentTreasure++;
     }
 
+    /**
+     * Increments the count of how much treasure needs to be collected. 
+     */
     public void incrementTreasureNeeded() {
         treasureNeeded++;
     }

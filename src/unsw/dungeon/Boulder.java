@@ -14,6 +14,9 @@ public class Boulder extends Entity {
         }
     }
 
+    /**
+     * @return the floor switch that is occupies the same tile as this boulder.
+     */
     private FloorSwitch findFloorSwitchOnTile() {
         for (Entity entity : dungeon.getEntitiesOnTile(getX(), getY())) {
             if (entity instanceof FloorSwitch) {
@@ -39,11 +42,14 @@ public class Boulder extends Entity {
                 fs = null;
             }
         }
-
-        //kill enemies
-        
     }
 
+    /**
+     * Sets the floor switch for this boulder. Deactivates the previous one and activates the
+     * current one.
+     * 
+     * @param fs the floor switch that the boulder is on.
+     */
     public void setFloorSwitch(FloorSwitch fs) {
         if (this.fs != null) {
             this.fs.deactivateSwitch();

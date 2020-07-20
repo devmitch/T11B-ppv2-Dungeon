@@ -9,15 +9,23 @@ public class InvincibilityPotion extends Entity {
         this.numberOfStepsLeft = 16;
     }
 
+    /**
+     * Decrement the number of steps before the potion expires.
+     */
     public void decrementNumberOfSteps() {
         this.numberOfStepsLeft -= 1;
-        System.out.println(numberOfStepsLeft + " steps left with invincibility.");
     }
 
-    public boolean isInvincible() {
+    /**
+     * @return true if the potion is still active, false otherwise.
+     */
+    public boolean isActive() {
         return numberOfStepsLeft > 0;
     }
 
+    /**
+     * @return the number of steps left for the potion.
+     */
     public int getStepsLeft() {
         return this.numberOfStepsLeft;
     }
