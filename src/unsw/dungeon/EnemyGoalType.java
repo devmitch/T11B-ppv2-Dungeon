@@ -1,6 +1,6 @@
 package unsw.dungeon;
 
-public class EnemyGoalType extends GoalType {
+public class EnemyGoalType implements GoalType {
     private int enemiesKilled;
     private int enemiesNeeded;
 

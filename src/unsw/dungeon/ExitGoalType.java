@@ -1,6 +1,6 @@
 package unsw.dungeon;
 
-public class ExitGoalType extends GoalType {
+public class ExitGoalType implements GoalType {
     private boolean atExit;
 
     public ExitGoalType() {
