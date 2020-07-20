@@ -89,13 +89,13 @@ public class SwordDuelTest {
     public DungeonMockController setup2() {
         try {
             JSONObject json = new JSONObject();
-            json.put("width", 4);
-            json.put("height", 1);
+            json.put("width", 1);
+            json.put("height", 4);
             JSONArray entities = new JSONArray();
 
             JSONObject player = new JSONObject();
-            player.put("x", 2);
-            player.put("y", 0);
+            player.put("x", 0);
+            player.put("y", 2);
             player.put("type", "player");
             entities.put(player);
 
@@ -106,20 +106,20 @@ public class SwordDuelTest {
             entities.put(sword);
 
             JSONObject potion = new JSONObject();
-            potion.put("x", 1);
-            potion.put("y", 0);
+            potion.put("x", 0);
+            potion.put("y", 1);
             potion.put("type", "invincibility");
             entities.put(potion);
 
             JSONObject enemy1 = new JSONObject();
-            enemy1.put("x", 3);
-            enemy1.put("y", 0);
+            enemy1.put("x", 0);
+            enemy1.put("y", 3);
             enemy1.put("type", "enemy");
             entities.put(enemy1);
 
             JSONObject switch1 = new JSONObject();
-            switch1.put("x", 3);
-            switch1.put("y", 0);
+            switch1.put("x", 0);
+            switch1.put("y", 3);
             switch1.put("type", "switch");
             entities.put(switch1);
 
@@ -226,21 +226,18 @@ public class SwordDuelTest {
         assertNotEquals(controller, null);
         Dungeon dungeon = controller.dungeon;
 
-        // move left twice to pick up sword and potion
-        controller.movePlayer(Direction.LEFT);
-        controller.movePlayer(Direction.LEFT);
+        // move up twice to pick up sword and potion
+        controller.movePlayer(Direction.UP);
+        controller.movePlayer(Direction.UP);
 
-        // move right to end to kill enemy
-        controller.movePlayer(Direction.RIGHT);
-        controller.movePlayer(Direction.RIGHT);
-        controller.movePlayer(Direction.RIGHT);
-        controller.movePlayer(Direction.RIGHT);
+        // move down to end to kill enemy
+        controller.movePlayer(Direction.DOWN);
+        controller.movePlayer(Direction.DOWN);
+        controller.movePlayer(Direction.DOWN);
+        controller.movePlayer(Direction.DOWN);
         // check enemy is dead
-        for (int i = 0; i < dungeon.getWidth(); i++) {
-            for (Entity e : dungeon.getEntitiesOnTile(i, 0)) {
-                if (e instanceof Enemy) {
-                    System.out.println("x coord of enemy is " + e.getX());
-                }
+        for (int i = 0; i < dungeon.getHeight(); i++) {
+            for (Entity e : dungeon.getEntitiesOnTile(0, i)) {
                 assertFalse(e instanceof Enemy);
             }
         }
