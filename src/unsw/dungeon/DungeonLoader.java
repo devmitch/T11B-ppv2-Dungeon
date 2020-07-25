@@ -130,7 +130,8 @@ public abstract class DungeonLoader {
             entity = exit;
             break;
         case "treasure":
-            Treasure treasure = new Treasure(dungeon, x, y, treasureGoalType);
+            Treasure treasure = new Treasure(dungeon, x, y);
+            treasure.attach(treasureGoalType);
             onLoad(treasure);
             entity = treasure;
             break;
@@ -145,7 +146,8 @@ public abstract class DungeonLoader {
             entity = door;
             break;
         case "switch":
-            FloorSwitch floorSwitch = new FloorSwitch(dungeon, x, y, switchGoalType);
+            FloorSwitch floorSwitch = new FloorSwitch(dungeon, x, y);
+            floorSwitch.attach(switchGoalType);
             onLoad(floorSwitch);
             entity = floorSwitch;
             break;

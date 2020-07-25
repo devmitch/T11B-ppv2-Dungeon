@@ -1,13 +1,18 @@
 package unsw.dungeon;
 
-public class FloorSwitch extends Entity {
+import java.util.ArrayList;
 
-    private SwitchGoalType goal;
+public class FloorSwitch extends Entity implements GoalSubject {
 
-    public FloorSwitch(Dungeon dungeon, int x, int y, SwitchGoalType goal) {
+    private ArrayList<GoalObserver> goals;
+    private boolean isActive;
+    private boolean isTracked;
+
+    public FloorSwitch(Dungeon dungeon, int x, int y) {
         super(dungeon, x, y, false, true, false);
-        this.goal = goal;
-        this.goal.incrementSwitchesNeeded();
+
+        goals = new ArrayList<>();
+        isActive = false;
     }
     
     @Override
@@ -18,18 +23,46 @@ public class FloorSwitch extends Entity {
         }
     }
 
-    /**
-     * Activates the switch.
-     */
-    public void activateSwitch() {
-        goal.incrementActiveSwitches();
+    @Override
+    public void attach(GoalObserver observer) {
+        if (!(goals.contains(observer) || observer == null)) {
+            goals.add(observer);
+            observer.update(this);
+        }
+    }
+
+    @Override
+    public void detach(GoalObserver observer) {
+        goals.remove(observer);
+    }
+
+    @Override
+    public void notifyObservers() {
+        for (GoalObserver goal : goals) {
+            goal.update(this);
+        }
     }
 
     /**
-     * Deactivates the switch.
+     * Changes the state of the switch to active or inactive.
+     * 
+     * @param isActive true if the switch is to be active, false otherwise.
      */
-    public void deactivateSwitch() {
-        goal.decrementActiveSwitches();
+    public void setSwitch(boolean isActive) {
+        this.isActive = isActive;
+        notifyObservers();
+    }
+
+    public boolean getSwitch() {
+        return isActive;
+    }
+
+    public void setIsTracked(boolean isTracked) {
+        this.isTracked = isTracked;
+    }
+
+    public boolean getIsTracked() {
+        return isTracked;
     }
 
 }
