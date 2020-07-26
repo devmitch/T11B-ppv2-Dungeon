@@ -13,6 +13,7 @@ public class Player extends Entity {
     private Key key;
     private Sword sword;
     private Potion potion;
+    private int stuns;
 
     /**
      * Create a player positioned in square (x,y)
@@ -25,12 +26,22 @@ public class Player extends Entity {
         this.key = null;
         this.sword = null;
         this.potion = null;
+        this.stuns = 0;
+    }
+
+    public void stun(int stuns) {
+        this.stuns = stuns;
+    }
+
+    @Override
+    public boolean canMove() {
+        return stuns == 0;
     }
 
     public void move(Direction d) {
         movement.moveInDirection(d); // moves player
         dungeon.updateObservers(); // updates enemies
-        stepTaken(); // updates potion steps left
+        stepTaken(); // updates potion steps left + stuns
     }
 
     // Duel enemies if the enemy interacts with the player
@@ -45,6 +56,9 @@ public class Player extends Entity {
     private void stepTaken() {
         if (potion != null && potion.isActive()) {
             potion.useStep();
+        }
+        if (stuns > 0) {
+            stuns--;
         }
     }
 

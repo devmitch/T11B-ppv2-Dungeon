@@ -200,6 +200,9 @@ public class Dungeon {
      * @return true if the tile is obstructed, false otherwise.
      */
     public boolean isTileObstructed(int x, int y) {
+        if (x < 0 || x > width || y < 0 || y > height) {
+            return true; // past or on border
+        }
         return tiles[x][y].isObstructed();
     }
 
