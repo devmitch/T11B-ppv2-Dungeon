@@ -1,6 +1,6 @@
 package unsw.dungeon;
 
-public class ExitGoalType implements GoalType {
+public class ExitGoalType implements GoalType, GoalObserver {
 
     private boolean atExit;
 
@@ -13,17 +13,10 @@ public class ExitGoalType implements GoalType {
         return atExit;
     }
 
-    /**
-     * Sets the exit goal to be completed.
-     */
-    public void toggleExitOn() {
-        this.atExit = true;
-    }
-
-    /**
-     * Sets the exit goal to not be completed.
-     */
-    public void toggleExitOff() {
-        this.atExit = false;
+    @Override
+    public void update(GoalSubject subject) {
+        if (subject instanceof Exit) {
+            atExit = ((Exit) subject).isAtExit();
+        }
     }
 }

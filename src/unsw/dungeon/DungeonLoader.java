@@ -125,7 +125,8 @@ public abstract class DungeonLoader {
             entity = boulder;
             break;
         case "exit":
-            Exit exit = new Exit(dungeon, x, y, exitGoalType);
+            Exit exit = new Exit(dungeon, x, y);
+            exit.attach(exitGoalType);
             onLoad(exit);
             entity = exit;
             break;
