@@ -1,6 +1,6 @@
 package unsw.dungeon;
 
-public class EnemyGoalType implements GoalType {
+public class EnemyGoalType implements GoalType, GoalObserver {
     private int enemiesKilled;
     private int enemiesNeeded;
 
@@ -26,5 +26,18 @@ public class EnemyGoalType implements GoalType {
      */
     public void incrementEnemiesNeeded() {
         enemiesNeeded++;
+    }
+
+    @Override
+    public void update(GoalSubject subject) {
+        if (subject instanceof Enemy) {
+            Enemy enemy = (Enemy) subject;
+
+            if (enemy.isDead()) {
+                incrementEnemiesKilled();
+            } else {
+                incrementEnemiesNeeded();
+            }
+        }
     }
 }
