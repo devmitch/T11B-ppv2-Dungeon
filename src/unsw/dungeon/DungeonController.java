@@ -74,7 +74,7 @@ public class DungeonController {
         }
     }
 
-    public void newEntity(Entity entity) {
+    /*public void newEntity(Entity entity) {
         if (entity instanceof Key) {
             Image keyImage = new Image((new File("images/key.png")).toURI().toString());
             ImageView view = new ImageView(keyImage);
@@ -83,7 +83,7 @@ public class DungeonController {
             GridPane.setRowIndex(view, entity.getY());
             trackPosition(entity, view);
         }
-    }
+    }*/
 
     private void trackPosition(Entity entity, Node node) {
         GridPane.setColumnIndex(node, entity.getX());

@@ -64,10 +64,15 @@ public class Dungeon {
      * all game state updates are done after a player moves (Observer Pattern)
      */
     public void updateObservers() {
+        if (player == null) {
+            return;
+        }
         List<Entity> entityList = new ArrayList<>(this.entities);
         for (Entity e : entityList) {
             if (e instanceof Enemy) {
-                ((Enemy)e).makeMove();
+                if (!player.isInvisible()) {
+                    ((Enemy)e).makeMove();
+                }
             } else if (e instanceof Exit) {
                 ((Exit)e).updateAtExitState();
             }

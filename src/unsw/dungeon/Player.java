@@ -12,7 +12,7 @@ public class Player extends Entity {
     private Movement movement;
     private Key key;
     private Sword sword;
-    private InvincibilityPotion potion;
+    private Potion potion;
 
     /**
      * Create a player positioned in square (x,y)
@@ -44,12 +44,18 @@ public class Player extends Entity {
     // Decrement potion ticker if movement was attempted
     private void stepTaken() {
         if (potion != null && potion.isActive()) {
-            potion.decrementNumberOfSteps();
+            potion.useStep();
         }
     }
 
     public boolean isInvincible() {
-        if (potion != null)
+        if (potion != null && potion instanceof InvincibilityPotion)
+            return potion.isActive();
+        return false;
+    }
+
+    public boolean isInvisible() {
+        if (potion != null && potion instanceof PhasePotion)
             return potion.isActive();
         return false;
     }
@@ -59,16 +65,16 @@ public class Player extends Entity {
      * @param enemy
      */
     public void duel(Enemy enemy) {
-        if (this.potion != null && this.potion.isActive()) {
+        if (potion != null && potion instanceof InvincibilityPotion && potion.isActive()) {
             // win by potion
             enemy.die();
-        } else if (this.sword != null && !this.sword.isBroken()) {
+        } else if (sword != null && !sword.isBroken()) {
             // win by sword - decrement hits
-            this.sword.swing();
+            sword.swing();
             enemy.die();
         } else {
             // loss
-            this.dungeon.removeEntity(this);
+            dungeon.removeEntity(this);
         }
     }
 
@@ -102,14 +108,14 @@ public class Player extends Entity {
             } else if (result instanceof Sword) {
                 Sword sword = (Sword) result;
                 pickupSword(sword);
-            } else if (result instanceof InvincibilityPotion) {
-                InvincibilityPotion potion = (InvincibilityPotion) result;
+            } else if (result instanceof Potion) {
+                Potion potion = (Potion) result;
                 pickupPotion(potion);
             }
         }
     }
 
-    private void pickupPotion(InvincibilityPotion potion) {
+    private void pickupPotion(Potion potion) {
         this.potion = potion;
     }
 
@@ -134,7 +140,7 @@ public class Player extends Entity {
         return this.sword;
     }
 
-    public InvincibilityPotion getPotion() {
+    public Potion getPotion() {
         return this.potion;
     }
 
