@@ -15,16 +15,12 @@ public class DungeonApplication extends Application {
         primaryStage.setTitle("Dungeon");
 
         DungeonControllerLoader dungeonLoader = new DungeonControllerLoader("itemtest.json");
+        DungeonScreen dungeonScreen = new DungeonScreen(primaryStage, dungeonLoader);
 
-        DungeonController controller = dungeonLoader.loadController();
+        StartScreen startScreen = new StartScreen(primaryStage);
+        startScreen.getController().setDungeonScreen(dungeonScreen);
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("DungeonView.fxml"));
-        loader.setController(controller);
-        Parent root = loader.load();
-        Scene scene = new Scene(root);
-        root.requestFocus();
-        primaryStage.setScene(scene);
-        primaryStage.show();
+        startScreen.start();
 
     }
 
