@@ -117,13 +117,15 @@ public class InvincibilityTest {
         // check that player doesn't have potion
         assertTrue(dungeon.getPlayer().getPotion() == null);
 
-        // test the enemy moves away when player picks up invisibility potion
+        // test the enemy moves away when player picks up Phase potion
         Entity e = dungeon.getEntitiesOnTile(7, 0).get(0);
         assert (e instanceof Enemy);
         Enemy enemy = (Enemy) e;
         controller.movePlayer(Direction.RIGHT);
         // check that player has potion
         assertTrue(dungeon.getPlayer().getPotion() != null);
+        // check that the potion is an invincibility potion
+        assertTrue(dungeon.getPlayer().getPotion() instanceof InvincibilityPotion);
         // check that potion ticks left are 15
         assertEquals(dungeon.getPlayer().getPotion().getStepsLeft(), 15);
         // check that enemy has moved

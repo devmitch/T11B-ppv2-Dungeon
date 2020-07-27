@@ -69,6 +69,11 @@ public class DungeonMockControllerLoader extends DungeonLoader {
 
     }
 
+    @Override
+    public void onLoad(PhasePotion potion) {
+        
+    }
+
     public DungeonMockController loadController() {
         return new DungeonMockController(load());
     }

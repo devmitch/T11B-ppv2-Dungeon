@@ -1,10 +1,9 @@
 package unsw.dungeon;
 
-public class InvincibilityPotion extends Entity implements Potion {
-
+public class PhasePotion extends Entity implements Potion {
     private int numberOfStepsLeft;
 
-    public InvincibilityPotion(Dungeon dungeon, int x, int y) {
+    public PhasePotion(Dungeon dungeon, int x, int y) {
         super(dungeon, x, y, false, false, true);
         this.numberOfStepsLeft = 16;
     }
@@ -29,5 +28,4 @@ public class InvincibilityPotion extends Entity implements Potion {
     public int getStepsLeft() {
         return this.numberOfStepsLeft;
     }
-
 }

@@ -299,7 +299,7 @@ public class SwordDuelTest {
         assertTrue(dungeon.getPlayer() == null);
     }
 
-    // Checks that a player doesn't use their sword if they have invisibility potion
+    // Checks that a player doesn't use their sword if they have Phase potion
     @Test
     public void SwordDuelTest3() {
         DungeonMockController controller = setup2();
