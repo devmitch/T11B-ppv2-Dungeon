@@ -1,12 +1,16 @@
 package unsw.dungeon;
 
-public class Exit extends Entity {
+import java.util.ArrayList;
 
-    private ExitGoalType goal;
+public class Exit extends Entity implements GoalSubject {
 
-    public Exit(Dungeon dungeon, int x, int y, ExitGoalType goal) {
+    private ArrayList<GoalObserver> goals;
+    private boolean isAtExit;
+
+    public Exit(Dungeon dungeon, int x, int y) {
         super(dungeon, x, y, false, true, false);
-        this.goal = goal;
+        this.goals = new ArrayList<>();
+        updateAtExitState();
     }
     
     @Override
@@ -22,10 +26,35 @@ public class Exit extends Entity {
      */
     public void updateAtExitState() {
         if (dungeon.areEntitiesOnSameTile(dungeon.getPlayer(), this)) {
-            goal.toggleExitOn();
+            isAtExit = true;
         } else {
-            goal.toggleExitOff();
+            isAtExit = false;
         }
+        notifyObservers();
+    }
+
+    @Override
+    public void attach(GoalObserver observer) {
+        if (!(goals.contains(observer) || observer == null)) {
+            goals.add(observer);
+            observer.update(this);
+        }
+    }
+
+    @Override
+    public void detach(GoalObserver observer) {
+        goals.remove(observer);
+    }
+
+    @Override
+    public void notifyObservers() {
+        for (GoalObserver observer : goals) {
+            observer.update(this);
+        }
+    }
+
+    public boolean isAtExit() {
+        return isAtExit;
     }
 
 }

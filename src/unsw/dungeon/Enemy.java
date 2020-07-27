@@ -5,16 +5,18 @@ import java.util.Queue;
 import java.util.List;
 import java.util.ArrayList;
 
-public class Enemy extends Entity {
+public class Enemy extends Entity implements GoalSubject {
 
     private Movement movement;
-    private EnemyGoalType goal;
 
-    public Enemy(Dungeon dungeon, int x, int y, EnemyGoalType goal) {
+    private ArrayList<GoalObserver> goals;
+    private boolean isDead;
+
+    public Enemy(Dungeon dungeon, int x, int y) {
         super(dungeon, x, y, true, true, false);
         this.movement = new Movement(dungeon, this);
-        this.goal = goal;
-        this.goal.incrementEnemiesNeeded();
+
+        this.goals = new ArrayList<>();
     }
     
     /**
@@ -34,7 +36,8 @@ public class Enemy extends Entity {
     
     public void die() {
         this.dungeon.removeEntity(this);
-        goal.incrementEnemiesKilled();
+        isDead = true;
+        notifyObservers();
     }
 
     private void checkTile(Tile t, int x, int y, List<Tile> ret) {
@@ -71,7 +74,7 @@ public class Enemy extends Entity {
             return;
         } else if (dungeon.getPlayer().isInvincible()) {
             //run the fuck away
-            movement.moveInDirection(moveEuclidian(false));
+            movement.moveInDirection(moveEuclidean(false));
         } else {
             Direction onPath = pathFindBFS();
             if (onPath != Direction.NONE) {
@@ -79,13 +82,13 @@ public class Enemy extends Entity {
                 movement.moveInDirection(onPath);
             } else {
                 // no path found - try to move closer to player
-                movement.moveInDirection(moveEuclidian(true));
+                movement.moveInDirection(moveEuclidean(true));
             }
         }
     }
 
     // either move to a tile that is closer (euclidean distance) or further
-    private Direction moveEuclidian(boolean closer) {
+    private Direction moveEuclidean(boolean closer) {
         Tile[][] tiles = dungeon.getTiles();
         Tile enemy = tiles[getX()][getY()];
         Tile player = tiles[dungeon.getPlayer().getX()][dungeon.getPlayer().getY()];
@@ -156,6 +159,30 @@ public class Enemy extends Entity {
             return Direction.DOWN;
         } else {
             return Direction.UP;
+        }
+    }
+
+    public boolean isDead() {
+        return isDead;
+    }
+
+    @Override
+    public void attach(GoalObserver observer) {
+        if (!(goals.contains(observer) || observer == null)) {
+            goals.add(observer);
+            observer.update(this);
+        }
+    }
+
+    @Override
+    public void detach(GoalObserver observer) {
+        goals.remove(observer);
+    }
+
+    @Override
+    public void notifyObservers() {
+        for (GoalObserver observer : goals) {
+            observer.update(this);
         }
     }
 }

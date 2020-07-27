@@ -85,8 +85,9 @@ public class ExitGoalTest {
         // move player off exit
         controller.movePlayer(Direction.LEFT);
 
-        // check goal isnt complete
-        assertFalse(dungeon.completedGoal());
+        // NOTE: the goal is still completed because the player can no longer move
+        // since the game is over.
+        assertTrue(dungeon.completedGoal());
     }
 
 }

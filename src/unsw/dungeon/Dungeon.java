@@ -47,7 +47,7 @@ public class Dungeon {
      */
     private void notifyIfDungeonCompleted() {
         if (completedGoal()) {
-            System.out.println("Game over!");
+            System.out.println("Dungeon Completed!");
         }
     }
 
@@ -64,9 +64,13 @@ public class Dungeon {
      * all game state updates are done after a player moves (Observer Pattern)
      */
     public void updateObservers() {
+<<<<<<< HEAD
         if (player == null) {
             return;
         }
+=======
+        if (completedGoal()) return;
+>>>>>>> 74c33a2e0262a4427cf0a6c5e2dc583f564ecb86
         List<Entity> entityList = new ArrayList<>(this.entities);
         for (Entity e : entityList) {
             if (e instanceof Enemy) {
@@ -221,6 +225,9 @@ public class Dungeon {
      * @return true if they are on the same tile, false otherwise.
      */
     public boolean areEntitiesOnSameTile(Entity entity1, Entity entity2) {
+        if (entity1 == null || entity2 == null)
+            return false;
+            
         return tiles[entity1.getX()][entity1.getY()].hasEntity(entity2);
     }
 
