@@ -64,13 +64,10 @@ public class Dungeon {
      * all game state updates are done after a player moves (Observer Pattern)
      */
     public void updateObservers() {
-<<<<<<< HEAD
         if (player == null) {
             return;
         }
-=======
         if (completedGoal()) return;
->>>>>>> 74c33a2e0262a4427cf0a6c5e2dc583f564ecb86
         List<Entity> entityList = new ArrayList<>(this.entities);
         for (Entity e : entityList) {
             if (e instanceof Enemy) {
