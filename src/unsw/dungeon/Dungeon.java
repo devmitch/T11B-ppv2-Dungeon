@@ -214,6 +214,9 @@ public class Dungeon {
      * @return true if they are on the same tile, false otherwise.
      */
     public boolean areEntitiesOnSameTile(Entity entity1, Entity entity2) {
+        if (entity1 == null || entity2 == null)
+            return false;
+            
         return tiles[entity1.getX()][entity1.getY()].hasEntity(entity2);
     }
 

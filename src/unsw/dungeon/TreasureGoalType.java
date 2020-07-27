@@ -1,6 +1,6 @@
 package unsw.dungeon;
 
-public class TreasureGoalType implements GoalType {
+public class TreasureGoalType implements GoalType, GoalObserver {
 
     private int currentTreasure;
     private int treasureNeeded;
@@ -15,17 +15,30 @@ public class TreasureGoalType implements GoalType {
         return currentTreasure >= treasureNeeded;
     }
 
+    @Override
+    public void update(GoalSubject subject) {
+        if (subject instanceof Treasure) {
+            Treasure treasure = (Treasure) subject;
+            
+            if (treasure.getIsPickedUp()) {
+                incrementTreasureCount();
+            } else {
+                incrementTreasureNeeded();
+            }
+        }
+    }
+
     /**
      * Increments the count of how much treasure has been collected.
      */
-    public void incrementTreasureCount() {
+    private void incrementTreasureCount() {
         currentTreasure++;
     }
 
     /**
      * Increments the count of how much treasure needs to be collected. 
      */
-    public void incrementTreasureNeeded() {
+    private void incrementTreasureNeeded() {
         treasureNeeded++;
     }
     

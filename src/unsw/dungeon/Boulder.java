@@ -10,7 +10,7 @@ public class Boulder extends Entity {
         this.movement = new Movement(dungeon, this);
         this.fs = findFloorSwitchOnTile();
         if (fs != null) {
-            fs.activateSwitch();
+            fs.setSwitch(true);
         }
     }
 
@@ -38,7 +38,7 @@ public class Boulder extends Entity {
         // check if still on floor switch
         if (fs != null) {
             if (!dungeon.areEntitiesOnSameTile(this, fs)) {
-                fs.deactivateSwitch();
+                fs.setSwitch(false);
                 fs = null;
             }
         }
@@ -52,10 +52,10 @@ public class Boulder extends Entity {
      */
     public void setFloorSwitch(FloorSwitch fs) {
         if (this.fs != null) {
-            this.fs.deactivateSwitch();
+            this.fs.setSwitch(false);
         }
         this.fs = fs;
-        this.fs.activateSwitch();
+        this.fs.setSwitch(true);
     }
 
 }
