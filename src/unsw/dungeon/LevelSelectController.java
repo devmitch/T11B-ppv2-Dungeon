@@ -16,6 +16,7 @@ import javafx.stage.Stage;
 public class LevelSelectController {
 
     private DungeonScreen dungeonScreen;
+    private StartScreen startScreen;
     private Stage stage;
 
     @FXML
@@ -52,6 +53,11 @@ public class LevelSelectController {
     }
 
     @FXML
+    public void handleGoBack(ActionEvent event) {
+        startScreen.start();
+    }
+
+    @FXML
     public void initialize() {
         // add all the names that are in the dungeon folder
         setDungeonNames();
@@ -82,6 +88,10 @@ public class LevelSelectController {
             }
         }
         return names;
+    }
+
+    public void setStartScreen(StartScreen startScreen) {
+        this.startScreen = startScreen;
     }
 
 }
