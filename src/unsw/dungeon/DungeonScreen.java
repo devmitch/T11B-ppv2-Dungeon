@@ -15,12 +15,12 @@ public class DungeonScreen {
     private DungeonController dungeonController;
     private Scene scene;
     
-    public DungeonScreen(Stage stage, DungeonControllerLoader dungeonLoader) throws IOException {
+    public DungeonScreen(Stage stage, String filename) throws IOException {
         this.stage = stage;
         title = "The name's John, Dung John";
 
         // the dungeon controller is going to be made elsewhere
-        this.dungeonLoader = dungeonLoader;
+        this.dungeonLoader = new DungeonControllerLoader(filename);
         this.dungeonController = dungeonLoader.loadController();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("DungeonView.fxml"));
         loader.setController(dungeonController);

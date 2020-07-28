@@ -9,8 +9,8 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.input.MouseEvent;
+import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.stage.Stage;
 
 public class LevelSelectController {
@@ -19,32 +19,35 @@ public class LevelSelectController {
     private Stage stage;
 
     @FXML
-    private ChoiceBox<FileEntry> levelChoiceBox;
+    private ListView<FileEntry> levelListView;
 
     @FXML
     private Button selectLevelButton;
+
+    @FXML
+    private Label errorLabel;
 
     public LevelSelectController(Stage primaryStage) {
         this.stage = primaryStage;
     }
 
     @FXML
-    public void handleLevelChoicePicked(MouseEvent event) {
-        setDungeonNames();
-    }
-
-    @FXML
     public void handleLoadLevel(ActionEvent event) throws IOException {
-        FileEntry fileToLoad = levelChoiceBox.getValue();
+        if (levelListView.getSelectionModel().getSelectedItem() == null) {
+            return;
+        }
+
+        FileEntry fileToLoad = levelListView.getSelectionModel().getSelectedItem();
 
         // this will attempt to load the level for the dungeon
         try {
-            DungeonControllerLoader dungeonLoader = new DungeonControllerLoader(fileToLoad.getPath());
-            dungeonScreen = new DungeonScreen(stage, dungeonLoader);
+            
+            dungeonScreen = new DungeonScreen(stage, fileToLoad.getPath());
             dungeonScreen.start();
+            errorLabel.setText("");
         } catch (Exception e) {
             // display a message popup here instead
-            System.out.println("The selected dungeon could not be loaded.");
+            errorLabel.setText(fileToLoad.toString() + " could not be loaded.");
         }
     }
 
@@ -54,12 +57,21 @@ public class LevelSelectController {
         setDungeonNames();
     }
 
+    /**
+     * Sets the list view elements to be the elements found in the dungeons folder.
+     */
     private void setDungeonNames() {
         File dungeonFolder = new File("dungeons");
         ObservableList<FileEntry> observableDungeonNames = FXCollections.observableArrayList(getDungeonNames(dungeonFolder));
-        levelChoiceBox.setItems(observableDungeonNames);
+        levelListView.setItems(observableDungeonNames);
     }
 
+    /**
+     * Gets all of the file entries that are in the given folder.
+     * 
+     * @param folder 
+     * @return the list of file entries.
+     */
     private ArrayList<FileEntry> getDungeonNames(File folder) {
         ArrayList<FileEntry> names = new ArrayList<>();
         for (File fileEntry : folder.listFiles()) {
@@ -74,6 +86,9 @@ public class LevelSelectController {
 
 }
 
+/**
+ * This is a helper class for holding the paths to dungeons.
+ */
 class FileEntry {
 
     private File file;
@@ -88,6 +103,9 @@ class FileEntry {
 
     @Override
     public String toString() {
+        int dotIndex = file.getName().lastIndexOf('.');
+        if (dotIndex > -1)
+            return file.getName().substring(0, dotIndex);
         return file.getName();
     }
 

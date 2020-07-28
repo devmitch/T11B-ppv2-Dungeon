@@ -10,10 +10,7 @@ public class DungeonApplication extends Application {
     @Override
     public void start(Stage primaryStage) throws IOException {
         primaryStage.setTitle("Dungeon");
-
-        // DungeonControllerLoader dungeonLoader = new DungeonControllerLoader("itemtest.json");
-        // DungeonScreen dungeonScreen = new DungeonScreen(primaryStage, dungeonLoader);
-
+        
         LevelSelectScreen levelSelectScreen = new LevelSelectScreen(primaryStage);
 
         StartScreen startScreen = new StartScreen(primaryStage);
