@@ -3,9 +3,6 @@ package unsw.dungeon;
 import java.io.IOException;
 
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class DungeonApplication extends Application {
@@ -14,11 +11,13 @@ public class DungeonApplication extends Application {
     public void start(Stage primaryStage) throws IOException {
         primaryStage.setTitle("Dungeon");
 
-        DungeonControllerLoader dungeonLoader = new DungeonControllerLoader("itemtest.json");
-        DungeonScreen dungeonScreen = new DungeonScreen(primaryStage, dungeonLoader);
+        // DungeonControllerLoader dungeonLoader = new DungeonControllerLoader("itemtest.json");
+        // DungeonScreen dungeonScreen = new DungeonScreen(primaryStage, dungeonLoader);
+
+        LevelSelectScreen levelSelectScreen = new LevelSelectScreen(primaryStage);
 
         StartScreen startScreen = new StartScreen(primaryStage);
-        startScreen.getController().setDungeonScreen(dungeonScreen);
+        startScreen.getController().setLevelSelectScreen(levelSelectScreen);
 
         startScreen.start();
 

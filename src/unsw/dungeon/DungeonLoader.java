@@ -23,7 +23,7 @@ public abstract class DungeonLoader {
     private GoalBuilder goalBuilder;
 
     public DungeonLoader(String filename) throws FileNotFoundException {
-        this(new JSONObject(new JSONTokener(new FileReader("dungeons/" + filename))));
+        this(new JSONObject(new JSONTokener(new FileReader(filename))));
     }
 
     public DungeonLoader(JSONObject json) {

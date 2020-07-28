@@ -32,6 +32,7 @@ public class DungeonScreen {
     public void start() {
         stage.setTitle(title);
         stage.setScene(scene);
+        // this will have to change when new ui elements are added
         scene.getRoot().requestFocus();
         stage.show();
     }

@@ -6,7 +6,7 @@ import javafx.fxml.FXML;
 public class StartController {
     
     // this is going to be intermediate
-    private DungeonScreen dungeonScreen;
+    private LevelSelectScreen levelSelectScreen;
 
     public StartController() {
         super();
@@ -19,11 +19,11 @@ public class StartController {
 
     @FXML
     public void handleLevelSelect(ActionEvent event) {
-        dungeonScreen.start();
+        levelSelectScreen.start();
     }
 
-    public void setDungeonScreen(DungeonScreen dungeonScreen) {
-        this.dungeonScreen = dungeonScreen;
+    public void setLevelSelectScreen(LevelSelectScreen levelSelectScreen) {
+        this.levelSelectScreen = levelSelectScreen;
     }
 
 }
