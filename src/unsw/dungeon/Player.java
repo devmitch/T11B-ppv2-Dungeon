@@ -1,7 +1,10 @@
 package unsw.dungeon;
 
-
+import java.util.ArrayList;
 import java.util.List;
+
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 /**
  * The player entity
  * @author Robert Clifton-Everest
@@ -14,6 +17,8 @@ public class Player extends Entity {
     private Sword sword;
     private InvincibilityPotion potion;
 
+    private ObservableList<Entity> items;
+
     /**
      * Create a player positioned in square (x,y)
      * @param x
@@ -25,6 +30,7 @@ public class Player extends Entity {
         this.key = null;
         this.sword = null;
         this.potion = null;
+        items = FXCollections.observableArrayList(new ArrayList<Entity>());
     }
 
     public void move(Direction d) {
@@ -45,6 +51,9 @@ public class Player extends Entity {
     private void stepTaken() {
         if (potion != null && potion.isActive()) {
             potion.decrementNumberOfSteps();
+            if (!potion.isActive()) {
+                items.remove(potion);
+            }
         }
     }
 
@@ -66,6 +75,9 @@ public class Player extends Entity {
             // win by sword - decrement hits
             this.sword.swing();
             enemy.die();
+            if (sword.isBroken()) {
+                items.remove(sword);
+            }
         } else {
             // loss
             this.dungeon.removeEntity(this);
@@ -110,11 +122,15 @@ public class Player extends Entity {
     }
 
     private void pickupPotion(InvincibilityPotion potion) {
+        items.remove(this.potion);
         this.potion = potion;
+        items.add(this.potion);
     }
 
     private void pickupSword(Sword sword) {
+        items.remove(this.sword);
         this.sword = sword;
+        items.add(this.sword);
     }
 
     private void pickupKey(Key key) {
@@ -122,7 +138,13 @@ public class Player extends Entity {
             // swap keys
             dungeon.dropEntity(this.key, getX(), getY());
         }
+        items.remove(this.key);
         this.key = key;
+        items.add(this.key);
+    }
+
+    public ObservableList<Entity> getItems() {
+        return items;
     }
 
     // for testing
@@ -146,6 +168,7 @@ public class Player extends Entity {
     public Key useKey(int id) {
         if (this.key != null && this.key.getId() == id) {
             Key ret = this.key;
+            items.remove(key);
             this.key = null;
             return ret;
         } else {
