@@ -15,30 +15,33 @@ public class DungeonScreen {
     private DungeonController dungeonController;
     private Scene scene;
     
-    public DungeonScreen(Stage stage, String filename) throws IOException {
+    public DungeonScreen(Stage stage) throws IOException {
         this.stage = stage;
         title = "The name's John, Dung John";
+    }
 
-        // the dungeon controller is going to be made elsewhere
+    public void start(String filename) throws IOException {
+        loadDungeon(filename);
+
+        stage.setTitle(title);
+        stage.setScene(scene);
+        dungeonController.getSquares().requestFocus();
+        stage.show();
+    }
+
+    public void setStartScreen(StartScreen startScreen) {
+        dungeonController.setStartScreen(startScreen);  
+    }
+
+    private void loadDungeon(String filename) throws IOException {
         this.dungeonLoader = new DungeonControllerLoader(filename);
         this.dungeonController = dungeonLoader.loadController();
+        this.dungeonController.setDungeonControllerLoader(dungeonLoader);
         FXMLLoader loader = new FXMLLoader(getClass().getResource("DungeonView.fxml"));
         loader.setController(dungeonController);
 
         Parent root = loader.load();
         scene = new Scene(root);
-    }
-
-    public void start() {
-        stage.setTitle(title);
-        stage.setScene(scene);
-        // this will have to change when new ui elements are added
-        scene.getRoot().requestFocus();
-        stage.show();
-    }
-
-    public DungeonController getController() throws IOException {
-        return dungeonController;
     }
 
 }

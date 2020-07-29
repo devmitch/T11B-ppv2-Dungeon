@@ -22,6 +22,11 @@ public class StartScreen {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("StartView.fxml"));
         loader.setController(controller);
 
+        LevelSelectScreen levelSelectScreen = new LevelSelectScreen(stage);
+        levelSelectScreen.setStartScreen(this);
+
+        controller.setLevelSelectScreen(levelSelectScreen);
+
         Parent root = loader.load();
         scene = new Scene(root);
     }
@@ -30,10 +35,6 @@ public class StartScreen {
         stage.setTitle(title);
         stage.setScene(scene);
         stage.show();
-    }
-
-    public StartController getController() {
-        return controller;
     }
 
 }

@@ -11,13 +11,11 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
-import javafx.stage.Stage;
 
 public class LevelSelectController {
 
     private DungeonScreen dungeonScreen;
     private StartScreen startScreen;
-    private Stage stage;
 
     @FXML
     private ListView<FileEntry> levelListView;
@@ -28,10 +26,17 @@ public class LevelSelectController {
     @FXML
     private Label errorLabel;
 
-    public LevelSelectController(Stage primaryStage) {
-        this.stage = primaryStage;
+    public LevelSelectController() {
+
     }
 
+    /**
+     * Creates a screen a dungeon if that dungeon's json object can be loaded and there is a file
+     * selected.
+     * 
+     * @param event
+     * @throws IOException
+     */
     @FXML
     public void handleLoadLevel(ActionEvent event) throws IOException {
         if (levelListView.getSelectionModel().getSelectedItem() == null) {
@@ -40,14 +45,12 @@ public class LevelSelectController {
 
         FileEntry fileToLoad = levelListView.getSelectionModel().getSelectedItem();
 
-        // this will attempt to load the level for the dungeon
+        // Load the dungeon screen for the selected dungeon.
         try {
-            
-            dungeonScreen = new DungeonScreen(stage, fileToLoad.getPath());
-            dungeonScreen.start();
+            dungeonScreen.start(fileToLoad.getPath());
+            dungeonScreen.setStartScreen(startScreen);
             errorLabel.setText("");
         } catch (Exception e) {
-            // display a message popup here instead
             errorLabel.setText(fileToLoad.toString() + " could not be loaded.");
         }
     }
@@ -61,6 +64,14 @@ public class LevelSelectController {
     public void initialize() {
         // add all the names that are in the dungeon folder
         setDungeonNames();
+    }
+
+    public void setStartScreen(StartScreen startScreen) {
+        this.startScreen = startScreen;
+    }
+
+    public void setDungeonScreen(DungeonScreen dungeonScreen) {
+        this.dungeonScreen = dungeonScreen;
     }
 
     /**
@@ -88,10 +99,6 @@ public class LevelSelectController {
             }
         }
         return names;
-    }
-
-    public void setStartScreen(StartScreen startScreen) {
-        this.startScreen = startScreen;
     }
 
 }

@@ -14,13 +14,18 @@ public class LevelSelectScreen {
     private LevelSelectController controller;
     private Scene scene;
 
+    private DungeonScreen dungeonScreen;
+
     public LevelSelectScreen(Stage stage) throws IOException {
         this.stage = stage;
         title = "Level Select";
 
-        controller = new LevelSelectController(stage);
+        controller = new LevelSelectController();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("LevelSelectView.fxml"));
         loader.setController(controller);
+
+        dungeonScreen = new DungeonScreen(stage);
+        controller.setDungeonScreen(dungeonScreen);
 
         Parent root = loader.load();
         scene = new Scene(root);
@@ -34,6 +39,10 @@ public class LevelSelectScreen {
 
     public LevelSelectController getController() {
         return controller;
+    }
+
+    public void setStartScreen(StartScreen startScreen) {
+        controller.setStartScreen(startScreen);
     }
 
 }
