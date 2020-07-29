@@ -6,23 +6,46 @@ import java.util.List;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.control.Label;
+import javafx.scene.control.ListCell;
+import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
+import javafx.util.Callback;
 
 import java.io.File;
 
 /**
  * A JavaFX controller for the dungeon.
+ * 
  * @author Robert Clifton-Everest
  *
  */
 public class DungeonController {
 
+    private DungeonControllerLoader dungeonControllerLoader;
+    private StartScreen startScreen;
+
     @FXML
     private GridPane squares;
+
+    @FXML
+    private VBox itemsVBox;
+
+    @FXML
+    private VBox goalsVBox;
+
+    @FXML
+    private ListView<Entity> itemsListView;
 
     private List<ImageView> initialEntities;
 
@@ -32,7 +55,7 @@ public class DungeonController {
 
     public DungeonController(Dungeon dungeon, List<ImageView> initialEntities) {
         this.dungeon = dungeon;
-        //dungeon.setController(this); for iteration 3
+        // dungeon.setController(this); for iteration 3
         this.player = dungeon.getPlayer();
         this.initialEntities = new ArrayList<>(initialEntities);
     }
@@ -51,6 +74,68 @@ public class DungeonController {
         for (ImageView entity : initialEntities)
             squares.getChildren().add(entity);
 
+        itemsListView.setItems(player.getItems());
+        itemsListView.setCellFactory(new Callback<ListView<Entity>, ListCell<Entity>>() {
+            @Override
+            public ListCell<Entity> call(ListView<Entity> listViewEntity) {
+                return new ListCell<Entity>() {
+                    @Override
+                    protected void updateItem(Entity entity, boolean empty) {
+                        super.updateItem(entity, empty);
+                        if (entity == null || empty) {
+                            setText(null);
+                            setGraphic(null);
+                        } else {
+                            HBox root = new HBox();
+                            root.setAlignment(Pos.CENTER);
+
+                            // Create a label that the entity just has to bind to
+                            Label label = new Label();
+                            label.setAlignment(Pos.CENTER);
+                            label.setFont(Font.font(24));
+                            label.setPadding(new Insets(0, 10, 0, 0));
+
+                            if (entity instanceof Sword) {
+                                Sword sword = (Sword) entity;
+                                
+                                // Create an observer for the durability
+                                
+                                label.textProperty().bind(sword.getDurabilityProperty().asString());
+
+                                // Create an image view for the sword
+                                ImageView imageView = new ImageView(dungeonControllerLoader.getSwordImage());
+
+                                root.getChildren().add(label);
+                                root.getChildren().add(imageView);
+                                
+                            } else if (entity instanceof InvincibilityPotion) {
+                                InvincibilityPotion potion = (InvincibilityPotion) entity;
+
+                                // Create an observer for how many steps are left
+                                label.textProperty().bind(potion.getStepsLeftProperty().asString());
+
+                                // Create an image view for the potion
+                                ImageView imageView = new ImageView(dungeonControllerLoader.getPotionImage());
+
+                                root.getChildren().add(label);
+                                root.getChildren().add(imageView);
+                            } else if (entity instanceof Key) {
+                                Key key = (Key) entity;
+
+                                // Create an image view for the key
+                                ImageView imageView = new ImageView(dungeonControllerLoader.getKeyImage());
+
+                                root.getChildren().add(imageView);
+                            }
+
+                            setGraphic(root);
+                        }
+                    }
+                };
+            }
+            
+        });
+        
     }
 
     @FXML
@@ -70,6 +155,8 @@ public class DungeonController {
         case RIGHT:
             player.move(Direction.RIGHT);
             break;
+        case P:
+            startScreen.start();
         default:
             break;
         }
@@ -113,6 +200,18 @@ public class DungeonController {
                 }
             }
         });
+    }
+
+    public void setDungeonControllerLoader(DungeonControllerLoader dungeonControllerLoader) {
+        this.dungeonControllerLoader = dungeonControllerLoader;
+    }
+
+    public void setStartScreen(StartScreen startScreen) {
+        this.startScreen = startScreen;
+    }
+
+    public GridPane getSquares() {
+        return squares;
     }
 
 }

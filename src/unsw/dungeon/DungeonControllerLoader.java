@@ -189,5 +189,53 @@ public class DungeonControllerLoader extends DungeonLoader {
         return new DungeonController(load(), entities);
     }
 
+    public Image getPlayerImage() {
+        return playerImage;
+    }
+
+    public Image getWallImage() {
+        return wallImage;
+    }
+
+    public Image getBoulderImage() {
+        return boulderImage;
+    }
+
+    public Image getExitImage() {
+        return exitImage;
+    }
+
+    public Image getTreasureImage() {
+        return treasureImage;
+    }
+
+    public Image getKeyImage() {
+        return keyImage;
+    }
+
+    public Image getClosedDoorImage() {
+        return closedDoorImage;
+    }
+
+    public Image getFloorSwitchImage() {
+        return floorSwitchImage;
+    }
+
+    public Image getPortalImage() {
+        return portalImage;
+    }
+
+    public Image getEnemyImage() {
+        return enemyImage;
+    }
+
+    public Image getSwordImage() {
+        return swordImage;
+    }
+
+    public Image getPotionImage() {
+        return potionImage;
+    }
+
 
 }
