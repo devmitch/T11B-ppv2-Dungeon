@@ -1,5 +1,7 @@
 package unsw.dungeon;
 
+import javafx.beans.property.BooleanProperty;
+
 public interface GoalType {
 
     /**
@@ -7,4 +9,5 @@ public interface GoalType {
      */
     public boolean isSatisfied();
     
+    public BooleanProperty getIsSatisfiedProperty();
 }

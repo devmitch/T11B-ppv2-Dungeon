@@ -20,7 +20,7 @@
       <RowConstraints minHeight="10.0" vgrow="ALWAYS" />
    </rowConstraints>
    <children>
-      <Button focusTraversable="false" mnemonicParsing="false" onAction="#handleExitGame" text="&lt;-" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.valignment="TOP" GridPane.vgrow="NEVER">
+      <Button focusTraversable="false" mnemonicParsing="false" onAction="#handleExitGame" text="&lt;-" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.valignment="CENTER" GridPane.vgrow="NEVER">
          <GridPane.margin>
             <Insets bottom="4.0" left="4.0" right="4.0" top="4.0" />
          </GridPane.margin>
@@ -37,10 +37,10 @@
 
         </children>
       </GridPane>
-      <ListView focusTraversable="false" mouseTransparent="true" prefHeight="1.0" prefWidth="128.0" style="-fx-control-inner-background: black; -fx-background-color: black;" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+      <ListView fx:id="goalsListView" focusTraversable="false" mouseTransparent="true" prefHeight="1.0" prefWidth="384.0" style="-fx-control-inner-background: black; -fx-background-color: black;" GridPane.columnIndex="2" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" />
       <Label text="Goals" textFill="WHITE" GridPane.columnIndex="2" GridPane.halignment="CENTER">
          <font>
-            <Font size="24.0" />
+            <Font size="36.0" />
          </font>
          <GridPane.margin>
             <Insets top="4.0" />

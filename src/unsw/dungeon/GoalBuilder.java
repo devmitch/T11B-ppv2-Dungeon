@@ -1,7 +1,12 @@
 package unsw.dungeon;
 
+import java.util.ArrayList;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
+
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 public class GoalBuilder {
     
@@ -10,11 +15,15 @@ public class GoalBuilder {
     private ExitGoalType exitGoalType;
     private SwitchGoalType switchGoalType;
 
+    private ObservableList<GoalType> dungeonGoals;
+
     public GoalBuilder() {
         treasureGoalType = new TreasureGoalType();
         enemyGoalType = new EnemyGoalType();
         exitGoalType = new ExitGoalType();
         switchGoalType = new SwitchGoalType();
+
+        dungeonGoals = FXCollections.observableArrayList(new ArrayList<GoalType>());
     }
 
     /**
@@ -39,14 +48,24 @@ public class GoalBuilder {
         } else {
             switch (goalType) {
                 case "exit":
+                    addGoalToDungeonGoals(exitGoalType);
                     return new LeafGoal(exitGoalType);
                 case "enemies":
+                    addGoalToDungeonGoals(enemyGoalType);
                     return new LeafGoal(enemyGoalType);
                 case "boulders":
+                    addGoalToDungeonGoals(switchGoalType);
                     return new LeafGoal(switchGoalType);
                 default:
+                    addGoalToDungeonGoals(treasureGoalType);
                     return new LeafGoal(treasureGoalType);
             }
+        }
+    }
+
+    private void addGoalToDungeonGoals(GoalType goal) {
+        if (!dungeonGoals.contains(goal)) {
+            dungeonGoals.add(goal);
         }
     }
 
@@ -64,6 +83,10 @@ public class GoalBuilder {
 
     public SwitchGoalType getSwitchGoalType() {
         return switchGoalType;
+    }
+
+    public ObservableList<GoalType> getDungeonGoals() {
+        return dungeonGoals;
     }
 
 }

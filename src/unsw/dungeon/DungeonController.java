@@ -43,6 +43,9 @@ public class DungeonController {
     @FXML
     private ListView<Entity> itemsListView;
 
+    @FXML
+    private ListView<GoalType> goalsListView;
+
     private List<ImageView> initialEntities;
 
     private Player player;
@@ -70,6 +73,7 @@ public class DungeonController {
         for (ImageView entity : initialEntities)
             squares.getChildren().add(entity);
 
+        // Set the items for the tool bar
         itemsListView.setItems(player.getItems());
         itemsListView.setCellFactory(listViewEntity -> new ListCell<Entity>() {
             @Override
@@ -113,12 +117,113 @@ public class DungeonController {
                         root.getChildren().add(label);
                         root.getChildren().add(imageView);
                     } else if (entity instanceof Key) {
-                        Key key = (Key) entity;
-
                         // Create an image view for the key
                         ImageView imageView = new ImageView(dungeonControllerLoader.getKeyImage());
 
                         root.getChildren().add(imageView);
+                    }
+
+                    setGraphic(root);
+                }
+            }
+        });
+     
+        // Set the goals for the goal progress bar.
+        goalsListView.setItems(dungeonControllerLoader.getDungeonGoals());
+        goalsListView.setCellFactory(listViewEntity -> new ListCell<GoalType>() {
+            @Override
+            protected void updateItem(GoalType goalType, boolean empty) {
+                super.updateItem(goalType, empty);
+                if (goalType == null || empty) {
+                    setText(null);
+                    setGraphic(null);
+                } else {
+                    HBox root = new HBox();
+                    root.setAlignment(Pos.CENTER);
+
+                    // Picture of if the goal is completed
+                    ImageView tickImageView = new ImageView(dungeonControllerLoader.getTickImage());
+                    tickImageView.visibleProperty().bind(goalType.getIsSatisfiedProperty());
+
+                    if (goalType instanceof ExitGoalType) {
+
+                        Label label = new Label();
+                        label.setAlignment(Pos.CENTER);
+                        label.setFont(Font.font(24));
+                        label.setPadding(new Insets(0, 10, 0, 10));
+                        label.setText("Reach the ");
+
+                        // picture of treasure
+                        ImageView imageView = new ImageView(dungeonControllerLoader.getExitImage());
+
+                        root.getChildren().addAll(tickImageView, label, imageView);
+
+                    } else if (goalType instanceof TreasureGoalType) {
+                        TreasureGoalType treasureGoalType = (TreasureGoalType) goalType;
+
+                        Label label = new Label();
+                        label.setAlignment(Pos.CENTER);
+                        label.setFont(Font.font(24));
+                        label.setPadding(new Insets(0, 10, 0, 10));
+                        label.setText("Pickup ");
+
+                        // how much treasure is needed
+                        Label label2 = new Label();
+                        label2.setAlignment(Pos.CENTER);
+                        label2.setFont(Font.font(24));
+                        label2.setPadding(new Insets(0, 10, 0, 0));
+
+                        label2.textProperty().bind(treasureGoalType.getCurrentTreasureProperty().asString());
+
+                        // picture of treasure
+                        ImageView imageView = new ImageView(dungeonControllerLoader.getTreasureImage());
+
+                        root.getChildren().addAll(tickImageView, label, label2, imageView);
+
+                    } else if (goalType instanceof EnemyGoalType) {
+                        EnemyGoalType enemyGoalType = (EnemyGoalType) goalType;
+
+                        Label label = new Label();
+                        label.setAlignment(Pos.CENTER);
+                        label.setFont(Font.font(24));
+                        label.setPadding(new Insets(0, 10, 0, 10));
+                        label.textProperty().bind(enemyGoalType.getEnemiesLeftProperty().asString());
+
+                        ImageView imageView = new ImageView(dungeonControllerLoader.getEnemyImage());
+
+                        Label label2 = new Label();
+                        label2.setAlignment(Pos.CENTER);
+                        label2.setFont(Font.font(24));
+                        label2.setPadding(new Insets(0, 0, 0, 10));
+                        label2.setText(" left");
+
+                        root.getChildren().addAll(tickImageView, label, imageView, label2);
+
+                    } else if (goalType instanceof SwitchGoalType) {
+                        SwitchGoalType switchGoalType = (SwitchGoalType) goalType;
+
+                        Label label = new Label();
+                        label.setAlignment(Pos.CENTER);
+                        label.setFont(Font.font(24));
+                        label.setPadding(new Insets(0, 0, 0, 10));
+                        label.setText("Place ");
+
+                        Label label2 = new Label();
+                        label2.setAlignment(Pos.CENTER);
+                        label2.setFont(Font.font(24));
+                        label2.setPadding(new Insets(0, 10, 0, 10));
+                        label2.textProperty().bind(switchGoalType.getSwitchesLeftProperty().asString());
+
+                        ImageView boulderView = new ImageView(dungeonControllerLoader.getBoulderImage());
+
+                        Label label3 = new Label();
+                        label3.setAlignment(Pos.CENTER);
+                        label3.setFont(Font.font(24));
+                        label3.setText(" on ");
+
+                        ImageView switchView = new ImageView(dungeonControllerLoader.getFloorSwitchImage());
+                        
+                        root.getChildren().addAll(tickImageView, label, label2, boulderView, label3, switchView);
                     }
 
                     setGraphic(root);

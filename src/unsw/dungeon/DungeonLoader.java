@@ -7,6 +7,8 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
+import javafx.collections.ObservableList;
+
 /**
  * Loads a dungeon from a .json file.
  *
@@ -126,6 +128,10 @@ public abstract class DungeonLoader {
             break;
         }
         dungeon.addEntity(entity);
+    }
+
+    public ObservableList<GoalType> getDungeonGoals() {
+        return goalBuilder.getDungeonGoals();
     }
 
     public abstract void onLoad(Entity player);

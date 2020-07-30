@@ -37,6 +37,8 @@ public class DungeonControllerLoader extends DungeonLoader {
     private Image swordImage;
     private Image potionImage;
 
+    private Image tickImage;
+
     public DungeonControllerLoader(String filename)
             throws FileNotFoundException {
         super(filename);
@@ -60,6 +62,7 @@ public class DungeonControllerLoader extends DungeonLoader {
         }
         swordImage = new Image((new File("images/greatsword_1_new.png")).toURI().toString());
         potionImage = new Image((new File("images/brilliant_blue_new.png")).toURI().toString());
+        tickImage = new Image((new File("images/tick.png")).toURI().toString()); 
     }
 
     @Override
@@ -237,5 +240,8 @@ public class DungeonControllerLoader extends DungeonLoader {
         return potionImage;
     }
 
+    public Image getTickImage() {
+        return tickImage;
+    }
 
 }
