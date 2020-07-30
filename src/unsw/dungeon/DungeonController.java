@@ -5,22 +5,24 @@ import java.util.List;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
-import javafx.util.Callback;
 
 import java.io.File;
 
@@ -33,16 +35,10 @@ import java.io.File;
 public class DungeonController {
 
     private DungeonControllerLoader dungeonControllerLoader;
-    private StartScreen startScreen;
+    private LevelSelectScreen levelSelectScreen;
 
     @FXML
     private GridPane squares;
-
-    @FXML
-    private VBox itemsVBox;
-
-    @FXML
-    private VBox goalsVBox;
 
     @FXML
     private ListView<Entity> itemsListView;
@@ -75,73 +71,72 @@ public class DungeonController {
             squares.getChildren().add(entity);
 
         itemsListView.setItems(player.getItems());
-        itemsListView.setCellFactory(new Callback<ListView<Entity>, ListCell<Entity>>() {
+        itemsListView.setCellFactory(listViewEntity -> new ListCell<Entity>() {
             @Override
-            public ListCell<Entity> call(ListView<Entity> listViewEntity) {
-                return new ListCell<Entity>() {
-                    @Override
-                    protected void updateItem(Entity entity, boolean empty) {
-                        super.updateItem(entity, empty);
-                        if (entity == null || empty) {
-                            setText(null);
-                            setGraphic(null);
-                        } else {
-                            HBox root = new HBox();
-                            root.setAlignment(Pos.CENTER);
+            protected void updateItem(Entity entity, boolean empty) {
+                super.updateItem(entity, empty);
+                if (entity == null || empty) {
+                    setText(null);
+                    setGraphic(null);
+                } else {
+                    HBox root = new HBox();
+                    root.setAlignment(Pos.CENTER);
 
-                            // Create a label that the entity just has to bind to
-                            Label label = new Label();
-                            label.setAlignment(Pos.CENTER);
-                            label.setFont(Font.font(24));
-                            label.setPadding(new Insets(0, 10, 0, 0));
+                    // Create a label that the entity just has to bind to
+                    Label label = new Label();
+                    label.setAlignment(Pos.CENTER);
+                    label.setFont(Font.font(24));
+                    label.setPadding(new Insets(0, 10, 0, 0));
 
-                            if (entity instanceof Sword) {
-                                Sword sword = (Sword) entity;
-                                
-                                // Create an observer for the durability
-                                
-                                label.textProperty().bind(sword.getDurabilityProperty().asString());
+                    if (entity instanceof Sword) {
+                        Sword sword = (Sword) entity;
 
-                                // Create an image view for the sword
-                                ImageView imageView = new ImageView(dungeonControllerLoader.getSwordImage());
+                        // Create an observer for the durability
 
-                                root.getChildren().add(label);
-                                root.getChildren().add(imageView);
-                                
-                            } else if (entity instanceof InvincibilityPotion) {
-                                InvincibilityPotion potion = (InvincibilityPotion) entity;
+                        label.textProperty().bind(sword.getDurabilityProperty().asString());
 
-                                // Create an observer for how many steps are left
-                                label.textProperty().bind(potion.getStepsLeftProperty().asString());
+                        // Create an image view for the sword
+                        ImageView imageView = new ImageView(dungeonControllerLoader.getSwordImage());
 
-                                // Create an image view for the potion
-                                ImageView imageView = new ImageView(dungeonControllerLoader.getPotionImage());
+                        root.getChildren().add(label);
+                        root.getChildren().add(imageView);
 
-                                root.getChildren().add(label);
-                                root.getChildren().add(imageView);
-                            } else if (entity instanceof Key) {
-                                Key key = (Key) entity;
+                    } else if (entity instanceof InvincibilityPotion) {
+                        InvincibilityPotion potion = (InvincibilityPotion) entity;
 
-                                // Create an image view for the key
-                                ImageView imageView = new ImageView(dungeonControllerLoader.getKeyImage());
+                        // Create an observer for how many steps are left
+                        label.textProperty().bind(potion.getStepsLeftProperty().asString());
 
-                                root.getChildren().add(imageView);
-                            }
+                        // Create an image view for the potion
+                        ImageView imageView = new ImageView(dungeonControllerLoader.getPotionImage());
 
-                            setGraphic(root);
-                        }
+                        root.getChildren().add(label);
+                        root.getChildren().add(imageView);
+                    } else if (entity instanceof Key) {
+                        Key key = (Key) entity;
+
+                        // Create an image view for the key
+                        ImageView imageView = new ImageView(dungeonControllerLoader.getKeyImage());
+
+                        root.getChildren().add(imageView);
                     }
-                };
+
+                    setGraphic(root);
+                }
             }
-            
         });
         
     }
 
     @FXML
     public void handleKeyPress(KeyEvent event) {
+        if (event.getCode() == KeyCode.ESCAPE) {
+            getConfirmationToExit();
+        }
+
         if (!player.getStatus()) return;
         if (dungeon.completedGoal()) return;
+        
         switch (event.getCode()) {
         case UP:
             player.move(Direction.UP);
@@ -155,11 +150,26 @@ public class DungeonController {
         case RIGHT:
             player.move(Direction.RIGHT);
             break;
-        case P:
-            startScreen.start();
         default:
             break;
         }
+    }
+
+    @FXML
+    public void handleExitGame(ActionEvent event) {
+        getConfirmationToExit();
+    }
+
+    private void getConfirmationToExit() {
+        Alert alert = new Alert(AlertType.CONFIRMATION, "", ButtonType.YES, ButtonType.NO);
+        alert.setTitle("Exit Confirmation");
+        alert.setHeaderText("Do you want to leave?");
+        alert.showAndWait();
+
+        if (alert.getResult() == ButtonType.YES) {
+            levelSelectScreen.start();
+        }
+        alert.close();
     }
 
     public void newEntity(Entity entity) {
@@ -206,8 +216,8 @@ public class DungeonController {
         this.dungeonControllerLoader = dungeonControllerLoader;
     }
 
-    public void setStartScreen(StartScreen startScreen) {
-        this.startScreen = startScreen;
+    public void setLevelSelectScreen(LevelSelectScreen levelSelectScreen) {
+        this.levelSelectScreen = levelSelectScreen;
     }
 
     public GridPane getSquares() {

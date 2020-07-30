@@ -20,12 +20,13 @@ public class LevelSelectScreen {
         this.stage = stage;
         title = "Level Select";
 
-        controller = new LevelSelectController();
+        dungeonScreen = new DungeonScreen(stage);
+        controller = new LevelSelectController(dungeonScreen);
         FXMLLoader loader = new FXMLLoader(getClass().getResource("LevelSelectView.fxml"));
         loader.setController(controller);
 
-        dungeonScreen = new DungeonScreen(stage);
-        controller.setDungeonScreen(dungeonScreen);
+        
+        controller.setLevelSelectScreen(this);
 
         Parent root = loader.load();
         scene = new Scene(root);

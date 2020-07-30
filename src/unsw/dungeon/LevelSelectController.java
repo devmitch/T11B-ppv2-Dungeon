@@ -11,10 +11,13 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 
 public class LevelSelectController {
 
     private DungeonScreen dungeonScreen;
+    private LevelSelectScreen levelSelectScreen;
     private StartScreen startScreen;
 
     @FXML
@@ -26,8 +29,8 @@ public class LevelSelectController {
     @FXML
     private Label errorLabel;
 
-    public LevelSelectController() {
-
+    public LevelSelectController(DungeonScreen dungeonScreen) {
+        this.dungeonScreen = dungeonScreen;
     }
 
     /**
@@ -48,7 +51,7 @@ public class LevelSelectController {
         // Load the dungeon screen for the selected dungeon.
         try {
             dungeonScreen.start(fileToLoad.getPath());
-            dungeonScreen.setStartScreen(startScreen);
+            dungeonScreen.setLevelSelectScreen(levelSelectScreen);
             errorLabel.setText("");
         } catch (Exception e) {
             errorLabel.setText(fileToLoad.toString() + " could not be loaded.");
@@ -61,6 +64,13 @@ public class LevelSelectController {
     }
 
     @FXML
+    public void handleKeyPress(KeyEvent event) {
+        if (event.getCode() == KeyCode.ESCAPE) {
+            startScreen.start();
+        }
+    } 
+
+    @FXML
     public void initialize() {
         // add all the names that are in the dungeon folder
         setDungeonNames();
@@ -70,8 +80,8 @@ public class LevelSelectController {
         this.startScreen = startScreen;
     }
 
-    public void setDungeonScreen(DungeonScreen dungeonScreen) {
-        this.dungeonScreen = dungeonScreen;
+    public void setLevelSelectScreen(LevelSelectScreen levelSelectScreen) {
+        this.levelSelectScreen = levelSelectScreen;
     }
 
     /**
@@ -120,10 +130,12 @@ class FileEntry {
 
     @Override
     public String toString() {
-        int dotIndex = file.getName().lastIndexOf('.');
+        String name = file.getPath();
+        name = name.substring(name.indexOf('/') + 1);
+        int dotIndex = name.lastIndexOf('.');
         if (dotIndex > -1)
-            return file.getName().substring(0, dotIndex);
-        return file.getName();
+            return name.substring(0, dotIndex);
+        return name;
     }
 
 }
