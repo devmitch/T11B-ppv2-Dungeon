@@ -22,8 +22,6 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.text.Font;
-
 import java.io.File;
 
 /**
@@ -88,9 +86,7 @@ public class DungeonController {
 
                     // Create a label that the entity just has to bind to
                     Label label = new Label();
-                    label.setAlignment(Pos.CENTER);
-                    label.setFont(Font.font(24));
-                    label.setPadding(new Insets(0, 10, 0, 0));
+                    label.setPadding(new Insets(0, 12, 0, 0));
 
                     if (entity instanceof Sword) {
                         Sword sword = (Sword) entity;
@@ -148,9 +144,7 @@ public class DungeonController {
                     if (goalType instanceof ExitGoalType) {
 
                         Label label = new Label();
-                        label.setAlignment(Pos.CENTER);
-                        label.setFont(Font.font(24));
-                        label.setPadding(new Insets(0, 10, 0, 10));
+                        label.setPadding(new Insets(0, 12, 0, 12));
                         label.setText("Reach the ");
 
                         // picture of treasure
@@ -162,16 +156,12 @@ public class DungeonController {
                         TreasureGoalType treasureGoalType = (TreasureGoalType) goalType;
 
                         Label label = new Label();
-                        label.setAlignment(Pos.CENTER);
-                        label.setFont(Font.font(24));
-                        label.setPadding(new Insets(0, 10, 0, 10));
+                        label.setPadding(new Insets(0, 12, 0, 12));
                         label.setText("Pickup ");
 
                         // how much treasure is needed
                         Label label2 = new Label();
-                        label2.setAlignment(Pos.CENTER);
-                        label2.setFont(Font.font(24));
-                        label2.setPadding(new Insets(0, 10, 0, 0));
+                        label2.setPadding(new Insets(0, 12, 0, 0));
 
                         label2.textProperty().bind(treasureGoalType.getCurrentTreasureProperty().asString());
 
@@ -183,42 +173,33 @@ public class DungeonController {
                     } else if (goalType instanceof EnemyGoalType) {
                         EnemyGoalType enemyGoalType = (EnemyGoalType) goalType;
 
+                        
                         Label label = new Label();
-                        label.setAlignment(Pos.CENTER);
-                        label.setFont(Font.font(24));
-                        label.setPadding(new Insets(0, 10, 0, 10));
+                        label.setPadding(new Insets(0, 12, 0, 0));
                         label.textProperty().bind(enemyGoalType.getEnemiesLeftProperty().asString());
 
                         ImageView imageView = new ImageView(dungeonControllerLoader.getEnemyImage());
 
                         Label label2 = new Label();
-                        label2.setAlignment(Pos.CENTER);
-                        label2.setFont(Font.font(24));
-                        label2.setPadding(new Insets(0, 0, 0, 10));
-                        label2.setText(" left");
+                        label2.setPadding(new Insets(0, 12, 0, 12));
+                        label2.setText("Kill ");
 
-                        root.getChildren().addAll(tickImageView, label, imageView, label2);
+                        root.getChildren().addAll(tickImageView, label2, label, imageView);
 
                     } else if (goalType instanceof SwitchGoalType) {
                         SwitchGoalType switchGoalType = (SwitchGoalType) goalType;
 
                         Label label = new Label();
-                        label.setAlignment(Pos.CENTER);
-                        label.setFont(Font.font(24));
-                        label.setPadding(new Insets(0, 0, 0, 10));
+                        label.setPadding(new Insets(0, 0, 0, 12));
                         label.setText("Place ");
 
                         Label label2 = new Label();
-                        label2.setAlignment(Pos.CENTER);
-                        label2.setFont(Font.font(24));
-                        label2.setPadding(new Insets(0, 10, 0, 10));
+                        label2.setPadding(new Insets(0, 12, 0, 12));
                         label2.textProperty().bind(switchGoalType.getSwitchesLeftProperty().asString());
 
                         ImageView boulderView = new ImageView(dungeonControllerLoader.getBoulderImage());
 
                         Label label3 = new Label();
-                        label3.setAlignment(Pos.CENTER);
-                        label3.setFont(Font.font(24));
                         label3.setText(" on ");
 
                         ImageView switchView = new ImageView(dungeonControllerLoader.getFloorSwitchImage());
@@ -236,11 +217,10 @@ public class DungeonController {
     @FXML
     public void handleKeyPress(KeyEvent event) {
         if (event.getCode() == KeyCode.ESCAPE) {
-            getConfirmationToExit();
+            getConfirmationToExit("Are you sure you want to leave?", "");
         }
 
-        if (!player.getStatus()) return;
-        if (dungeon.completedGoal()) return;
+        if (!player.getStatus() || dungeon.completedGoal()) return;
         
         switch (event.getCode()) {
         case UP:
@@ -262,13 +242,13 @@ public class DungeonController {
 
     @FXML
     public void handleExitGame(ActionEvent event) {
-        getConfirmationToExit();
+        getConfirmationToExit("Are you sure you want to leave?", "");
     }
 
-    private void getConfirmationToExit() {
-        Alert alert = new Alert(AlertType.CONFIRMATION, "", ButtonType.YES, ButtonType.NO);
+    private void getConfirmationToExit(String headerText, String contentText) {
+        Alert alert = new Alert(AlertType.CONFIRMATION, contentText, ButtonType.YES, ButtonType.NO);
         alert.setTitle("Exit Confirmation");
-        alert.setHeaderText("Do you want to leave?");
+        alert.setHeaderText(headerText);
         alert.showAndWait();
 
         if (alert.getResult() == ButtonType.YES) {
