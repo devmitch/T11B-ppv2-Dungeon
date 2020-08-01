@@ -60,6 +60,11 @@ public class DungeonMockControllerLoader extends DungeonLoader {
     }
 
     @Override
+    public void onLoad(Wizard wizard) {
+        
+    }
+
+    @Override
     public void onLoad(Sword sword) {
 
     }

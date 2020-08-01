@@ -97,7 +97,6 @@ public class Dungeon {
     }
 
     
-    /* Might need for iteration 3
     public void newEntityImage(Entity entity) {
         if (controller != null) {
             controller.newEntity(entity);
@@ -107,7 +106,6 @@ public class Dungeon {
     public void setController(DungeonController controller) {
         this.controller = controller;
     }
-    */
 
     /**
      * "Drops" the given entity onto the dungeon. 
@@ -256,4 +254,20 @@ public class Dungeon {
         }
         return null;
     }
+
+	public Tile getTile(int x, int y) {
+		return tiles[x][y];
+	}
+
+    /**
+     * Spawns a new enemy on the given tile. This enemy is not observed by the enemy goal.
+     * 
+     * @param tile to spawn the enemy on.
+     */
+	public Enemy spawnNewEnemy(Tile tile) {
+        Enemy enemy = new Enemy(this, tile.getX(), tile.getY());
+        newEntityImage(enemy);
+        addEntity(enemy);
+        return enemy;
+	}
 }

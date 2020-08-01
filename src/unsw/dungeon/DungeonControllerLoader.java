@@ -34,6 +34,7 @@ public class DungeonControllerLoader extends DungeonLoader {
     private Image floorSwitchImage;
     private Image portalImage;
     private Image enemyImage;
+    private Image wizardImage;
     private Image swordImage;
     private Image potionImage;
 
@@ -53,13 +54,12 @@ public class DungeonControllerLoader extends DungeonLoader {
         floorSwitchImage = new Image((new File("images/pressure_plate.png")).toURI().toString());
         portalImage = new Image((new File("images/portal.png")).toURI().toString());
         double enemyImageChoice = Math.random();
-        if (enemyImageChoice < 0.33) {
+        if (enemyImageChoice < 0.5) {
             enemyImage = new Image((new File("images/deep_elf_master_archer.png")).toURI().toString());
-        } else if (enemyImageChoice < 0.67) {
-            enemyImage = new Image((new File("images/gnome.png")).toURI().toString());
         } else {
             enemyImage = new Image((new File("images/hound.png")).toURI().toString());
         }
+        wizardImage = new Image((new File("images/gnome.png")).toURI().toString());
         swordImage = new Image((new File("images/greatsword_1_new.png")).toURI().toString());
         potionImage = new Image((new File("images/brilliant_blue_new.png")).toURI().toString());
         tickImage = new Image((new File("images/tick.png")).toURI().toString()); 
@@ -123,6 +123,12 @@ public class DungeonControllerLoader extends DungeonLoader {
     public void onLoad(Enemy enemy) {
         ImageView view = new ImageView(enemyImage);
         addEntity(enemy, view);
+    }
+
+    @Override
+    public void onLoad(Wizard wizard) {
+        ImageView view = new ImageView(wizardImage);
+        addEntity(wizard, view);
     }
 
     @Override
@@ -230,6 +236,10 @@ public class DungeonControllerLoader extends DungeonLoader {
 
     public Image getEnemyImage() {
         return enemyImage;
+    }
+
+    public Image getWizardImage() {
+        return wizardImage;
     }
 
     public Image getSwordImage() {
