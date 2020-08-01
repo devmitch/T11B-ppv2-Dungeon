@@ -7,7 +7,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-public class LevelSelectScreen {
+public class LevelSelectScreen implements BackTrackScreen {
     
     private Stage stage;
     private String title;

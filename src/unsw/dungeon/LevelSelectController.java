@@ -51,7 +51,7 @@ public class LevelSelectController {
         // Load the dungeon screen for the selected dungeon.
         try {
             dungeonScreen.start(fileToLoad.getPath());
-            dungeonScreen.setLevelSelectScreen(levelSelectScreen);
+            dungeonScreen.setBackTrackScreen(levelSelectScreen);
             errorLabel.setText("");
         } catch (Exception e) {
             errorLabel.setText(fileToLoad.toString() + " could not be loaded.");
@@ -109,33 +109,6 @@ public class LevelSelectController {
             }
         }
         return names;
-    }
-
-}
-
-/**
- * This is a helper class for holding the paths to dungeons.
- */
-class FileEntry {
-
-    private File file;
-
-    public FileEntry(File file) {
-        this.file = file;
-    }
-
-    public String getPath() {
-        return file.getPath();
-    }
-
-    @Override
-    public String toString() {
-        String name = file.getPath();
-        name = name.substring(name.indexOf('/') + 1);
-        int dotIndex = name.lastIndexOf('.');
-        if (dotIndex > -1)
-            return name.substring(0, dotIndex);
-        return name;
     }
 
 }
