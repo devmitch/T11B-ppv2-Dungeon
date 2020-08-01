@@ -5,7 +5,7 @@ import javafx.fxml.FXML;
 
 public class StartController {
     
-    // this is going to be intermediate
+    private TutorialScreen tutorialScreen;
     private LevelSelectScreen levelSelectScreen;
 
     public StartController() {
@@ -14,7 +14,7 @@ public class StartController {
 
     @FXML
     public void handleTutorial(ActionEvent event) {
-        System.out.println("Load the tutorial here!");
+        tutorialScreen.start();
     }
 
     @FXML
@@ -24,6 +24,10 @@ public class StartController {
 
     public void setLevelSelectScreen(LevelSelectScreen levelSelectScreen) {
         this.levelSelectScreen = levelSelectScreen;
+    }
+
+    public void setTutorialScreen(TutorialScreen tutorialScreen) {
+        this.tutorialScreen = tutorialScreen;
     }
 
 }

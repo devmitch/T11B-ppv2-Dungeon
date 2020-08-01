@@ -25,12 +25,16 @@ public class StartScreen {
         LevelSelectScreen levelSelectScreen = new LevelSelectScreen(stage);
         levelSelectScreen.setStartScreen(this);
 
+        TutorialScreen tutorialScreen = new TutorialScreen(stage);
+        tutorialScreen.setStartScreen(this);
+
+        controller.setTutorialScreen(tutorialScreen);
         controller.setLevelSelectScreen(levelSelectScreen);
 
         Parent root = loader.load();
         scene = new Scene(root);
     }
-
+    
     public void start() {
         stage.setTitle(title);
         stage.setScene(scene);
