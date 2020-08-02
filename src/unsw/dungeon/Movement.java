@@ -25,7 +25,7 @@ public class Movement {
             return false;
         }
 
-        return !dungeon.isTileObstructed(x, y) && entity.canMove();
+        return !dungeon.isTileObstructed(x, y);
     }
 
     /**

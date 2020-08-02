@@ -1,17 +1,28 @@
 package unsw.dungeon;
 
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+
 public class SwitchGoalType implements GoalType, GoalObserver {
 
+    private IntegerProperty switchesLeftProperty;
+    private BooleanProperty isSatisfiedProperty;
+    
     private int switchesActive;
     private int switchesNeeded;
 
     public SwitchGoalType() {
+        this.isSatisfiedProperty = new SimpleBooleanProperty();
+        this.switchesLeftProperty = new SimpleIntegerProperty();
         this.switchesNeeded = 0;
         this.switchesActive = 0;
     }
 
     @Override
     public boolean isSatisfied() {
+        isSatisfiedProperty.set(switchesActive >= switchesNeeded);
         return switchesActive >= switchesNeeded;
     }
 
@@ -19,7 +30,7 @@ public class SwitchGoalType implements GoalType, GoalObserver {
     public void update(GoalSubject subject) {
         if (subject instanceof FloorSwitch) {
             FloorSwitch floorSwitch = (FloorSwitch) subject;
-            
+
             if (floorSwitch.getIsTracked()) {
                 if (floorSwitch.getSwitch()) {
                     incrementActiveSwitches();
@@ -38,6 +49,7 @@ public class SwitchGoalType implements GoalType, GoalObserver {
      */
     private void incrementActiveSwitches() {
         switchesActive++;
+        updateSwitchesLeft();
     }
 
     /**
@@ -45,6 +57,7 @@ public class SwitchGoalType implements GoalType, GoalObserver {
      */
     private void decrementActiveSwitches() {
         switchesActive--;
+        updateSwitchesLeft();
     }
 
     /**
@@ -52,6 +65,20 @@ public class SwitchGoalType implements GoalType, GoalObserver {
      */
     private void incrementSwitchesNeeded() {
         switchesNeeded++;
+        updateSwitchesLeft();
+    }
+
+    private void updateSwitchesLeft() {
+        switchesLeftProperty.set(switchesNeeded - switchesActive);
+    }
+
+    public IntegerProperty getSwitchesLeftProperty() {
+        return switchesLeftProperty;
+    }
+
+    @Override
+    public BooleanProperty getIsSatisfiedProperty() {
+        return isSatisfiedProperty;
     }
 
 }

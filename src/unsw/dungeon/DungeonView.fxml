@@ -1,17 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
 
-<GridPane fx:id="squares" onKeyPressed="#handleKeyPress" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com//1">
+<GridPane stylesheets="@baseCss.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <columnConstraints>
-      <ColumnConstraints />
+      <ColumnConstraints hgrow="ALWAYS" minWidth="0.0" />
+      <ColumnConstraints hgrow="ALWAYS" minWidth="0.0" />
+      <ColumnConstraints hgrow="ALWAYS" minWidth="0.0" />
    </columnConstraints>
    <rowConstraints>
-      <RowConstraints />
+      <RowConstraints minHeight="10.0" vgrow="NEVER" />
+      <RowConstraints minHeight="10.0" vgrow="ALWAYS" />
    </rowConstraints>
    <children>
+      <Button focusTraversable="false" mnemonicParsing="false" onAction="#handleExitGame" text="&lt;-" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.valignment="CENTER" GridPane.vgrow="NEVER">
+         <GridPane.margin>
+            <Insets bottom="4.0" left="4.0" right="4.0" top="4.0" />
+         </GridPane.margin>
+      </Button>
+      <ListView fx:id="itemsListView" focusTraversable="false" mouseTransparent="true" prefHeight="1" prefWidth="124.0" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.valignment="TOP" GridPane.vgrow="ALWAYS" />
+      <GridPane fx:id="squares" onKeyPressed="#handleKeyPress" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowSpan="2" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
+         <columnConstraints>
+            <ColumnConstraints />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints />
+         </rowConstraints>
+         <children>
 
+        </children>
+      </GridPane>
+      <ListView fx:id="goalsListView" focusTraversable="false" mouseTransparent="true" prefHeight="1.0" prefWidth="256.0" style="-fx-background-color: black;" GridPane.columnIndex="2" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" />
+      <Label id="heading" text="Goals" textFill="WHITE" GridPane.columnIndex="2" GridPane.halignment="CENTER">
+         <font>
+            <Font size="36.0" />
+         </font>
+         <GridPane.margin>
+            <Insets top="4.0" />
+         </GridPane.margin>
+      </Label>
    </children>
 </GridPane>

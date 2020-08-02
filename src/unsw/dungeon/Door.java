@@ -12,19 +12,12 @@ public class Door extends Entity {
     }
 
     @Override
-    public void interactWith(Entity e, Direction d) {
+    public void interactWith(Entity e, Direction D) {
         if (e instanceof Player) {
             Player p = (Player) e;
             Key key = p.useKey(this.id);
             if (key != null) {
                 this.currentState = new OpenDoorState();
-            } else if (p.isInvisible()) {
-                int targetX = getX() + d.getXOffset();
-                int targetY = getY() + d.getYOffset();
-                if (!dungeon.isTileObstructed(targetX, targetY)) {
-                    dungeon.moveEntity(p, targetX, targetY);
-                    p.stun(1);
-                }
             }
         }
     }

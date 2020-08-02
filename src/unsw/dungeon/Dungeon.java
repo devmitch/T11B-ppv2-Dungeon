@@ -67,12 +67,8 @@ public class Dungeon {
         if (completedGoal()) return;
         List<Entity> entityList = new ArrayList<>(this.entities);
         for (Entity e : entityList) {
-            if (player == null) {
-                break;
-            } else if (e instanceof Enemy) {
-                if (!player.isInvisible()) {
-                    ((Enemy)e).makeMove();
-                }
+            if (e instanceof Enemy) {
+                ((Enemy)e).makeMove();
             } else if (e instanceof Exit) {
                 ((Exit)e).updateAtExitState();
             }
@@ -200,9 +196,6 @@ public class Dungeon {
      * @return true if the tile is obstructed, false otherwise.
      */
     public boolean isTileObstructed(int x, int y) {
-        if (x < 0 || x > width || y < 0 || y > height) {
-            return true; // past or on border
-        }
         return tiles[x][y].isObstructed();
     }
 

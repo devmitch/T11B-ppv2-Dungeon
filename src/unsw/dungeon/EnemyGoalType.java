@@ -1,16 +1,28 @@
 package unsw.dungeon;
 
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+
 public class EnemyGoalType implements GoalType, GoalObserver {
+
+    private IntegerProperty enemiesLeftProperty;
+    private BooleanProperty isSatisfiedProperty;
+
     private int enemiesKilled;
     private int enemiesNeeded;
 
     public EnemyGoalType() {
+        enemiesLeftProperty = new SimpleIntegerProperty();
+        isSatisfiedProperty = new SimpleBooleanProperty();
         this.enemiesNeeded = 0;
         this.enemiesKilled = 0;
     }
 
     @Override
     public boolean isSatisfied() {
+        isSatisfiedProperty.set(enemiesKilled >= enemiesNeeded);
         return enemiesKilled >= enemiesNeeded;
     }
 
@@ -19,6 +31,7 @@ public class EnemyGoalType implements GoalType, GoalObserver {
      */
     public void incrementEnemiesKilled() {
         enemiesKilled++;
+        updateEnemiesLeft();
     }
 
     /**
@@ -26,6 +39,7 @@ public class EnemyGoalType implements GoalType, GoalObserver {
      */
     public void incrementEnemiesNeeded() {
         enemiesNeeded++;
+        updateEnemiesLeft();
     }
 
     @Override
@@ -39,5 +53,18 @@ public class EnemyGoalType implements GoalType, GoalObserver {
                 incrementEnemiesNeeded();
             }
         }
+    }
+
+    private void updateEnemiesLeft() {
+        enemiesLeftProperty.set(enemiesNeeded - enemiesKilled);
+    }
+
+    public IntegerProperty getEnemiesLeftProperty() {
+        return this.enemiesLeftProperty;
+    }
+
+    @Override
+    public BooleanProperty getIsSatisfiedProperty() {
+        return this.isSatisfiedProperty;
     }
 }

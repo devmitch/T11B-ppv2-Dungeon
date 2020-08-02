@@ -7,6 +7,8 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
+import javafx.collections.ObservableList;
+
 /**
  * Loads a dungeon from a .json file.
  *
@@ -23,7 +25,7 @@ public abstract class DungeonLoader {
     private GoalBuilder goalBuilder;
 
     public DungeonLoader(String filename) throws FileNotFoundException {
-        this(new JSONObject(new JSONTokener(new FileReader("dungeons/" + filename))));
+        this(new JSONObject(new JSONTokener(new FileReader(filename))));
     }
 
     public DungeonLoader(JSONObject json) {
@@ -120,17 +122,16 @@ public abstract class DungeonLoader {
             entity = sword;
             break;
         case "invincibility":
-            InvincibilityPotion invincibilityPotion = new InvincibilityPotion(dungeon, x, y);
-            onLoad(invincibilityPotion);
-            entity = invincibilityPotion;
-            break;
-        case "phase":
-            PhasePotion phasePotion = new PhasePotion(dungeon, x, y);
-            onLoad(phasePotion);
-            entity = phasePotion;
+            InvincibilityPotion potion = new InvincibilityPotion(dungeon, x, y);
+            onLoad(potion);
+            entity = potion;
             break;
         }
         dungeon.addEntity(entity);
+    }
+
+    public ObservableList<GoalType> getDungeonGoals() {
+        return goalBuilder.getDungeonGoals();
     }
 
     public abstract void onLoad(Entity player);
@@ -154,8 +155,6 @@ public abstract class DungeonLoader {
     public abstract void onLoad(Sword sword);
 
     public abstract void onLoad(InvincibilityPotion potion);
-
-    public abstract void onLoad(PhasePotion potion);
 
     public abstract void onLoad(Door door);
 

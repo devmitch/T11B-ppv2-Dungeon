@@ -35,8 +35,9 @@ public class DungeonControllerLoader extends DungeonLoader {
     private Image portalImage;
     private Image enemyImage;
     private Image swordImage;
-    private Image invincibilityPotionImage;
-    private Image phasePotionImage;
+    private Image potionImage;
+
+    private Image tickImage;
 
     public DungeonControllerLoader(String filename)
             throws FileNotFoundException {
@@ -60,8 +61,8 @@ public class DungeonControllerLoader extends DungeonLoader {
             enemyImage = new Image((new File("images/hound.png")).toURI().toString());
         }
         swordImage = new Image((new File("images/greatsword_1_new.png")).toURI().toString());
-        invincibilityPotionImage = new Image((new File("images/brilliant_blue_new.png")).toURI().toString());
-        phasePotionImage = new Image((new File("images/bubbly.png")).toURI().toString());
+        potionImage = new Image((new File("images/brilliant_blue_new.png")).toURI().toString());
+        tickImage = new Image((new File("images/tick.png")).toURI().toString()); 
     }
 
     @Override
@@ -132,13 +133,7 @@ public class DungeonControllerLoader extends DungeonLoader {
 
     @Override
     public void onLoad(InvincibilityPotion potion) {
-        ImageView view = new ImageView(invincibilityPotionImage);
-        addEntity(potion, view);
-    }
-
-    @Override
-    public void onLoad(PhasePotion potion) {
-        ImageView view = new ImageView(phasePotionImage);
+        ImageView view = new ImageView(potionImage);
         addEntity(potion, view);
     }
 
@@ -197,5 +192,56 @@ public class DungeonControllerLoader extends DungeonLoader {
         return new DungeonController(load(), entities);
     }
 
+    public Image getPlayerImage() {
+        return playerImage;
+    }
+
+    public Image getWallImage() {
+        return wallImage;
+    }
+
+    public Image getBoulderImage() {
+        return boulderImage;
+    }
+
+    public Image getExitImage() {
+        return exitImage;
+    }
+
+    public Image getTreasureImage() {
+        return treasureImage;
+    }
+
+    public Image getKeyImage() {
+        return keyImage;
+    }
+
+    public Image getClosedDoorImage() {
+        return closedDoorImage;
+    }
+
+    public Image getFloorSwitchImage() {
+        return floorSwitchImage;
+    }
+
+    public Image getPortalImage() {
+        return portalImage;
+    }
+
+    public Image getEnemyImage() {
+        return enemyImage;
+    }
+
+    public Image getSwordImage() {
+        return swordImage;
+    }
+
+    public Image getPotionImage() {
+        return potionImage;
+    }
+
+    public Image getTickImage() {
+        return tickImage;
+    }
 
 }

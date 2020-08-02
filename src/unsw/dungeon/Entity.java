@@ -48,10 +48,6 @@ public class Entity {
         
     }
 
-    public boolean canMove() {
-        return true; //entites can move by default, but they need movement class
-    }
-
     // another entity interacting with this one
     public void interactWith(Entity e, Direction D) {
 

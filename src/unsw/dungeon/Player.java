@@ -1,7 +1,10 @@
 package unsw.dungeon;
 
-
+import java.util.ArrayList;
 import java.util.List;
+
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 /**
  * The player entity
  * @author Robert Clifton-Everest
@@ -12,8 +15,9 @@ public class Player extends Entity {
     private Movement movement;
     private Key key;
     private Sword sword;
-    private Potion potion;
-    private int stuns;
+    private InvincibilityPotion potion;
+
+    private ObservableList<Entity> items;
 
     /**
      * Create a player positioned in square (x,y)
@@ -26,22 +30,13 @@ public class Player extends Entity {
         this.key = null;
         this.sword = null;
         this.potion = null;
-        this.stuns = 0;
-    }
-
-    public void stun(int stuns) {
-        this.stuns = stuns;
-    }
-
-    @Override
-    public boolean canMove() {
-        return stuns == 0;
+        items = FXCollections.observableArrayList(new ArrayList<Entity>());
     }
 
     public void move(Direction d) {
         movement.moveInDirection(d); // moves player
         dungeon.updateObservers(); // updates enemies
-        stepTaken(); // updates potion steps left + stuns
+        stepTaken(); // updates potion steps left
     }
 
     // Duel enemies if the enemy interacts with the player
@@ -55,21 +50,15 @@ public class Player extends Entity {
     // Decrement potion ticker if movement was attempted
     private void stepTaken() {
         if (potion != null && potion.isActive()) {
-            potion.useStep();
-        }
-        if (stuns > 0) {
-            stuns--;
+            potion.decrementNumberOfSteps();
+            if (!potion.isActive()) {
+                items.remove(potion);
+            }
         }
     }
 
     public boolean isInvincible() {
-        if (potion != null && potion instanceof InvincibilityPotion)
-            return potion.isActive();
-        return false;
-    }
-
-    public boolean isInvisible() {
-        if (potion != null && potion instanceof PhasePotion)
+        if (potion != null)
             return potion.isActive();
         return false;
     }
@@ -79,16 +68,19 @@ public class Player extends Entity {
      * @param enemy
      */
     public void duel(Enemy enemy) {
-        if (potion != null && potion instanceof InvincibilityPotion && potion.isActive()) {
+        if (this.potion != null && this.potion.isActive()) {
             // win by potion
             enemy.die();
-        } else if (sword != null && !sword.isBroken()) {
+        } else if (this.sword != null && !this.sword.isBroken()) {
             // win by sword - decrement hits
-            sword.swing();
+            this.sword.swing();
             enemy.die();
+            if (sword.isBroken()) {
+                items.remove(sword);
+            }
         } else {
             // loss
-            dungeon.removeEntity(this);
+            this.dungeon.removeEntity(this);
         }
     }
 
@@ -122,19 +114,23 @@ public class Player extends Entity {
             } else if (result instanceof Sword) {
                 Sword sword = (Sword) result;
                 pickupSword(sword);
-            } else if (result instanceof Potion) {
-                Potion potion = (Potion) result;
+            } else if (result instanceof InvincibilityPotion) {
+                InvincibilityPotion potion = (InvincibilityPotion) result;
                 pickupPotion(potion);
             }
         }
     }
 
-    private void pickupPotion(Potion potion) {
+    private void pickupPotion(InvincibilityPotion potion) {
+        items.remove(this.potion);
         this.potion = potion;
+        items.add(this.potion);
     }
 
     private void pickupSword(Sword sword) {
+        items.remove(this.sword);
         this.sword = sword;
+        items.add(this.sword);
     }
 
     private void pickupKey(Key key) {
@@ -142,7 +138,13 @@ public class Player extends Entity {
             // swap keys
             dungeon.dropEntity(this.key, getX(), getY());
         }
+        items.remove(this.key);
         this.key = key;
+        items.add(this.key);
+    }
+
+    public ObservableList<Entity> getItems() {
+        return items;
     }
 
     // for testing
@@ -154,7 +156,7 @@ public class Player extends Entity {
         return this.sword;
     }
 
-    public Potion getPotion() {
+    public InvincibilityPotion getPotion() {
         return this.potion;
     }
 
@@ -166,6 +168,7 @@ public class Player extends Entity {
     public Key useKey(int id) {
         if (this.key != null && this.key.getId() == id) {
             Key ret = this.key;
+            items.remove(key);
             this.key = null;
             return ret;
         } else {
