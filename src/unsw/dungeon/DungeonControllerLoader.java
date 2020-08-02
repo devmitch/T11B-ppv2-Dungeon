@@ -256,8 +256,12 @@ public class DungeonControllerLoader extends DungeonLoader {
         return swordImage;
     }
 
-    public Image getPotionImage() {
+    public Image getInvincibilityPotionImage() {
         return invincibilityPotionImage;
+    }
+
+    public Image getPhasePotionImage() {
+        return phasePotionImage;
     }
 
     public Image getTickImage() {

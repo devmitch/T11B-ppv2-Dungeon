@@ -107,7 +107,17 @@ public class DungeonController {
                         label.textProperty().bind(potion.getStepsLeftProperty().asString());
 
                         // Create an image view for the potion
-                        ImageView imageView = new ImageView(dungeonControllerLoader.getPotionImage());
+                        ImageView imageView = new ImageView(dungeonControllerLoader.getInvincibilityPotionImage());
+
+                        root.getChildren().addAll(label, imageView);
+                    } else if (entity instanceof PhasePotion) {
+                        PhasePotion potion = (PhasePotion) entity;
+
+                        // Create an observer for how many steps are left
+                        label.textProperty().bind(potion.getStepsLeftProperty().asString());
+
+                        // Create an image view for the potion
+                        ImageView imageView = new ImageView(dungeonControllerLoader.getPhasePotionImage());
 
                         root.getChildren().addAll(label, imageView);
                     } else if (entity instanceof Key) {
