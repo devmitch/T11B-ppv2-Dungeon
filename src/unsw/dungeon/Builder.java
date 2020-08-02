@@ -13,15 +13,31 @@ public class Builder {
     
     // initial build
     // create the 2d array
-    public Builder() {
-        height = 10;
-        width = 10;
+    public Builder(int width, int height) {
+        this.width = width;
+        this.height = height;
         this.tiles = new BuilderTile[width][height];
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
                 this.tiles[x][y] = new BuilderTile();
             }
         }
+    }
+
+    public void resize(int newWidth, int newHeight) {
+        BuilderTile[][] newTiles = new BuilderTile[newWidth][newHeight];
+        for (int y = 0; y < newHeight; y++) {
+            for (int x = 0; x < newWidth; x++) {
+                if (x < this.width && y < this.height) {
+                    newTiles[x][y] = this.tiles[x][y];
+                } else {
+                    newTiles[x][y] = new BuilderTile();
+                }
+            }
+        }
+        this.tiles = newTiles;
+        this.width = newWidth;
+        this.height = newHeight;
     }
 
     public int getWidth() {
@@ -44,6 +60,10 @@ public class Builder {
 
     public void removeEntity(int x, int y) {
         tiles[x][y].remove();
+    }
+
+    public BuilderTile[][] getTiles() {
+        return this.tiles;
     }
     
     // setDungeonSize(int width, int height)

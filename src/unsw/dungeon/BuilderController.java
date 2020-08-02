@@ -83,12 +83,14 @@ public class BuilderController {
         deleteImage = new Image((new File("images/delete.png")).toURI().toString(), 32, 32, false, false);
         groundImage = new Image((new File("images/dirt_0_new.png")).toURI().toString());
 
-        builder = new Builder();
+        builder = new Builder(15, 15);
     }
 
     public GridPane getSquares() {
         return squares;
     }
+
+
 
     @FXML
     public void initialize() {
@@ -178,11 +180,7 @@ public class BuilderController {
                     throw new NumberFormatException(); // could just return from here? idk
                 }
                 builder.addEntity(entity.getType(), x, y, id);
-                ImageView toAdd = getImageView(entity.getType());
-                toAdd.setOnMouseClicked(this::handleBuilderPlace);
-                Tooltip tp = new Tooltip("id: " + id);
-                Tooltip.install(toAdd, tp);
-                squares.add(toAdd, x, y);
+                addEntityImageWithId(entity, x, y, id);
             } catch (NumberFormatException e) {
                 Alert alert = new Alert(AlertType.ERROR, "You did not enter a number", ButtonType.OK);
                 alert.setTitle("Error");
@@ -193,12 +191,23 @@ public class BuilderController {
         } else {
             // entity without id
             builder.addEntity(entity.getType(), x, y);
-            ImageView toAdd = getImageView(entity.getType());
-            toAdd.setOnMouseClicked(this::handleBuilderPlace);
-            squares.add(toAdd, x, y);
+            addEntityImage(entity, x, y);
         }
         event.consume();
-        //itemsListView.getSelectionModel().clearSelection();
+    }
+
+    private void addEntityImageWithId(BuilderEntity entity, int x, int y, int id) {
+        ImageView toAdd = getImageView(entity.getType());
+        toAdd.setOnMouseClicked(this::handleBuilderPlace);
+        Tooltip tp = new Tooltip("id: " + id);
+        Tooltip.install(toAdd, tp);
+        squares.add(toAdd, x, y);
+    }
+
+    private void addEntityImage(BuilderEntity entity, int x, int y) {
+        ImageView toAdd = getImageView(entity.getType());
+        toAdd.setOnMouseClicked(this::handleBuilderPlace);
+        squares.add(toAdd, x, y);
     }
 
     @FXML
@@ -248,8 +257,40 @@ public class BuilderController {
         Optional<Pair<String, String>> result = dialog.showAndWait();
         result.ifPresent(pair -> {
             System.out.println("width=" + pair.getKey() + ", height=" + pair.getValue());
+            int newWidth = 0;
+            int newHeight = 0;
+            try {
+                newWidth = Integer.parseInt(pair.getKey());
+                newHeight = Integer.parseInt(pair.getValue());
+                squares.getChildren().clear();
+                resizeBuilder(newWidth, newHeight);
+            } catch (NumberFormatException e) {
+                System.out.println("NANs");
+
+            }
         });
     }
+
+    private void resizeBuilder(int newWidth, int newHeight) {
+        builder.resize(newWidth, newHeight);
+        BuilderTile newTiles[][] = builder.getTiles();
+        for (int y = 0; y < builder.getHeight(); y++) {
+            for (int x = 0; x < builder.getWidth(); x++) {
+                ImageView toAdd = new ImageView(groundImage);
+                toAdd.setOnMouseClicked(this::handleBuilderPlace);
+                squares.add(toAdd, x, y);
+                for (BuilderEntity entity : newTiles[x][y].getEntities()) {
+                    if (entity.hasId()) {
+                        addEntityImageWithId(entity, x, y, entity.getId());
+                    } else {
+                        addEntityImage(entity, x, y);
+                    }
+                }
+            }
+        }
+    }
+
+
 
     public void setStartScreen(StartScreen startScreen) {
         this.startScreen = startScreen;
