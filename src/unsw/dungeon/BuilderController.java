@@ -218,6 +218,16 @@ public class BuilderController {
     @FXML
     public void handleSetGoals(ActionEvent event) {
         System.out.println("setting goals...!");
+
+        TextInputDialog dialog = new TextInputDialog(builder.getGoalString());
+        dialog.setTitle("Set goals");
+        dialog.setContentText("Please enter goals:");
+
+        Optional<String> result = dialog.showAndWait();
+        if (result.isPresent()){
+            builder.setGoalString(result.get());
+            builder.printGoalString();
+        }
     }
 
     @FXML
