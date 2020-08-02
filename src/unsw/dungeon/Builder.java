@@ -85,19 +85,63 @@ public class Builder {
         System.out.println(parseGoalString(this.goalString));
     }
 
-    public JSONObject parseGoalString(String string) {
-        if (string.contains("AND")) {
-            JSONObject composite = new JSONObject();
-            composite.put("goal", "AND");
-            JSONArray subgoals = new JSONArray();
-            Pattern p = Pattern.compile("\\((.*?)\\)");
-
-            Matcher m = p.matcher(string);
-            while (m.find()) {
-                String item = m.group(1);
-                System.out.println(item);
-                subgoals.put(parseGoalString("(" + item + ")"));
+    private int getFirstIndexOf(String string, String searchingFor) {
+        int curr = 0;
+        int index = -1;
+        while (curr < string.length()) {
+            String ch = Character.toString(string.charAt(curr));
+            if (ch.equals(searchingFor)) {
+                index = curr;
+                break;
             }
+            curr++;
+        }
+
+        return index;
+    }
+
+    private int findClosingBracketIndex(String string, int openingIndex) {
+        int opens = 0;
+        int curr = openingIndex + 1;
+        while (curr < string.length()) {
+            String ch = Character.toString(string.charAt(curr));
+            if (ch.equals(")") && opens == 0) {
+                return curr;
+            } else if (ch.equals(")")) {
+                opens--;
+            } else if (ch.equals("(")) {
+                opens++;
+            }
+            curr++;
+        }
+        return -1;
+    }
+
+    public JSONObject parseGoalString(String string) {
+        if (string.contains("AND") || string.contains("OR")) {
+            string = string.substring(1, string.length() - 1);
+            System.out.println("Parsing string: " + string);
+            JSONObject composite = new JSONObject();
+            JSONArray subgoals = new JSONArray();
+            
+            int firstOpen = getFirstIndexOf(string, "(");
+            int firstClose = findClosingBracketIndex(string, firstOpen);
+            subgoals.put(parseGoalString(string.substring(firstOpen, firstClose + 1)));
+            
+
+            string = string.substring(firstClose + 1);
+
+            int secondOpen = getFirstIndexOf(string, "(");
+            System.out.println("Middle bit: " + string.substring(0, secondOpen - 1));
+            if (string.substring(0, secondOpen - 1).contains("AND")) {
+                composite.put("goal", "AND");
+            } else {
+                composite.put("goal", "OR");
+            }
+
+            int secondClose = findClosingBracketIndex(string, secondOpen);
+            subgoals.put(parseGoalString(string.substring(secondOpen, secondClose + 1)));
+
             composite.put("subgoals", subgoals);
             return composite;
         } else {
