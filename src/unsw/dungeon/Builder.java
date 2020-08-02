@@ -77,12 +77,44 @@ public class Builder {
         this.goalString = string;
     }
 
+    public JSONObject getJSON() {
+        JSONObject root = new JSONObject();
+        root.put("width", this.width);
+        root.put("height", this.height);
+
+        JSONArray entities = new JSONArray();
+        for (int x = 0; x < this.width; x++) {
+            for (int y = 0; y < this.height; y++) {
+                for (BuilderEntity e : this.tiles[x][y].getEntities()) {
+                    JSONObject toAdd = new JSONObject();
+                    toAdd.put("x", x);
+                    toAdd.put("y", y);
+                    toAdd.put("type", e.getType());
+                    if (e.hasId()) {
+                        toAdd.put("id", e.getId());
+                    }
+
+                    entities.put(toAdd);
+                }
+            }
+        }
+
+
+        root.put("entities", entities);
+        root.put("goal-condition", getGoalJSON());
+        return root;
+    }
+
     public String getGoalString() {
         return this.goalString;
     }
 
     public void printGoalString() {
-        System.out.println(parseGoalString(this.goalString));
+        System.out.println(parseGoalString(this.goalString).toString(2));
+    }
+
+    public JSONObject getGoalJSON() {
+        return parseGoalString(this.goalString);
     }
 
     private int getFirstIndexOf(String string, String searchingFor) {
@@ -117,10 +149,9 @@ public class Builder {
         return -1;
     }
 
-    public JSONObject parseGoalString(String string) {
+    private JSONObject parseGoalString(String string) {
         if (string.contains("AND") || string.contains("OR")) {
             string = string.substring(1, string.length() - 1);
-            System.out.println("Parsing string: " + string);
             JSONObject composite = new JSONObject();
             JSONArray subgoals = new JSONArray();
             
@@ -132,7 +163,6 @@ public class Builder {
             string = string.substring(firstClose + 1);
 
             int secondOpen = getFirstIndexOf(string, "(");
-            System.out.println("Middle bit: " + string.substring(0, secondOpen - 1));
             if (string.substring(0, secondOpen - 1).contains("AND")) {
                 composite.put("goal", "AND");
             } else {

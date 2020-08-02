@@ -1,11 +1,15 @@
 package unsw.dungeon;
 
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.List;
 import java.util.Optional;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.stage.Stage;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -30,6 +34,7 @@ import javafx.scene.input.Dragboard;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.GridPane;
+import javafx.stage.FileChooser;
 import javafx.util.Pair;
 
 public class BuilderController {
@@ -43,6 +48,7 @@ public class BuilderController {
     private Image floorSwitchImage;
     private Image portalImage;
     private Image enemyImage;
+    private Image wizardImage;
     private Image swordImage;
     private Image potionImage;
     private Image deleteImage;
@@ -71,13 +77,12 @@ public class BuilderController {
         floorSwitchImage = new Image((new File("images/pressure_plate.png")).toURI().toString());
         portalImage = new Image((new File("images/portal.png")).toURI().toString());
         double enemyImageChoice = Math.random();
-        if (enemyImageChoice < 0.33) {
+        if (enemyImageChoice < 0.5) {
             enemyImage = new Image((new File("images/deep_elf_master_archer.png")).toURI().toString());
-        } else if (enemyImageChoice < 0.67) {
-            enemyImage = new Image((new File("images/gnome.png")).toURI().toString());
         } else {
             enemyImage = new Image((new File("images/hound.png")).toURI().toString());
         }
+        wizardImage = new Image((new File("images/gnome.png")).toURI().toString());
         swordImage = new Image((new File("images/greatsword_1_new.png")).toURI().toString());
         potionImage = new Image((new File("images/brilliant_blue_new.png")).toURI().toString());
         deleteImage = new Image((new File("images/delete.png")).toURI().toString(), 32, 32, false, false);
@@ -109,9 +114,14 @@ public class BuilderController {
         // add all the entities to itemsListView
         ObservableList<BuilderEntity> entityList = FXCollections.observableArrayList();
         entityList.add(new BuilderEntity("delete"));
+        entityList.add(new BuilderEntity("player"));
+        entityList.add(new BuilderEntity("enemy"));
+        entityList.add(new BuilderEntity("wizard"));
         entityList.add(new BuilderEntity("wall"));
         entityList.add(new BuilderEntity("sword"));
         entityList.add(new BuilderEntity("key", -1)); //maybe make constructor to pass in "true"
+        entityList.add(new BuilderEntity("door", -1));
+        entityList.add(new BuilderEntity("portal", -1));
         itemsListView.setItems(entityList);
         itemsListView.getSelectionModel().select(0); // selects wall as default
         itemsListView.setCellFactory(param -> new ListCell<BuilderEntity>() {
@@ -134,12 +144,22 @@ public class BuilderController {
         switch (type) {
             case "delete":
                 return new ImageView(deleteImage);
+            case "player":
+                return new ImageView(playerImage);
+            case "enemy":
+                return new ImageView(enemyImage);
+            case "wizard":
+                return new ImageView(wizardImage);
             case "wall":
                 return new ImageView(wallImage);
-            case "key":
-                return new ImageView(keyImage);
             case "sword":
                 return new ImageView(swordImage);
+            case "key":
+                return new ImageView(keyImage);
+            case "door":
+                return new ImageView(closedDoorImage);
+            case "portal":
+                return new ImageView(portalImage);
         }
         return null;
     }
@@ -213,6 +233,27 @@ public class BuilderController {
     @FXML
     public void handleSaveDungeon(ActionEvent event) {
         System.out.println("saving...!");
+
+        FileChooser fileChooser = new FileChooser();
+ 
+        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("JSON files", "*.json");
+        fileChooser.getExtensionFilters().add(extFilter);
+        fileChooser.setInitialFileName("myDungeon.json");
+
+        File file = fileChooser.showSaveDialog(squares.getScene().getWindow());
+        if (file != null) {
+            saveToFile(builder.getJSON().toString(2), file);
+        }
+    }
+
+    private void saveToFile(String content, File file) {
+        try {
+            FileWriter fw = new FileWriter(file);
+            fw.write(content);
+            fw.close();
+        } catch (IOException e) {
+            //uhh
+        }
     }
 
     @FXML
@@ -226,7 +267,6 @@ public class BuilderController {
         Optional<String> result = dialog.showAndWait();
         if (result.isPresent()){
             builder.setGoalString(result.get());
-            //builder.printGoalString();
         }
     }
 

@@ -54,6 +54,7 @@ public class LevelSelectController {
             dungeonScreen.setBackTrackScreen(levelSelectScreen);
             errorLabel.setText("");
         } catch (Exception e) {
+            e.printStackTrace(System.out);
             errorLabel.setText(fileToLoad.toString() + " could not be loaded.");
         }
     }
@@ -87,7 +88,7 @@ public class LevelSelectController {
     /**
      * Sets the list view elements to be the elements found in the dungeons folder.
      */
-    private void setDungeonNames() {
+    public void setDungeonNames() {
         File dungeonFolder = new File("dungeons");
         ObservableList<FileEntry> observableDungeonNames = FXCollections.observableArrayList(getDungeonNames(dungeonFolder));
         levelListView.setItems(observableDungeonNames);
