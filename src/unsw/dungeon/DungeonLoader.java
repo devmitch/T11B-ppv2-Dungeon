@@ -116,6 +116,12 @@ public abstract class DungeonLoader {
             onLoad(enemy);
             entity = enemy;
             break;
+        case "wizard":
+            Wizard wizard = new Wizard(dungeon, x, y);
+            wizard.attach(goalBuilder.getEnemyGoalType());
+            onLoad(wizard);
+            entity = wizard;
+            break;
         case "sword":
             Sword sword = new Sword(dungeon, x, y);
             onLoad(sword);
@@ -151,6 +157,8 @@ public abstract class DungeonLoader {
     public abstract void onLoad(Portal portal);
 
     public abstract void onLoad(Enemy enemy);
+
+    public abstract void onLoad(Wizard wizard);
 
     public abstract void onLoad(Sword sword);
 

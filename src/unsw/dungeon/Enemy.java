@@ -52,7 +52,7 @@ public class Enemy extends Entity implements GoalSubject {
         }
     }
 
-    private List<Tile> getAdjacentTiles(Tile t) {
+    public List<Tile> getAdjacentTiles(Tile t) {
         List<Tile> ret = new ArrayList<>();
         checkTile(t, 0, 1, ret);
         checkTile(t, 0, -1, ret);
@@ -160,6 +160,10 @@ public class Enemy extends Entity implements GoalSubject {
         } else {
             return Direction.UP;
         }
+    }
+
+    public Tile getTile() {
+        return dungeon.getTile(getX(), getY());
     }
 
     public boolean isDead() {

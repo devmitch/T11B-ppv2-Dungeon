@@ -177,12 +177,13 @@ public class DungeonController {
                         label.textProperty().bind(enemyGoalType.getEnemiesLeftProperty().asString());
 
                         ImageView imageView = new ImageView(dungeonControllerLoader.getEnemyImage());
+                        ImageView wizardView = new ImageView(dungeonControllerLoader.getWizardImage());
 
                         Label label2 = new Label();
                         // label2.setPadding(new Insets(0, 12, 0, 12));
                         label2.setText("Kill ");
 
-                        root.getChildren().addAll(tickImageView, label2, label, imageView);
+                        root.getChildren().addAll(tickImageView, label2, label, imageView, wizardView);
 
                     } else if (goalType instanceof SwitchGoalType) {
                         SwitchGoalType switchGoalType = (SwitchGoalType) goalType;
@@ -210,6 +211,7 @@ public class DungeonController {
             }
         });
         
+        dungeon.setController(this);
     }
 
     @FXML
@@ -256,9 +258,14 @@ public class DungeonController {
     }
 
     public void newEntity(Entity entity) {
+        ImageView view = null;
         if (entity instanceof Key) {
-            Image keyImage = new Image((new File("images/key.png")).toURI().toString());
-            ImageView view = new ImageView(keyImage);
+            view = new ImageView(dungeonControllerLoader.getKeyImage()); 
+        } else if (entity instanceof Enemy) {
+            view = new ImageView(dungeonControllerLoader.getEnemyImage());
+        }
+
+        if (view != null) {
             squares.getChildren().add(view);
             GridPane.setColumnIndex(view, entity.getX());
             GridPane.setRowIndex(view, entity.getY());
