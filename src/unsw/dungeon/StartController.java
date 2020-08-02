@@ -7,6 +7,7 @@ public class StartController {
     
     private TutorialScreen tutorialScreen;
     private LevelSelectScreen levelSelectScreen;
+    private BuilderScreen builderScreen;
 
     public StartController() {
         super();
@@ -22,12 +23,21 @@ public class StartController {
         levelSelectScreen.start();
     }
 
+    @FXML
+    public void handleLevelBuilder(ActionEvent event) {
+        builderScreen.start();
+    }
+
     public void setLevelSelectScreen(LevelSelectScreen levelSelectScreen) {
         this.levelSelectScreen = levelSelectScreen;
     }
 
     public void setTutorialScreen(TutorialScreen tutorialScreen) {
         this.tutorialScreen = tutorialScreen;
+    }
+    
+    public void setBuilderScreen(BuilderScreen builderScreen) {
+        this.builderScreen = builderScreen;
     }
 
 }

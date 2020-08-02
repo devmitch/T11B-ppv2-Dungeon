@@ -35,5 +35,10 @@
             <Font size="24.0" />
          </font>
       </Button>
+      <Button mnemonicParsing="false" onAction="#handleLevelBuilder" text="LEVEL BUILDER" textFill="WHITE" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="CENTER">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Button>
    </children>
 </GridPane>

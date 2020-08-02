@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
+
+<GridPane stylesheets="@baseCss.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <columnConstraints>
+      <ColumnConstraints hgrow="ALWAYS" minWidth="0.0" />
+      <ColumnConstraints hgrow="ALWAYS" minWidth="0.0" />
+      <ColumnConstraints hgrow="ALWAYS" minWidth="0.0" />
+   </columnConstraints>
+   <rowConstraints>
+      <RowConstraints minHeight="10.0" vgrow="NEVER" />
+      <RowConstraints minHeight="10.0" vgrow="ALWAYS" />
+   </rowConstraints>
+   <children>
+      <Button focusTraversable="false" mnemonicParsing="false" onAction="#handleExitGame" text="&lt;-" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.valignment="CENTER" GridPane.vgrow="NEVER">
+         <GridPane.margin>
+            <Insets bottom="4.0" left="4.0" right="4.0" top="4.0" />
+         </GridPane.margin>
+      </Button>
+      <ListView fx:id="itemsListView" focusTraversable="false" onMouseClicked="#handleBuilderSelect" prefHeight="1" prefWidth="124.0" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.valignment="TOP" GridPane.vgrow="ALWAYS" />
+      <GridPane fx:id="squares" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowSpan="2" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
+         <columnConstraints>
+            <ColumnConstraints />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints />
+         </rowConstraints>
+         <children>
+
+        </children>
+      </GridPane>
+
+      <GridPane GridPane.columnIndex="2" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+         <columnConstraints>
+            <ColumnConstraints />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints />
+         </rowConstraints>
+         <children>
+            <Label id="heading" text="Goals" textFill="WHITE" GridPane.rowIndex="1" GridPane.halignment="CENTER">
+               <font>
+                  <Font size="36.0" />
+               </font>
+               <GridPane.margin>
+                  <Insets top="4.0" />
+               </GridPane.margin>
+            </Label>
+            <Button onAction="#handleSetSize" GridPane.rowIndex="1" focusTraversable="false" mnemonicParsing="false" text="Set Size" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.valignment="CENTER" GridPane.vgrow="NEVER">
+               <GridPane.margin>
+                  <Insets bottom="4.0" left="4.0" right="4.0" top="4.0" />
+               </GridPane.margin>
+            </Button>
+            <Button onAction="#handleSetGoals" GridPane.rowIndex="2" focusTraversable="false" mnemonicParsing="false" text="Set Goals" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.valignment="CENTER" GridPane.vgrow="NEVER">
+               <GridPane.margin>
+                  <Insets bottom="4.0" left="4.0" right="4.0" top="4.0" />
+               </GridPane.margin>
+            </Button>
+            <Button onAction="#handleSaveDungeon" GridPane.rowIndex="3" focusTraversable="false" mnemonicParsing="false" text="Save Dungeon" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.valignment="CENTER" GridPane.vgrow="NEVER">
+               <GridPane.margin>
+                  <Insets bottom="4.0" left="4.0" right="4.0" top="4.0" />
+               </GridPane.margin>
+            </Button>
+        </children>
+      </GridPane>
+   </children>
+</GridPane>
