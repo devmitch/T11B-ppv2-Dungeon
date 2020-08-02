@@ -31,6 +31,7 @@ public class DungeonControllerLoader extends DungeonLoader {
     private Image treasureImage;
     private Image keyImage;
     private Image closedDoorImage;
+    private Image openDoorImage;
     private Image floorSwitchImage;
     private Image portalImage;
     private Image enemyImage;
@@ -53,6 +54,7 @@ public class DungeonControllerLoader extends DungeonLoader {
         treasureImage = new Image((new File("images/gold_pile.png")).toURI().toString());
         keyImage = new Image((new File("images/key.png")).toURI().toString());
         closedDoorImage = new Image((new File("images/closed_door.png")).toURI().toString());
+        openDoorImage = new Image((new File("images/open_door.png")).toURI().toString());
         floorSwitchImage = new Image((new File("images/pressure_plate.png")).toURI().toString());
         portalImage = new Image((new File("images/portal.png")).toURI().toString());
         double enemyImageChoice = Math.random();
@@ -106,7 +108,10 @@ public class DungeonControllerLoader extends DungeonLoader {
 
     @Override
     public void onLoad(Door door) {
+        door.setOpenDoorImage(openDoorImage);
+        door.setClosedDoorImage(closedDoorImage);
         ImageView view = new ImageView(closedDoorImage);
+        view.imageProperty().bind(door.getImageProperty());
         addEntity(door, view);
     }
 
@@ -256,8 +261,12 @@ public class DungeonControllerLoader extends DungeonLoader {
         return swordImage;
     }
 
-    public Image getPotionImage() {
+    public Image getInvincibilityPotionImage() {
         return invincibilityPotionImage;
+    }
+
+    public Image getPhasePotionImage() {
+        return phasePotionImage;
     }
 
     public Image getTickImage() {

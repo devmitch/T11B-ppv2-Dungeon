@@ -99,6 +99,8 @@ public class Player extends Entity {
             if (sword.isBroken()) {
                 items.remove(sword);
             }
+        } else if (potion != null && potion instanceof PhasePotion && potion.isActive()) {
+            // the player should ignore the enemy here
         } else {
             // loss
             dungeon.removeEntity(this);
