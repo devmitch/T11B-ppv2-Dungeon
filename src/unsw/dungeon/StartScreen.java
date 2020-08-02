@@ -27,6 +27,10 @@ public class StartScreen {
 
         controller.setLevelSelectScreen(levelSelectScreen);
 
+        BuilderScreen builderScreen = new BuilderScreen(stage);
+        builderScreen.setStartScreen(this);
+        controller.setBuilderScreen(builderScreen);
+
         Parent root = loader.load();
         scene = new Scene(root);
     }

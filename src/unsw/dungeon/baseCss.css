@@ -32,6 +32,13 @@
     -fx-base: rgb(0, 0, 0);
 }
 
+<<<<<<< HEAD
+=======
+.text-field {
+    -fx-font-size: 12pt;
+}
+
+>>>>>>> 00eb62391eaee90074d48af1d2b44bf82458e426
 #levels {
     -fx-font-size: 12pt;
     -fx-background-color: rgb(255, 255, 255);
