@@ -132,6 +132,11 @@ public abstract class DungeonLoader {
             onLoad(potion);
             entity = potion;
             break;
+        case "phase":
+            PhasePotion phasePotion = new PhasePotion(dungeon, x, y);
+            onLoad(phasePotion);
+            entity = phasePotion;
+            break;
         }
         dungeon.addEntity(entity);
     }
@@ -163,6 +168,8 @@ public abstract class DungeonLoader {
     public abstract void onLoad(Sword sword);
 
     public abstract void onLoad(InvincibilityPotion potion);
+
+    public abstract void onLoad(PhasePotion potion);
 
     public abstract void onLoad(Door door);
 

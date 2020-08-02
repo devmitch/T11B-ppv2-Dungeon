@@ -15,7 +15,8 @@ public class Player extends Entity {
     private Movement movement;
     private Key key;
     private Sword sword;
-    private InvincibilityPotion potion;
+    private Potion potion;
+    private int stuns;
 
     private ObservableList<Entity> items;
 
@@ -30,7 +31,17 @@ public class Player extends Entity {
         this.key = null;
         this.sword = null;
         this.potion = null;
+        this.stuns = 0;
         items = FXCollections.observableArrayList(new ArrayList<Entity>());
+    }
+
+    public void stun(int stuns) {
+        this.stuns = stuns;
+    }
+
+    @Override
+    public boolean canMove() {
+        return stuns == 0;
     }
 
     public void move(Direction d) {
@@ -52,35 +63,45 @@ public class Player extends Entity {
         if (potion != null && potion.isActive()) {
             potion.decrementNumberOfSteps();
             if (!potion.isActive()) {
-                items.remove(potion);
+                items.remove((Entity)potion);
             }
+        }
+        if (stuns > 0) {
+            stuns--;
         }
     }
 
     public boolean isInvincible() {
-        if (potion != null)
+        if (potion != null && potion instanceof InvincibilityPotion)
             return potion.isActive();
         return false;
     }
+
+    public boolean isInvisible() {
+        if (potion != null && potion instanceof PhasePotion)
+            return potion.isActive();
+        return false;
+    }
+
 
     /**
      * Duel an enemy and decide the player's fate depending on their items
      * @param enemy
      */
     public void duel(Enemy enemy) {
-        if (this.potion != null && this.potion.isActive()) {
+        if (potion != null && potion instanceof InvincibilityPotion && potion.isActive()) {
             // win by potion
             enemy.die();
-        } else if (this.sword != null && !this.sword.isBroken()) {
+        } else if (sword != null && !sword.isBroken()) {
             // win by sword - decrement hits
-            this.sword.swing();
+            sword.swing();
             enemy.die();
             if (sword.isBroken()) {
                 items.remove(sword);
             }
         } else {
             // loss
-            this.dungeon.removeEntity(this);
+            dungeon.removeEntity(this);
         }
     }
 
@@ -114,17 +135,17 @@ public class Player extends Entity {
             } else if (result instanceof Sword) {
                 Sword sword = (Sword) result;
                 pickupSword(sword);
-            } else if (result instanceof InvincibilityPotion) {
-                InvincibilityPotion potion = (InvincibilityPotion) result;
+            } else if (result instanceof Potion) {
+                Potion potion = (Potion)result;
                 pickupPotion(potion);
             }
         }
     }
 
-    private void pickupPotion(InvincibilityPotion potion) {
-        items.remove(this.potion);
+    private void pickupPotion(Potion potion) {
+        items.remove((Entity)this.potion);
         this.potion = potion;
-        items.add(this.potion);
+        items.add((Entity)this.potion);
     }
 
     private void pickupSword(Sword sword) {
@@ -156,7 +177,7 @@ public class Player extends Entity {
         return this.sword;
     }
 
-    public InvincibilityPotion getPotion() {
+    public Potion getPotion() {
         return this.potion;
     }
 

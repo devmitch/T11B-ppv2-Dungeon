@@ -36,7 +36,9 @@ public class DungeonControllerLoader extends DungeonLoader {
     private Image enemyImage;
     private Image wizardImage;
     private Image swordImage;
-    private Image potionImage;
+    private Image invincibilityPotionImage;
+    private Image phasePotionImage;
+
 
     private Image tickImage;
 
@@ -61,7 +63,8 @@ public class DungeonControllerLoader extends DungeonLoader {
         }
         wizardImage = new Image((new File("images/gnome.png")).toURI().toString());
         swordImage = new Image((new File("images/greatsword_1_new.png")).toURI().toString());
-        potionImage = new Image((new File("images/brilliant_blue_new.png")).toURI().toString());
+        invincibilityPotionImage = new Image((new File("images/brilliant_blue_new.png")).toURI().toString());
+        phasePotionImage = new Image((new File("images/bubbly.png")).toURI().toString());
         tickImage = new Image((new File("images/tick.png")).toURI().toString()); 
     }
 
@@ -139,9 +142,16 @@ public class DungeonControllerLoader extends DungeonLoader {
 
     @Override
     public void onLoad(InvincibilityPotion potion) {
-        ImageView view = new ImageView(potionImage);
+        ImageView view = new ImageView(invincibilityPotionImage);
         addEntity(potion, view);
     }
+
+    @Override
+    public void onLoad(PhasePotion potion) {
+        ImageView view = new ImageView(phasePotionImage);
+        addEntity(potion, view);
+    }
+
 
     private void addEntity(Entity entity, ImageView view) {
         trackPosition(entity, view);
@@ -247,7 +257,7 @@ public class DungeonControllerLoader extends DungeonLoader {
     }
 
     public Image getPotionImage() {
-        return potionImage;
+        return invincibilityPotionImage;
     }
 
     public Image getTickImage() {

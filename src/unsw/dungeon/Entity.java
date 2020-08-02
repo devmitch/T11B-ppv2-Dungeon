@@ -39,6 +39,10 @@ public class Entity {
         this.dungeon = dungeon;
     }
 
+    public boolean canMove() {
+        return true; //entites can move by default, but they need movement class
+    }
+
     // used for UI/Controller to check if entity/player is deleted
     public boolean getStatus() {
         return status.get();

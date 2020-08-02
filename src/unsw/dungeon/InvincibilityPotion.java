@@ -3,7 +3,7 @@ package unsw.dungeon;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 
-public class InvincibilityPotion extends Entity {
+public class InvincibilityPotion extends Entity implements Potion{
 
     private IntegerProperty numberOfStepsLeft;
 
