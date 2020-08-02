@@ -10,7 +10,6 @@ public class Door extends Entity {
     private ObjectProperty<Image> displayImage;
 
     private Image openDoorImage;
-    private Image closedDoorImage;
 
     private DoorState currentState;
     private int id;
@@ -56,7 +55,6 @@ public class Door extends Entity {
     }
 
     public void setClosedDoorImage(Image closedDoorImage) {
-        this.closedDoorImage = closedDoorImage;
         displayImage.set(closedDoorImage);
     }
 
