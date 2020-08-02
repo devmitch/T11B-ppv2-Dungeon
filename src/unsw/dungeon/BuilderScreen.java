@@ -17,6 +17,7 @@ public class BuilderScreen {
     public BuilderScreen(Stage stage) throws IOException {
         this.stage = stage;
         title = "DungJohn Builder";
+        
         this.builderController = new BuilderController();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("BuilderView.fxml"));
         loader.setController(builderController);

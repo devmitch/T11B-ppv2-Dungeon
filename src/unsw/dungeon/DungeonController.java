@@ -33,7 +33,7 @@ import java.io.File;
 public class DungeonController {
 
     private DungeonControllerLoader dungeonControllerLoader;
-    private LevelSelectScreen levelSelectScreen;
+    private BackTrackScreen backTrackScreen;
 
     @FXML
     private GridPane squares;
@@ -86,7 +86,7 @@ public class DungeonController {
 
                     // Create a label that the entity just has to bind to
                     Label label = new Label();
-                    label.setPadding(new Insets(0, 12, 0, 0));
+                    // label.setPadding(new Insets(0, 12, 0, 0));
 
                     if (entity instanceof Sword) {
                         Sword sword = (Sword) entity;
@@ -98,8 +98,7 @@ public class DungeonController {
                         // Create an image view for the sword
                         ImageView imageView = new ImageView(dungeonControllerLoader.getSwordImage());
 
-                        root.getChildren().add(label);
-                        root.getChildren().add(imageView);
+                        root.getChildren().addAll(label, imageView);
 
                     } else if (entity instanceof InvincibilityPotion) {
                         InvincibilityPotion potion = (InvincibilityPotion) entity;
@@ -110,8 +109,7 @@ public class DungeonController {
                         // Create an image view for the potion
                         ImageView imageView = new ImageView(dungeonControllerLoader.getPotionImage());
 
-                        root.getChildren().add(label);
-                        root.getChildren().add(imageView);
+                        root.getChildren().addAll(label, imageView);
                     } else if (entity instanceof Key) {
                         // Create an image view for the key
                         ImageView imageView = new ImageView(dungeonControllerLoader.getKeyImage());
@@ -144,7 +142,7 @@ public class DungeonController {
                     if (goalType instanceof ExitGoalType) {
 
                         Label label = new Label();
-                        label.setPadding(new Insets(0, 12, 0, 12));
+                        // label.setPadding(new Insets(0, 12, 0, 12));
                         label.setText("Reach the ");
 
                         // picture of treasure
@@ -156,12 +154,12 @@ public class DungeonController {
                         TreasureGoalType treasureGoalType = (TreasureGoalType) goalType;
 
                         Label label = new Label();
-                        label.setPadding(new Insets(0, 12, 0, 12));
+                        // label.setPadding(new Insets(0, 12, 0, 12));
                         label.setText("Pickup ");
 
                         // how much treasure is needed
                         Label label2 = new Label();
-                        label2.setPadding(new Insets(0, 12, 0, 0));
+                        // label2.setPadding(new Insets(0, 12, 0, 0));
 
                         label2.textProperty().bind(treasureGoalType.getCurrentTreasureProperty().asString());
 
@@ -175,13 +173,13 @@ public class DungeonController {
 
                         
                         Label label = new Label();
-                        label.setPadding(new Insets(0, 12, 0, 0));
+                        // label.setPadding(new Insets(0, 12, 0, 0));
                         label.textProperty().bind(enemyGoalType.getEnemiesLeftProperty().asString());
 
                         ImageView imageView = new ImageView(dungeonControllerLoader.getEnemyImage());
 
                         Label label2 = new Label();
-                        label2.setPadding(new Insets(0, 12, 0, 12));
+                        // label2.setPadding(new Insets(0, 12, 0, 12));
                         label2.setText("Kill ");
 
                         root.getChildren().addAll(tickImageView, label2, label, imageView);
@@ -190,11 +188,11 @@ public class DungeonController {
                         SwitchGoalType switchGoalType = (SwitchGoalType) goalType;
 
                         Label label = new Label();
-                        label.setPadding(new Insets(0, 0, 0, 12));
+                        // label.setPadding(new Insets(0, 0, 0, 12));
                         label.setText("Place ");
 
                         Label label2 = new Label();
-                        label2.setPadding(new Insets(0, 12, 0, 12));
+                        // label2.setPadding(new Insets(0, 12, 0, 12));
                         label2.textProperty().bind(switchGoalType.getSwitchesLeftProperty().asString());
 
                         ImageView boulderView = new ImageView(dungeonControllerLoader.getBoulderImage());
@@ -252,7 +250,7 @@ public class DungeonController {
         alert.showAndWait();
 
         if (alert.getResult() == ButtonType.YES) {
-            levelSelectScreen.start();
+            backTrackScreen.start();
         }
         alert.close();
     }
@@ -301,8 +299,8 @@ public class DungeonController {
         this.dungeonControllerLoader = dungeonControllerLoader;
     }
 
-    public void setLevelSelectScreen(LevelSelectScreen levelSelectScreen) {
-        this.levelSelectScreen = levelSelectScreen;
+    public void setBackTrackScreen(BackTrackScreen backTrackScreen) {
+        this.backTrackScreen = backTrackScreen;
     }
 
     public GridPane getSquares() {

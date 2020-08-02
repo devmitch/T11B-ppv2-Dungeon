@@ -29,8 +29,8 @@ public class DungeonScreen {
         stage.show();
     }
 
-    public void setLevelSelectScreen(LevelSelectScreen levelSelectScreen) {
-        dungeonController.setLevelSelectScreen(levelSelectScreen);  
+    public void setBackTrackScreen(BackTrackScreen backTrackScreen) {
+        dungeonController.setBackTrackScreen(backTrackScreen);  
     }
 
     private void loadDungeon(String filename) throws IOException {
