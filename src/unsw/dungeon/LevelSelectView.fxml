@@ -33,6 +33,7 @@
             <Insets bottom="12.0" left="12.0" right="12.0" top="12.0" />
          </GridPane.margin>
       </Label>
+      <Button text="Minecraft Conversion" minWidth="195" onAction="#handleMCConversion" GridPane.rowIndex="3"/>
       <Button fx:id="selectLevelButton" mnemonicParsing="false" onAction="#handleLoadLevel" prefHeight="39.0" prefWidth="150.0" text="START LEVEL" GridPane.columnSpan="4" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER">
          <GridPane.margin>
             <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />

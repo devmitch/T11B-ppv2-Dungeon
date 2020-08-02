@@ -60,6 +60,27 @@ public class LevelSelectController {
     }
 
     @FXML
+    public void handleMCConversion(ActionEvent event) {
+        if (levelListView.getSelectionModel().getSelectedItem() == null) {
+            return;
+        }
+        System.out.println("yeett");
+        FileEntry fileToLoad = levelListView.getSelectionModel().getSelectedItem();
+
+        // Load the dungeon screen for the selected dungeon.
+        try {
+            MineCraftConversion mcc = new MineCraftConversion(fileToLoad.getPath());
+            mcc.convert(selectLevelButton.getScene().getWindow());
+            //dungeonScreen.start(fileToLoad.getPath());
+            //dungeonScreen.setBackTrackScreen(levelSelectScreen);
+            errorLabel.setText("");
+        } catch (Exception e) {
+            e.printStackTrace(System.out);
+            errorLabel.setText(fileToLoad.toString() + " fuckup on this file hmmm");
+        }
+    }
+
+    @FXML
     public void handleGoBack(ActionEvent event) {
         startScreen.start();
     }
