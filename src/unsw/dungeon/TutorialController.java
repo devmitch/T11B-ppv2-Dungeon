@@ -57,7 +57,7 @@ public class TutorialController {
                         dungeonScreen.start(dungeon);
                         dungeonScreen.setBackTrackScreen(tutorialScreen);
                     } catch (Exception e) {
-                        System.out.println("Could not load the tutorial");
+                        
                     }
                 }
             });

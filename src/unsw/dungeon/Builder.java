@@ -1,12 +1,5 @@
 package unsw.dungeon;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -137,10 +130,6 @@ public class Builder {
 
     public String getGoalString() {
         return this.goalString;
-    }
-
-    public void printGoalString() {
-        System.out.println(parseGoalString(this.goalString).toString(2));
     }
 
     public JSONObject getGoalJSON() {

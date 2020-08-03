@@ -64,7 +64,6 @@ public class LevelSelectController {
         if (levelListView.getSelectionModel().getSelectedItem() == null) {
             return;
         }
-        System.out.println("yeett");
         FileEntry fileToLoad = levelListView.getSelectionModel().getSelectedItem();
 
         // Load the dungeon screen for the selected dungeon.
@@ -76,7 +75,7 @@ public class LevelSelectController {
             errorLabel.setText("");
         } catch (Exception e) {
             e.printStackTrace(System.out);
-            errorLabel.setText(fileToLoad.toString() + " fuckup on this file hmmm");
+            errorLabel.setText(fileToLoad.toString() + " - error converting file.");
         }
     }
 

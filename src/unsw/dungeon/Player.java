@@ -3,7 +3,6 @@ package unsw.dungeon;
 import java.util.ArrayList;
 import java.util.List;
 
-import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ObservableValue;

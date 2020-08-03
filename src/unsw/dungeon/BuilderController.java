@@ -183,14 +183,7 @@ public class BuilderController {
         }
         return null;
     }
-
-    @FXML
-    public void handleBuilderSelect(MouseEvent event) {
-        // dont actually need this
-        String type = itemsListView.getSelectionModel().getSelectedItem().getType();
-        System.out.println("Selected " + type);
-    }
-
+    
     @FXML
     public void handleBuilderPlace(MouseEvent event) {
         Node source = (Node) event.getSource();
@@ -252,7 +245,6 @@ public class BuilderController {
 
     @FXML
     public void handleSaveDungeon(ActionEvent event) {
-        System.out.println("saving...!");
 
         FileChooser fileChooser = new FileChooser();
  
@@ -278,7 +270,6 @@ public class BuilderController {
 
     @FXML
     public void handleSetGoals(ActionEvent event) {
-        System.out.println("setting goals...!");
 
         TextInputDialog dialog = new TextInputDialog(builder.getGoalString());
         dialog.setTitle("Set goals");
@@ -287,14 +278,12 @@ public class BuilderController {
         Optional<String> result = dialog.showAndWait();
         if (result.isPresent()){
             builder.setGoalString(result.get());
-            builder.printGoalString();
         }
     }
 
     @FXML
     public void handleSetSize(ActionEvent event) {
         // https://code.makery.ch/blog/javafx-dialogs-official/
-        System.out.println("setting size...!");
 
         Dialog<Pair<String, String>> dialog = new Dialog<>();
         dialog.setTitle("Login Dialog");
@@ -327,7 +316,6 @@ public class BuilderController {
 
         Optional<Pair<String, String>> result = dialog.showAndWait();
         result.ifPresent(pair -> {
-            System.out.println("width=" + pair.getKey() + ", height=" + pair.getValue());
             int newWidth = 0;
             int newHeight = 0;
             try {
@@ -336,7 +324,6 @@ public class BuilderController {
                 squares.getChildren().clear();
                 resizeBuilder(newWidth, newHeight);
             } catch (NumberFormatException e) {
-                System.out.println("NANs");
 
             }
         });
