@@ -119,6 +119,9 @@ public class BuilderController {
         entityList.add(new BuilderEntity("wizard"));
         entityList.add(new BuilderEntity("wall"));
         entityList.add(new BuilderEntity("sword"));
+        entityList.add(new BuilderEntity("treasure"));
+        entityList.add(new BuilderEntity("switch"));
+        entityList.add(new BuilderEntity("boulder"));
         entityList.add(new BuilderEntity("key", -1)); //maybe make constructor to pass in "true"
         entityList.add(new BuilderEntity("door", -1));
         entityList.add(new BuilderEntity("portal", -1));
@@ -154,6 +157,12 @@ public class BuilderController {
                 return new ImageView(wallImage);
             case "sword":
                 return new ImageView(swordImage);
+            case "treasure":
+                return new ImageView(treasureImage);
+            case "switch":
+                return new ImageView(floorSwitchImage);
+            case "boulder":
+                return new ImageView(boulderImage);
             case "key":
                 return new ImageView(keyImage);
             case "door":
