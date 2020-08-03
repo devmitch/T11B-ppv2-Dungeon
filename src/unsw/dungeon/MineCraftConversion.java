@@ -46,7 +46,7 @@ public class MineCraftConversion {
                 String type = obj.getString("type");
                 int x = obj.getInt("x");
                 int y = obj.getInt("y");
-                if (type.equals("wall")) {
+                if (type.equals("wall") || type.equals("enemy") || type.equals("wizard")) {
                     fw.write(type + ";" + (x-playerObj.getInt("x")) + ";" + (y-playerObj.getInt("y")) + "\n");
                 }
             }
