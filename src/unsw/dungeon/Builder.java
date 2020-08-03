@@ -173,26 +173,22 @@ public class Builder {
 
     private JSONObject parseGoalString(String string) {
         if (string.contains("AND") || string.contains("OR")) {
-            string = string.substring(1, string.length() - 1);
+            string = string.substring(1, string.length() - 1); // trim brackets
             JSONObject composite = new JSONObject();
-            JSONArray subgoals = new JSONArray();
-            
-            int firstOpen = getFirstIndexOf(string, "(");
-            int firstClose = findClosingBracketIndex(string, firstOpen);
-            subgoals.put(parseGoalString(string.substring(firstOpen, firstClose + 1)));
-            
-
-            string = string.substring(firstClose + 1);
-
-            int secondOpen = getFirstIndexOf(string, "(");
-            if (string.substring(0, secondOpen - 1).contains("AND")) {
+            if (string.contains("AND")) {
                 composite.put("goal", "AND");
             } else {
                 composite.put("goal", "OR");
             }
+            JSONArray subgoals = new JSONArray();
 
-            int secondClose = findClosingBracketIndex(string, secondOpen);
-            subgoals.put(parseGoalString(string.substring(secondOpen, secondClose + 1)));
+            int open = getFirstIndexOf(string, "(");
+            while (open != -1) {
+                int close = findClosingBracketIndex(string, open);
+                subgoals.put(parseGoalString(string.substring(open, close + 1)));
+                string = string.substring(close + 1);
+                open = getFirstIndexOf(string, "(");
+            }
 
             composite.put("subgoals", subgoals);
             return composite;
