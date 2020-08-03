@@ -381,7 +381,7 @@ public class BuilderController {
         if (alert.getResult() == ButtonType.YES) {
             startScreen.start();
             clearGridPane();
-            resizeBuilder(builder.getWidth(), builder.getHeight());
+            resizeBuilder(15, 15);
         }
         alert.close();
     }
