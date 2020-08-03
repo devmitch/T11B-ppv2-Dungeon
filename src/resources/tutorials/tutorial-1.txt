@@ -1,1 +1,1 @@
-This is an example of an advanced dungeon.
+You can move the player with the arrow keys. The goals for the dungeon are on the right-hand side of the screen. Completing these goals will result in the dungeon being completed. You can leave the dungeon at any time by pressing the 'back arrow' button in the top left or pressing 'escape'.

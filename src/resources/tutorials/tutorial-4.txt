@@ -1,0 +1,1 @@
+Moving into a portal teleports you to the corresponding portal. Enemies and boulders cannot travel through portals.

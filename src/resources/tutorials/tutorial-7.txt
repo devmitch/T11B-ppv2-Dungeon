@@ -1,0 +1,1 @@
+The wizard is a special type of enemy. They can spawn a maximum of 2 enemies. They spawn an enemy every time the player takes a certain amount of steps.
