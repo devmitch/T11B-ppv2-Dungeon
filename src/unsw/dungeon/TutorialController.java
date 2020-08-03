@@ -39,7 +39,6 @@ public class TutorialController {
             return f1.getName().compareTo(f2.getName());
         });
 
-        pagination.setPageCount(informationList.size());
         pagination.setPageFactory((pageIndex) -> {
 
             GridPane gridPane = new GridPane();
@@ -66,6 +65,7 @@ public class TutorialController {
                     }
                 }
             });
+            pagination.setPageCount(informationList.size());
 
             gridPane.add(tutorialInfoLabel, 0, 0);
             gridPane.add(startTutorialButton, 0, 1);
