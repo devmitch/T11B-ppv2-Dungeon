@@ -41,6 +41,7 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
             <Button focusTraversable="false" mnemonicParsing="false" onAction="#handleSetGoals" text="Set Goals" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.rowIndex="2" GridPane.valignment="CENTER" GridPane.vgrow="NEVER">
@@ -48,16 +49,17 @@
                   <Insets bottom="4.0" left="4.0" right="4.0" top="4.0" />
                </GridPane.margin>
             </Button>
-            <Button focusTraversable="false" mnemonicParsing="false" onAction="#handleSaveDungeon" text="Save Dungeon" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.rowIndex="1" GridPane.valignment="CENTER" GridPane.vgrow="NEVER">
+            <Button focusTraversable="false" mnemonicParsing="false" onAction="#handleSaveDungeon" text="Save Dungeon" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.rowIndex="3" GridPane.valignment="CENTER" GridPane.vgrow="NEVER">
                <GridPane.margin>
                   <Insets bottom="4.0" left="4.0" right="4.0" top="4.0" />
                </GridPane.margin>
             </Button>
-            <Button focusTraversable="false" mnemonicParsing="false" onAction="#handleSetSize" text="Set Size" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.valignment="CENTER" GridPane.vgrow="NEVER">
+            <Button focusTraversable="false" mnemonicParsing="false" onAction="#handleSetSize" text="Set Size" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.rowIndex="1" GridPane.valignment="CENTER" GridPane.vgrow="NEVER">
                <GridPane.margin>
                   <Insets bottom="4.0" left="4.0" right="4.0" top="4.0" />
                </GridPane.margin>
             </Button>
+            <Button mnemonicParsing="false" onAction="#handleLoadDungeon" text="Load Dungeon" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
          </children>
          <columnConstraints>
             <ColumnConstraints />

@@ -47,6 +47,14 @@ public class Builder {
         this.height = newHeight;
     }
 
+    public void clearTiles() {
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
+                this.tiles[x][y] = new BuilderTile();
+            }
+        }
+    }
+
     public int getWidth() {
         return this.width;
     }
@@ -84,6 +92,8 @@ public class Builder {
 
         JSONArray entities = new JSONArray();
 
+        // Organise the entities in order of what should appear first
+        // i.e. wall appears above every other entity
         addEntitiesWithType(entities, "switch");
         addEntitiesWithType(entities, "treasure");
         addEntitiesWithType(entities, "phase");

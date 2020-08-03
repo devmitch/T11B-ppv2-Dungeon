@@ -1,17 +1,18 @@
 package unsw.dungeon;
 
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.List;
 import java.util.Optional;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+import org.json.JSONTokener;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.stage.Stage;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
@@ -28,11 +29,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.ClipboardContent;
-import javafx.scene.input.DragEvent;
-import javafx.scene.input.Dragboard;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.input.TransferMode;
 import javafx.scene.layout.GridPane;
 import javafx.stage.FileChooser;
 import javafx.util.Pair;
@@ -144,6 +141,11 @@ public class BuilderController {
             }
         });
 
+    }
+
+    private void clearGridPane() {
+        builder.clearTiles();
+        squares.getChildren().removeAll(squares.getChildren());
     }
 
     private ImageView getImageView(String type) {
@@ -378,8 +380,88 @@ public class BuilderController {
 
         if (alert.getResult() == ButtonType.YES) {
             startScreen.start();
+            clearGridPane();
+            resizeBuilder(15, 15);
         }
         alert.close();
+    }
+
+    @FXML
+    public void handleLoadDungeon(ActionEvent event) {
+
+        // create a dialog to get a file path
+        FileChooser fileChooser = new FileChooser();
+ 
+        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("JSON files", "*.json");
+        fileChooser.getExtensionFilters().add(extFilter);
+        fileChooser.setInitialFileName("");
+
+        File file = fileChooser.showOpenDialog(squares.getScene().getWindow());
+        if (file == null)
+            return;
+
+        // load the contents into a json object
+        JSONObject json = readDungeonFromFile(file);
+        if (json == null)
+            return;
+
+        // clear the dungeon
+        clearGridPane();
+        
+        // get the width and height of the dungeon, resize the builder.
+        resizeBuilder(json.getInt("width"), json.getInt("height"));
+
+        // get the entities, add them to the builder
+        addEntitiesToDungeon(json.getJSONArray("entities"));
+
+        // convert the goals into a string
+        builder.setGoalString(goalsToString(json.getJSONObject("goal-condition")));
+    }
+
+    private void addEntitiesToDungeon(JSONArray entities) {
+        for (int i = 0; i < entities.length(); i++) {
+
+            JSONObject object = entities.getJSONObject(i);
+            String type = object.getString("type");
+            int x = object.getInt("x");
+            int y = object.getInt("y");
+            
+            if (object.has("id")) {
+                BuilderEntity entity = new BuilderEntity(type, object.getInt("id"));
+                builder.addEntity(type, x, y, object.getInt("id"));
+                addEntityImageWithId(entity, x, y, entity.getId());
+            } else {
+                BuilderEntity entity = new BuilderEntity(type);
+                builder.addEntity(type, x, y);
+                addEntityImage(entity, x, y);
+            }
+        }
+    }
+
+    private JSONObject readDungeonFromFile(File file) {
+        try {
+            return new JSONObject(new JSONTokener(new FileReader(file.getPath())));
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    private String goalsToString(JSONObject goal) {
+        String goalType = goal.getString("goal");
+
+        if (goalType.equals("AND") || goalType.equals("OR")) {
+            JSONArray subGoals = goal.getJSONArray("subgoals");
+            String goalConjunction = "(";
+            for (int i = 0; i < subGoals.length(); i++) {
+                goalConjunction += goalsToString(subGoals.getJSONObject(i));
+                if (i != subGoals.length() - 1) {
+                    goalConjunction += " " + goalType + " ";
+                }
+            }
+            return goalConjunction + ")";
+        } else {
+            return "(" + goalType + ")";
+        }
     }
 
 }
