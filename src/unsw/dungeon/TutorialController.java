@@ -23,6 +23,8 @@ public class TutorialController {
     @FXML
     private Pagination pagination;
 
+    private ArrayList<FileEntry> informationList;
+
     public TutorialController(TutorialScreen tutorialScreen, DungeonScreen dungeonScreen) {
         this.tutorialScreen = tutorialScreen;
         this.dungeonScreen = dungeonScreen;
@@ -32,13 +34,12 @@ public class TutorialController {
     public void initialize() {
 
         // Get the tutorial messages, and sort them by tutorial names
-        ArrayList<FileEntry> informationList = getTutorialInformation();
+        informationList = getTutorialInformation();
         Collections.sort(informationList, (f1, f2) -> {
             return f1.getName().compareTo(f2.getName());
         });
 
         pagination.setPageCount(informationList.size());
-
         pagination.setPageFactory((pageIndex) -> {
 
             GridPane gridPane = new GridPane();
