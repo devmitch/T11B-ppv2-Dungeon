@@ -83,26 +83,46 @@ public class Builder {
         root.put("height", this.height);
 
         JSONArray entities = new JSONArray();
-        for (int x = 0; x < this.width; x++) {
-            for (int y = 0; y < this.height; y++) {
-                for (BuilderEntity e : this.tiles[x][y].getEntities()) {
-                    JSONObject toAdd = new JSONObject();
-                    toAdd.put("x", x);
-                    toAdd.put("y", y);
-                    toAdd.put("type", e.getType());
-                    if (e.hasId()) {
-                        toAdd.put("id", e.getId());
-                    }
 
-                    entities.put(toAdd);
-                }
-            }
-        }
+        addEntitiesWithType(entities, "switch");
+        addEntitiesWithType(entities, "treasure");
+        addEntitiesWithType(entities, "phase");
+        addEntitiesWithType(entities, "invincibility");
+        addEntitiesWithType(entities, "sword");
+        addEntitiesWithType(entities, "key");
+        addEntitiesWithType(entities, "door");
+        addEntitiesWithType(entities, "portal");
+        addEntitiesWithType(entities, "exit");
+        addEntitiesWithType(entities, "wizard");
+        addEntitiesWithType(entities, "enemy");
+        addEntitiesWithType(entities, "boulder");
+        addEntitiesWithType(entities, "player");
+        addEntitiesWithType(entities, "wall");
 
 
         root.put("entities", entities);
         root.put("goal-condition", getGoalJSON());
         return root;
+    }
+
+    private void addEntitiesWithType(JSONArray entities, String type) {
+        for (int x = 0; x < this.width; x++) {
+            for (int y = 0; y < this.height; y++) {
+                for (BuilderEntity e : this.tiles[x][y].getEntities()) {
+                    if (e.getType().equals(type)) {
+                        JSONObject toAdd = new JSONObject();
+                        toAdd.put("x", x);
+                        toAdd.put("y", y);
+                        toAdd.put("type", e.getType());
+                        if (e.hasId()) {
+                            toAdd.put("id", e.getId());
+                        }
+
+                        entities.put(toAdd);
+                    }
+                }
+            }
+        }
     }
 
     public String getGoalString() {
