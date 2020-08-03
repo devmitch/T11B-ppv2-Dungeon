@@ -1,0 +1,1 @@
+You can push a boulder in the direction of your movement as long as the movement of the boulder is not blocked. Push boulders onto all the switches to satisfy the boulders goal. You can also push a boulder onto an enemy to kill it.

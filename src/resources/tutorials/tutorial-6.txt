@@ -1,0 +1,1 @@
+There are enemies in this game which can kill you. However, you can pickup a sword that can kill the enemies. The sword's durability is given in the toolbar on the left-hand side of the dungeon. 
