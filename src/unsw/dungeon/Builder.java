@@ -84,6 +84,8 @@ public class Builder {
 
         JSONArray entities = new JSONArray();
 
+        // Organise the entities in order of what should appear first
+        // i.e. wall appears above every other entity
         addEntitiesWithType(entities, "switch");
         addEntitiesWithType(entities, "treasure");
         addEntitiesWithType(entities, "phase");
