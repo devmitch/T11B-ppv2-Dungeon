@@ -1,0 +1,1 @@
+Move over treasure to pick it up. You need to pickup treasure to complete the treasure goal.

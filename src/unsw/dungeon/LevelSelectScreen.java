@@ -33,6 +33,7 @@ public class LevelSelectScreen implements BackTrackScreen {
     }
 
     public void start() {
+        controller.setDungeonNames();
         stage.setTitle(title);
         stage.setScene(scene);
         stage.show();

@@ -2,6 +2,7 @@ package unsw.dungeon;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -14,13 +15,15 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 
 public class TutorialController {
- 
+
     private TutorialScreen tutorialScreen;
     private StartScreen startScreen;
     private DungeonScreen dungeonScreen;
 
     @FXML
     private Pagination pagination;
+
+    private ArrayList<FileEntry> informationList;
 
     public TutorialController(TutorialScreen tutorialScreen, DungeonScreen dungeonScreen) {
         this.tutorialScreen = tutorialScreen;
@@ -30,10 +33,11 @@ public class TutorialController {
     @FXML
     public void initialize() {
 
-        // Get the tutorial messages
-        ArrayList<FileEntry> informationList = getTutorialInformation();
-
-        pagination.setPageCount(informationList.size());
+        // Get the tutorial messages, and sort them by tutorial names
+        informationList = getTutorialInformation();
+        Collections.sort(informationList, (f1, f2) -> {
+            return f1.getName().compareTo(f2.getName());
+        });
 
         pagination.setPageFactory((pageIndex) -> {
 
@@ -57,10 +61,11 @@ public class TutorialController {
                         dungeonScreen.start(dungeon);
                         dungeonScreen.setBackTrackScreen(tutorialScreen);
                     } catch (Exception e) {
-                        System.out.println("Could not load the tutorial");
+                        
                     }
                 }
             });
+            pagination.setPageCount(informationList.size());
 
             gridPane.add(tutorialInfoLabel, 0, 0);
             gridPane.add(startTutorialButton, 0, 1);

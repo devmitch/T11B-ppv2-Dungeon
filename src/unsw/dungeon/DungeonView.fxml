@@ -38,7 +38,7 @@
         </children>
       </GridPane>
       <ListView fx:id="goalsListView" focusTraversable="false" mouseTransparent="true" prefHeight="1.0" prefWidth="256.0" style="-fx-background-color: black;" GridPane.columnIndex="2" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" />
-      <Label id="heading" text="Goals" textFill="WHITE" GridPane.columnIndex="2" GridPane.halignment="CENTER">
+      <Label id="heading" fx:id="goalInfoLabel" text="Goals" textFill="WHITE" GridPane.columnIndex="2" GridPane.halignment="CENTER">
          <font>
             <Font size="36.0" />
          </font>

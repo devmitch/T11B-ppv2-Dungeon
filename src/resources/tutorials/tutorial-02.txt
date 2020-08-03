@@ -1,0 +1,1 @@
+In order to open a door you need to pickup the key for that door. Picking up another key will swap the new key with the key held by the player. 

@@ -7,7 +7,6 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
@@ -43,6 +42,9 @@ public class DungeonController {
 
     @FXML
     private ListView<GoalType> goalsListView;
+
+    @FXML
+    private Label goalInfoLabel;
 
     private List<ImageView> initialEntities;
 
@@ -107,7 +109,17 @@ public class DungeonController {
                         label.textProperty().bind(potion.getStepsLeftProperty().asString());
 
                         // Create an image view for the potion
-                        ImageView imageView = new ImageView(dungeonControllerLoader.getPotionImage());
+                        ImageView imageView = new ImageView(dungeonControllerLoader.getInvincibilityPotionImage());
+
+                        root.getChildren().addAll(label, imageView);
+                    } else if (entity instanceof PhasePotion) {
+                        PhasePotion potion = (PhasePotion) entity;
+
+                        // Create an observer for how many steps are left
+                        label.textProperty().bind(potion.getStepsLeftProperty().asString());
+
+                        // Create an image view for the potion
+                        ImageView imageView = new ImageView(dungeonControllerLoader.getPhasePotionImage());
 
                         root.getChildren().addAll(label, imageView);
                     } else if (entity instanceof Key) {
@@ -238,6 +250,10 @@ public class DungeonController {
         default:
             break;
         }
+
+        if (dungeon.completedGoal()) {
+            goalInfoLabel.setText("COMPLETED!");
+        }
     }
 
     @FXML
@@ -260,9 +276,11 @@ public class DungeonController {
     public void newEntity(Entity entity) {
         ImageView view = null;
         if (entity instanceof Key) {
-            view = new ImageView(dungeonControllerLoader.getKeyImage()); 
+            view = new ImageView(dungeonControllerLoader.getKeyImage());
+            view.visibleProperty().bind(entity.getStatusProperty());
         } else if (entity instanceof Enemy) {
             view = new ImageView(dungeonControllerLoader.getEnemyImage());
+            view.visibleProperty().bind(entity.getStatusProperty());
         }
 
         if (view != null) {
@@ -288,16 +306,6 @@ public class DungeonController {
             public void changed(ObservableValue<? extends Number> observable,
                     Number oldValue, Number newValue) {
                 GridPane.setRowIndex(node, newValue.intValue());
-            }
-        });
-        entity.status().addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldStatus, Boolean newStatus) {
-                if (!newStatus) {
-                    node.setVisible(false);
-                } else {
-                    node.setVisible(true);
-                }
             }
         });
     }

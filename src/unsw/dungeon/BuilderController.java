@@ -1,13 +1,18 @@
 package unsw.dungeon;
 
 import java.io.File;
-import java.util.List;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Optional;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+import org.json.JSONTokener;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
@@ -24,12 +29,9 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.ClipboardContent;
-import javafx.scene.input.DragEvent;
-import javafx.scene.input.Dragboard;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.input.TransferMode;
 import javafx.scene.layout.GridPane;
+import javafx.stage.FileChooser;
 import javafx.util.Pair;
 
 public class BuilderController {
@@ -43,8 +45,10 @@ public class BuilderController {
     private Image floorSwitchImage;
     private Image portalImage;
     private Image enemyImage;
+    private Image wizardImage;
     private Image swordImage;
-    private Image potionImage;
+    private Image invincibilityPotionImage;
+    private Image phasePotionImage;
     private Image deleteImage;
     private Image groundImage;
 
@@ -71,19 +75,19 @@ public class BuilderController {
         floorSwitchImage = new Image((new File("images/pressure_plate.png")).toURI().toString());
         portalImage = new Image((new File("images/portal.png")).toURI().toString());
         double enemyImageChoice = Math.random();
-        if (enemyImageChoice < 0.33) {
+        if (enemyImageChoice < 0.5) {
             enemyImage = new Image((new File("images/deep_elf_master_archer.png")).toURI().toString());
-        } else if (enemyImageChoice < 0.67) {
-            enemyImage = new Image((new File("images/gnome.png")).toURI().toString());
         } else {
             enemyImage = new Image((new File("images/hound.png")).toURI().toString());
         }
+        wizardImage = new Image((new File("images/gnome.png")).toURI().toString());
         swordImage = new Image((new File("images/greatsword_1_new.png")).toURI().toString());
-        potionImage = new Image((new File("images/brilliant_blue_new.png")).toURI().toString());
+        invincibilityPotionImage = new Image((new File("images/brilliant_blue_new.png")).toURI().toString());
+        phasePotionImage = new Image((new File("images/bubbly.png")).toURI().toString());
         deleteImage = new Image((new File("images/delete.png")).toURI().toString(), 32, 32, false, false);
         groundImage = new Image((new File("images/dirt_0_new.png")).toURI().toString());
 
-        builder = new Builder();
+        builder = new Builder(15, 15);
     }
 
     public GridPane getSquares() {
@@ -107,9 +111,20 @@ public class BuilderController {
         // add all the entities to itemsListView
         ObservableList<BuilderEntity> entityList = FXCollections.observableArrayList();
         entityList.add(new BuilderEntity("delete"));
+        entityList.add(new BuilderEntity("player"));
+        entityList.add(new BuilderEntity("enemy"));
+        entityList.add(new BuilderEntity("wizard"));
         entityList.add(new BuilderEntity("wall"));
         entityList.add(new BuilderEntity("sword"));
+        entityList.add(new BuilderEntity("treasure"));
+        entityList.add(new BuilderEntity("switch"));
+        entityList.add(new BuilderEntity("boulder"));
+        entityList.add(new BuilderEntity("phase"));
+        entityList.add(new BuilderEntity("invincibility"));
         entityList.add(new BuilderEntity("key", -1)); //maybe make constructor to pass in "true"
+        entityList.add(new BuilderEntity("door", -1));
+        entityList.add(new BuilderEntity("exit"));
+        entityList.add(new BuilderEntity("portal", -1));
         itemsListView.setItems(entityList);
         itemsListView.getSelectionModel().select(0); // selects wall as default
         itemsListView.setCellFactory(param -> new ListCell<BuilderEntity>() {
@@ -128,27 +143,47 @@ public class BuilderController {
 
     }
 
+    private void clearGridPane() {
+        builder.clearTiles();
+        squares.getChildren().removeAll(squares.getChildren());
+    }
+
     private ImageView getImageView(String type) {
         switch (type) {
             case "delete":
                 return new ImageView(deleteImage);
+            case "player":
+                return new ImageView(playerImage);
+            case "enemy":
+                return new ImageView(enemyImage);
+            case "wizard":
+                return new ImageView(wizardImage);
             case "wall":
                 return new ImageView(wallImage);
-            case "key":
-                return new ImageView(keyImage);
             case "sword":
                 return new ImageView(swordImage);
+            case "treasure":
+                return new ImageView(treasureImage);
+            case "switch":
+                return new ImageView(floorSwitchImage);
+            case "boulder":
+                return new ImageView(boulderImage);
+            case "phase":
+                return new ImageView(phasePotionImage);
+            case "invincibility":
+                return new ImageView(invincibilityPotionImage);
+            case "key":
+                return new ImageView(keyImage);
+            case "door":
+                return new ImageView(closedDoorImage);
+            case "exit":
+                return new ImageView(exitImage);
+            case "portal":
+                return new ImageView(portalImage);
         }
         return null;
     }
-
-    @FXML
-    public void handleBuilderSelect(MouseEvent event) {
-        // dont actually need this
-        String type = itemsListView.getSelectionModel().getSelectedItem().getType();
-        System.out.println("Selected " + type);
-    }
-
+    
     @FXML
     public void handleBuilderPlace(MouseEvent event) {
         Node source = (Node) event.getSource();
@@ -178,11 +213,7 @@ public class BuilderController {
                     throw new NumberFormatException(); // could just return from here? idk
                 }
                 builder.addEntity(entity.getType(), x, y, id);
-                ImageView toAdd = getImageView(entity.getType());
-                toAdd.setOnMouseClicked(this::handleBuilderPlace);
-                Tooltip tp = new Tooltip("id: " + id);
-                Tooltip.install(toAdd, tp);
-                squares.add(toAdd, x, y);
+                addEntityImageWithId(entity, x, y, id);
             } catch (NumberFormatException e) {
                 Alert alert = new Alert(AlertType.ERROR, "You did not enter a number", ButtonType.OK);
                 alert.setTitle("Error");
@@ -193,28 +224,66 @@ public class BuilderController {
         } else {
             // entity without id
             builder.addEntity(entity.getType(), x, y);
-            ImageView toAdd = getImageView(entity.getType());
-            toAdd.setOnMouseClicked(this::handleBuilderPlace);
-            squares.add(toAdd, x, y);
+            addEntityImage(entity, x, y);
         }
         event.consume();
-        //itemsListView.getSelectionModel().clearSelection();
+    }
+
+    private void addEntityImageWithId(BuilderEntity entity, int x, int y, int id) {
+        ImageView toAdd = getImageView(entity.getType());
+        toAdd.setOnMouseClicked(this::handleBuilderPlace);
+        Tooltip tp = new Tooltip("id: " + id);
+        Tooltip.install(toAdd, tp);
+        squares.add(toAdd, x, y);
+    }
+
+    private void addEntityImage(BuilderEntity entity, int x, int y) {
+        ImageView toAdd = getImageView(entity.getType());
+        toAdd.setOnMouseClicked(this::handleBuilderPlace);
+        squares.add(toAdd, x, y);
     }
 
     @FXML
     public void handleSaveDungeon(ActionEvent event) {
-        System.out.println("saving...!");
+
+        FileChooser fileChooser = new FileChooser();
+ 
+        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("JSON files", "*.json");
+        fileChooser.getExtensionFilters().add(extFilter);
+        fileChooser.setInitialFileName("myDungeon.json");
+
+        File file = fileChooser.showSaveDialog(squares.getScene().getWindow());
+        if (file != null) {
+            saveToFile(builder.getJSON().toString(2), file);
+        }
+    }
+
+    private void saveToFile(String content, File file) {
+        try {
+            FileWriter fw = new FileWriter(file);
+            fw.write(content);
+            fw.close();
+        } catch (IOException e) {
+            //uhh
+        }
     }
 
     @FXML
     public void handleSetGoals(ActionEvent event) {
-        System.out.println("setting goals...!");
+
+        TextInputDialog dialog = new TextInputDialog(builder.getGoalString());
+        dialog.setTitle("Set goals");
+        dialog.setContentText("Please enter goals:");
+
+        Optional<String> result = dialog.showAndWait();
+        if (result.isPresent()){
+            builder.setGoalString(result.get());
+        }
     }
 
     @FXML
     public void handleSetSize(ActionEvent event) {
         // https://code.makery.ch/blog/javafx-dialogs-official/
-        System.out.println("setting size...!");
 
         Dialog<Pair<String, String>> dialog = new Dialog<>();
         dialog.setTitle("Login Dialog");
@@ -247,9 +316,39 @@ public class BuilderController {
 
         Optional<Pair<String, String>> result = dialog.showAndWait();
         result.ifPresent(pair -> {
-            System.out.println("width=" + pair.getKey() + ", height=" + pair.getValue());
+            int newWidth = 0;
+            int newHeight = 0;
+            try {
+                newWidth = Integer.parseInt(pair.getKey());
+                newHeight = Integer.parseInt(pair.getValue());
+                squares.getChildren().clear();
+                resizeBuilder(newWidth, newHeight);
+            } catch (NumberFormatException e) {
+
+            }
         });
     }
+
+    private void resizeBuilder(int newWidth, int newHeight) {
+        builder.resize(newWidth, newHeight);
+        BuilderTile newTiles[][] = builder.getTiles();
+        for (int y = 0; y < builder.getHeight(); y++) {
+            for (int x = 0; x < builder.getWidth(); x++) {
+                ImageView toAdd = new ImageView(groundImage);
+                toAdd.setOnMouseClicked(this::handleBuilderPlace);
+                squares.add(toAdd, x, y);
+                for (BuilderEntity entity : newTiles[x][y].getEntities()) {
+                    if (entity.hasId()) {
+                        addEntityImageWithId(entity, x, y, entity.getId());
+                    } else {
+                        addEntityImage(entity, x, y);
+                    }
+                }
+            }
+        }
+    }
+
+
 
     public void setStartScreen(StartScreen startScreen) {
         this.startScreen = startScreen;
@@ -268,8 +367,88 @@ public class BuilderController {
 
         if (alert.getResult() == ButtonType.YES) {
             startScreen.start();
+            clearGridPane();
+            resizeBuilder(15, 15);
         }
         alert.close();
+    }
+
+    @FXML
+    public void handleLoadDungeon(ActionEvent event) {
+
+        // create a dialog to get a file path
+        FileChooser fileChooser = new FileChooser();
+ 
+        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("JSON files", "*.json");
+        fileChooser.getExtensionFilters().add(extFilter);
+        fileChooser.setInitialFileName("");
+
+        File file = fileChooser.showOpenDialog(squares.getScene().getWindow());
+        if (file == null)
+            return;
+
+        // load the contents into a json object
+        JSONObject json = readDungeonFromFile(file);
+        if (json == null)
+            return;
+
+        // clear the dungeon
+        clearGridPane();
+        
+        // get the width and height of the dungeon, resize the builder.
+        resizeBuilder(json.getInt("width"), json.getInt("height"));
+
+        // get the entities, add them to the builder
+        addEntitiesToDungeon(json.getJSONArray("entities"));
+
+        // convert the goals into a string
+        builder.setGoalString(goalsToString(json.getJSONObject("goal-condition")));
+    }
+
+    private void addEntitiesToDungeon(JSONArray entities) {
+        for (int i = 0; i < entities.length(); i++) {
+
+            JSONObject object = entities.getJSONObject(i);
+            String type = object.getString("type");
+            int x = object.getInt("x");
+            int y = object.getInt("y");
+            
+            if (object.has("id")) {
+                BuilderEntity entity = new BuilderEntity(type, object.getInt("id"));
+                builder.addEntity(type, x, y, object.getInt("id"));
+                addEntityImageWithId(entity, x, y, entity.getId());
+            } else {
+                BuilderEntity entity = new BuilderEntity(type);
+                builder.addEntity(type, x, y);
+                addEntityImage(entity, x, y);
+            }
+        }
+    }
+
+    private JSONObject readDungeonFromFile(File file) {
+        try {
+            return new JSONObject(new JSONTokener(new FileReader(file.getPath())));
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    private String goalsToString(JSONObject goal) {
+        String goalType = goal.getString("goal");
+
+        if (goalType.equals("AND") || goalType.equals("OR")) {
+            JSONArray subGoals = goal.getJSONArray("subgoals");
+            String goalConjunction = "(";
+            for (int i = 0; i < subGoals.length(); i++) {
+                goalConjunction += goalsToString(subGoals.getJSONObject(i));
+                if (i != subGoals.length() - 1) {
+                    goalConjunction += " " + goalType + " ";
+                }
+            }
+            return goalConjunction + ")";
+        } else {
+            return "(" + goalType + ")";
+        }
     }
 
 }

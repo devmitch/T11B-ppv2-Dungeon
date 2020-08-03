@@ -145,7 +145,7 @@ public abstract class DungeonLoader {
         return goalBuilder.getDungeonGoals();
     }
 
-    public abstract void onLoad(Entity player);
+    public abstract void onLoad(Player player);
 
     public abstract void onLoad(Wall wall);
 

@@ -54,7 +54,28 @@ public class LevelSelectController {
             dungeonScreen.setBackTrackScreen(levelSelectScreen);
             errorLabel.setText("");
         } catch (Exception e) {
+            e.printStackTrace(System.out);
             errorLabel.setText(fileToLoad.toString() + " could not be loaded.");
+        }
+    }
+
+    @FXML
+    public void handleMCConversion(ActionEvent event) {
+        if (levelListView.getSelectionModel().getSelectedItem() == null) {
+            return;
+        }
+        FileEntry fileToLoad = levelListView.getSelectionModel().getSelectedItem();
+
+        // Load the dungeon screen for the selected dungeon.
+        try {
+            MineCraftConversion mcc = new MineCraftConversion(fileToLoad.getPath());
+            mcc.convert(selectLevelButton.getScene().getWindow());
+            //dungeonScreen.start(fileToLoad.getPath());
+            //dungeonScreen.setBackTrackScreen(levelSelectScreen);
+            errorLabel.setText("");
+        } catch (Exception e) {
+            e.printStackTrace(System.out);
+            errorLabel.setText(fileToLoad.toString() + " - error converting file.");
         }
     }
 
@@ -87,7 +108,7 @@ public class LevelSelectController {
     /**
      * Sets the list view elements to be the elements found in the dungeons folder.
      */
-    private void setDungeonNames() {
+    public void setDungeonNames() {
         File dungeonFolder = new File("dungeons");
         ObservableList<FileEntry> observableDungeonNames = FXCollections.observableArrayList(getDungeonNames(dungeonFolder));
         levelListView.setItems(observableDungeonNames);

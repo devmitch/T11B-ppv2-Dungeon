@@ -1,0 +1,1 @@
+The phase potion prevents enemies from chasing you during the time it is active. It also grants the ability to move through 1 wall or door at a time.

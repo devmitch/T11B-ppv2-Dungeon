@@ -31,6 +31,7 @@ public class DungeonControllerLoader extends DungeonLoader {
     private Image treasureImage;
     private Image keyImage;
     private Image closedDoorImage;
+    private Image openDoorImage;
     private Image floorSwitchImage;
     private Image portalImage;
     private Image enemyImage;
@@ -53,6 +54,7 @@ public class DungeonControllerLoader extends DungeonLoader {
         treasureImage = new Image((new File("images/gold_pile.png")).toURI().toString());
         keyImage = new Image((new File("images/key.png")).toURI().toString());
         closedDoorImage = new Image((new File("images/closed_door.png")).toURI().toString());
+        openDoorImage = new Image((new File("images/open_door.png")).toURI().toString());
         floorSwitchImage = new Image((new File("images/pressure_plate.png")).toURI().toString());
         portalImage = new Image((new File("images/portal.png")).toURI().toString());
         double enemyImageChoice = Math.random();
@@ -69,8 +71,9 @@ public class DungeonControllerLoader extends DungeonLoader {
     }
 
     @Override
-    public void onLoad(Entity player) {
+    public void onLoad(Player player) {
         ImageView view = new ImageView(playerImage);
+        view.opacityProperty().bind(player.getOpacityProperty());
         addEntity(player, view);
     }
 
@@ -106,7 +109,10 @@ public class DungeonControllerLoader extends DungeonLoader {
 
     @Override
     public void onLoad(Door door) {
+        door.setOpenDoorImage(openDoorImage);
+        door.setClosedDoorImage(closedDoorImage);
         ImageView view = new ImageView(closedDoorImage);
+        view.imageProperty().bind(door.getImageProperty());
         addEntity(door, view);
     }
 
@@ -154,6 +160,7 @@ public class DungeonControllerLoader extends DungeonLoader {
 
 
     private void addEntity(Entity entity, ImageView view) {
+        view.visibleProperty().bind(entity.getStatusProperty());
         trackPosition(entity, view);
         entities.add(view);
     }
@@ -184,16 +191,6 @@ public class DungeonControllerLoader extends DungeonLoader {
             public void changed(ObservableValue<? extends Number> observable,
                     Number oldValue, Number newValue) {
                 GridPane.setRowIndex(node, newValue.intValue());
-            }
-        });
-        entity.status().addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldStatus, Boolean newStatus) {
-                if (!newStatus) {
-                    node.setVisible(false);
-                } else {
-                    node.setVisible(true);
-                }
             }
         });
     }
@@ -256,8 +253,12 @@ public class DungeonControllerLoader extends DungeonLoader {
         return swordImage;
     }
 
-    public Image getPotionImage() {
+    public Image getInvincibilityPotionImage() {
         return invincibilityPotionImage;
+    }
+
+    public Image getPhasePotionImage() {
+        return phasePotionImage;
     }
 
     public Image getTickImage() {

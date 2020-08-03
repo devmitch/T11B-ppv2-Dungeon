@@ -14,6 +14,10 @@ public class BuilderTile {
         entities.add(entity);
     }
 
+    public List<BuilderEntity> getEntities() {
+        return this.entities;
+    }
+
     public void remove() {
         // remove top element
         if (!entities.isEmpty())

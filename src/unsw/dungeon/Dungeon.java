@@ -43,15 +43,6 @@ public class Dungeon {
     }
 
     /**
-     * Notifies the dungeon if it is completed. (To be used in milestone 3). 
-     */
-    private void notifyIfDungeonCompleted() {
-        if (completedGoal()) {
-            System.out.println("Dungeon Completed!");
-        }
-    }
-
-    /**
      * @return true if the goal for the dungeon is completed, false otherwise. (mainly used for
      * testing).
      */
@@ -77,7 +68,6 @@ public class Dungeon {
                 ((Exit)e).updateAtExitState();
             }
         }
-        notifyIfDungeonCompleted();
     }
 
     public Tile[][] getTiles() {
