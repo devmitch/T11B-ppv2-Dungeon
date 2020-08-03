@@ -160,6 +160,7 @@ public class DungeonControllerLoader extends DungeonLoader {
 
 
     private void addEntity(Entity entity, ImageView view) {
+        view.visibleProperty().bind(entity.getStatusProperty());
         trackPosition(entity, view);
         entities.add(view);
     }
@@ -190,16 +191,6 @@ public class DungeonControllerLoader extends DungeonLoader {
             public void changed(ObservableValue<? extends Number> observable,
                     Number oldValue, Number newValue) {
                 GridPane.setRowIndex(node, newValue.intValue());
-            }
-        });
-        entity.status().addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldStatus, Boolean newStatus) {
-                if (!newStatus) {
-                    node.setVisible(false);
-                } else {
-                    node.setVisible(true);
-                }
             }
         });
     }

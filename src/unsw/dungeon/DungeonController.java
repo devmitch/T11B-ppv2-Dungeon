@@ -277,9 +277,11 @@ public class DungeonController {
     public void newEntity(Entity entity) {
         ImageView view = null;
         if (entity instanceof Key) {
-            view = new ImageView(dungeonControllerLoader.getKeyImage()); 
+            view = new ImageView(dungeonControllerLoader.getKeyImage());
+            view.visibleProperty().bind(entity.getStatusProperty());
         } else if (entity instanceof Enemy) {
             view = new ImageView(dungeonControllerLoader.getEnemyImage());
+            view.visibleProperty().bind(entity.getStatusProperty());
         }
 
         if (view != null) {
@@ -305,16 +307,6 @@ public class DungeonController {
             public void changed(ObservableValue<? extends Number> observable,
                     Number oldValue, Number newValue) {
                 GridPane.setRowIndex(node, newValue.intValue());
-            }
-        });
-        entity.status().addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldStatus, Boolean newStatus) {
-                if (!newStatus) {
-                    node.setVisible(false);
-                } else {
-                    node.setVisible(true);
-                }
             }
         });
     }

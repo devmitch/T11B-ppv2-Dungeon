@@ -43,9 +43,13 @@ public class Entity {
         return true; //entites can move by default, but they need movement class
     }
 
-    // used for UI/Controller to check if entity/player is deleted
+    // used for controller to check if player is deleted
     public boolean getStatus() {
         return status.get();
+    }
+
+    public BooleanProperty getStatusProperty() {
+        return this.status;
     }
 
     public void updateState() {
@@ -85,11 +89,11 @@ public class Entity {
     }
 
     public void disable() {
-        this.status.setValue(false);
+        this.status.set(false);
     }
 
     public void enable() {
-        this.status.setValue(true);
+        this.status.set(true);
     }
 
     public boolean isObstruction() {
