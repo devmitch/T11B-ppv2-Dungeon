@@ -50,7 +50,8 @@ public class BuilderController {
     private Image enemyImage;
     private Image wizardImage;
     private Image swordImage;
-    private Image potionImage;
+    private Image invincibilityPotionImage;
+    private Image phasePotionImage;
     private Image deleteImage;
     private Image groundImage;
 
@@ -84,7 +85,8 @@ public class BuilderController {
         }
         wizardImage = new Image((new File("images/gnome.png")).toURI().toString());
         swordImage = new Image((new File("images/greatsword_1_new.png")).toURI().toString());
-        potionImage = new Image((new File("images/brilliant_blue_new.png")).toURI().toString());
+        invincibilityPotionImage = new Image((new File("images/brilliant_blue_new.png")).toURI().toString());
+        phasePotionImage = new Image((new File("images/bubbly.png")).toURI().toString());
         deleteImage = new Image((new File("images/delete.png")).toURI().toString(), 32, 32, false, false);
         groundImage = new Image((new File("images/dirt_0_new.png")).toURI().toString());
 
@@ -94,8 +96,6 @@ public class BuilderController {
     public GridPane getSquares() {
         return squares;
     }
-
-
 
     @FXML
     public void initialize() {
@@ -122,8 +122,11 @@ public class BuilderController {
         entityList.add(new BuilderEntity("treasure"));
         entityList.add(new BuilderEntity("switch"));
         entityList.add(new BuilderEntity("boulder"));
+        entityList.add(new BuilderEntity("phase"));
+        entityList.add(new BuilderEntity("invincibility"));
         entityList.add(new BuilderEntity("key", -1)); //maybe make constructor to pass in "true"
         entityList.add(new BuilderEntity("door", -1));
+        entityList.add(new BuilderEntity("exit"));
         entityList.add(new BuilderEntity("portal", -1));
         itemsListView.setItems(entityList);
         itemsListView.getSelectionModel().select(0); // selects wall as default
@@ -163,10 +166,16 @@ public class BuilderController {
                 return new ImageView(floorSwitchImage);
             case "boulder":
                 return new ImageView(boulderImage);
+            case "phase":
+                return new ImageView(phasePotionImage);
+            case "invincibility":
+                return new ImageView(invincibilityPotionImage);
             case "key":
                 return new ImageView(keyImage);
             case "door":
                 return new ImageView(closedDoorImage);
+            case "exit":
+                return new ImageView(exitImage);
             case "portal":
                 return new ImageView(portalImage);
         }
