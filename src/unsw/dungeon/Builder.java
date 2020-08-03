@@ -47,6 +47,14 @@ public class Builder {
         this.height = newHeight;
     }
 
+    public void clearTiles() {
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
+                this.tiles[x][y] = new BuilderTile();
+            }
+        }
+    }
+
     public int getWidth() {
         return this.width;
     }

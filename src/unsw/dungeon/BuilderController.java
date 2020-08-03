@@ -143,6 +143,11 @@ public class BuilderController {
 
     }
 
+    private void clearGridPane() {
+        builder.clearTiles();
+        squares.getChildren().removeAll(squares.getChildren());
+    }
+
     private ImageView getImageView(String type) {
         switch (type) {
             case "delete":
@@ -375,6 +380,8 @@ public class BuilderController {
 
         if (alert.getResult() == ButtonType.YES) {
             startScreen.start();
+            clearGridPane();
+            resizeBuilder(builder.getWidth(), builder.getHeight());
         }
         alert.close();
     }
@@ -397,6 +404,9 @@ public class BuilderController {
         JSONObject json = readDungeonFromFile(file);
         if (json == null)
             return;
+
+        // clear the dungeon
+        clearGridPane();
         
         // get the width and height of the dungeon, resize the builder.
         resizeBuilder(json.getInt("width"), json.getInt("height"));
