@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Set;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -27,12 +28,22 @@ public class MineCraftConversion {
  
         FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("TXT files", "*.txt");
         fileChooser.getExtensionFilters().add(extFilter);
-        fileChooser.setInitialFileName("test.txt");
+        fileChooser.setInitialFileName("dungeon2mc.txt");
 
         File file = fileChooser.showSaveDialog(window);
         if (file != null) {
             writeToFile(file);
         }
+    }
+
+    private boolean convertibleEntiy(String type) {
+        String[] convertibleEntities = {"wall", "enemy", "wizard", "door", "sword", "treasure"};
+        for (String s : convertibleEntities) {
+            if (s.equals(type)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private void writeToFile(File file) {
@@ -45,7 +56,7 @@ public class MineCraftConversion {
                 String type = obj.getString("type");
                 int x = obj.getInt("x");
                 int y = obj.getInt("y");
-                if (type.equals("wall") || type.equals("enemy") || type.equals("wizard")) {
+                if (convertibleEntiy(type)) {
                     fw.write(type + ";" + (x-playerObj.getInt("x")) + ";" + (y-playerObj.getInt("y")) + "\n");
                 }
             }
