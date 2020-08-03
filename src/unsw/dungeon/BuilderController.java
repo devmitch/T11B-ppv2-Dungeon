@@ -285,6 +285,7 @@ public class BuilderController {
         Optional<String> result = dialog.showAndWait();
         if (result.isPresent()){
             builder.setGoalString(result.get());
+            builder.printGoalString();
         }
     }
 
