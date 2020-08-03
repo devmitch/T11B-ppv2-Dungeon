@@ -44,6 +44,9 @@ public class DungeonController {
     @FXML
     private ListView<GoalType> goalsListView;
 
+    @FXML
+    private Label goalInfoLabel;
+
     private List<ImageView> initialEntities;
 
     private Player player;
@@ -247,6 +250,10 @@ public class DungeonController {
             break;
         default:
             break;
+        }
+
+        if (dungeon.completedGoal()) {
+            goalInfoLabel.setText("COMPLETED!");
         }
     }
 
