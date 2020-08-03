@@ -3,6 +3,10 @@ package unsw.dungeon;
 import java.util.ArrayList;
 import java.util.List;
 
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 /**
@@ -12,6 +16,7 @@ import javafx.collections.ObservableList;
  */
 public class Player extends Entity {
 
+    private ObjectProperty<Number> opacity;
     private Movement movement;
     private Key key;
     private Sword sword;
@@ -32,7 +37,13 @@ public class Player extends Entity {
         this.sword = null;
         this.potion = null;
         this.stuns = 0;
+        this.opacity = new SimpleObjectProperty<Number>();
+        this.opacity.set(1);
         items = FXCollections.observableArrayList(new ArrayList<Entity>());
+    }
+
+    public ObservableValue<Number> getOpacityProperty() {
+        return opacity;
     }
 
     public void stun(int stuns) {
@@ -68,6 +79,11 @@ public class Player extends Entity {
         }
         if (stuns > 0) {
             stuns--;
+        }
+        if (isInvisible()) {
+            this.opacity.set(0.45);
+        } else {
+            this.opacity.set(1);
         }
     }
 

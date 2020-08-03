@@ -10,7 +10,7 @@ public class DungeonMockControllerLoader extends DungeonLoader {
 
     // the following do nothing since the tests are running headless
     @Override
-    public void onLoad(Entity player) {
+    public void onLoad(Player player) {
 
     }
 

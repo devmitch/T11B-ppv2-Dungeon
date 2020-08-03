@@ -180,7 +180,7 @@ public class Builder {
             }
             JSONArray subgoals = new JSONArray();
 
-            int open = getFirstIndexOf(string, "(");
+            int  open = getFirstIndexOf(string, "(");
             while (open != -1) {
                 int close = findClosingBracketIndex(string, open);
                 subgoals.put(parseGoalString(string.substring(open, close + 1)));
